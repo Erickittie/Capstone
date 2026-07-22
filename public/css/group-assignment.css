@@ -1,0 +1,23 @@
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    vertical-align: middle;
+}
+/* Custom scrollbar for webkit */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: #E5E7EB;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #D1D5DB;
+}
+.drag-over {
+    border-color: #000000 !important;
+    background-color: #F9FAFB !important;
+}

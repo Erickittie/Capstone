@@ -1,0 +1,13 @@
+body { font-family: 'Inter', sans-serif; }
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    display: inline-block;
+    vertical-align: middle;
+}
+@keyframes flashRow {
+    0% { background-color: rgba(208, 225, 251, 0.4); }
+    100% { background-color: transparent; }
+}
+.flash-update {
+    animation: flashRow 2s ease-out;
+}
