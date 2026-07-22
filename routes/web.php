@@ -18,6 +18,15 @@ Route::prefix('instructor')->group(function () {
 });
 
 Route::view('/StudentDashboard', 'student.StudentDashboard');
+
+Route::prefix('student')->group(function () {
+    Route::view('class/{classId}', 'student.class-detail');
+    Route::view('class/{classId}/contribution', 'student.contribution');
+    Route::view('class/{classId}/group-status', 'student.group-status');
+    Route::view('class/{classId}/leader-vote', 'student.leader-vote');
+    Route::view('class/{classId}/task-manager', 'student.task-manager');
+    Route::view('class/{classId}/file-repository', 'student.file-repository');
+});
 Route::view('/overview', 'admin.overview');
 Route::view('/users', 'admin.users');
 Route::view('/TeacherDetails', 'admin.TeacherDetails');

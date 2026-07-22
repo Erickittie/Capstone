@@ -1,0 +1,176 @@
+/* ============================================================
+   CarryOn Student Pages — Shared Styles
+   ============================================================ */
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* ---- Sidebar ---- */
+#sidebar {
+    scrollbar-width: thin;
+    scrollbar-color: #d1d5db transparent;
+}
+#sidebar::-webkit-scrollbar { width: 4px; }
+#sidebar::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 4px; }
+
+/* ---- Contribution Ring Animation ---- */
+.contribution-ring {
+    transition: stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1);
+}
+
+/* ---- Progress Bars ---- */
+.progress-bar-fill {
+    transition: width 1s cubic-bezier(.4,0,.2,1);
+}
+
+/* ---- Cards ---- */
+.action-card {
+    transition: all 0.25s cubic-bezier(.4,0,.2,1);
+}
+.action-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px -8px rgba(0,0,0,.1);
+    border-color: #041627;
+}
+
+/* ---- Modals ---- */
+.modal-overlay {
+    background: rgba(0,0,0,.45);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    opacity: 0;
+    transition: opacity .2s ease;
+    pointer-events: none;
+}
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+.modal-panel {
+    transform: translateY(16px) scale(.97);
+    opacity: 0;
+    transition: all .25s cubic-bezier(.4,0,.2,1);
+}
+.modal-overlay.active .modal-panel {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+
+/* ---- Status Badges ---- */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 10px;
+    border-radius: 9999px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+.badge-pending   { background: #FEF3C7; color: #92400E; }
+.badge-progress  { background: #DBEAFE; color: #1E40AF; }
+.badge-submitted { background: #E0E7FF; color: #3730A3; }
+.badge-approved  { background: #D1FAE5; color: #065F46; }
+.badge-rejected  { background: #FEE2E2; color: #991B1B; }
+.badge-revision  { background: #FFF7ED; color: #9A3412; }
+.badge-open      { background: #D1FAE5; color: #065F46; }
+.badge-closed    { background: #F3F4F6; color: #6B7280; }
+.badge-elected   { background: #EDE9FE; color: #5B21B6; }
+
+/* ---- Vote Card ---- */
+.vote-card {
+    transition: all .2s ease;
+    cursor: pointer;
+}
+.vote-card:hover {
+    border-color: #041627;
+    box-shadow: 0 4px 16px -2px rgba(4,22,39,.12);
+}
+.vote-card.selected {
+    border-color: #041627;
+    background: #F0F4F8;
+    box-shadow: 0 0 0 2px #041627;
+}
+
+/* ---- File row hover ---- */
+.file-row {
+    transition: background .15s ease;
+}
+.file-row:hover {
+    background: #F9FAFB;
+}
+
+/* ---- Tabs ---- */
+.tab-btn {
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #6B7280;
+    border-bottom: 2px solid transparent;
+    transition: all .15s ease;
+    cursor: pointer;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+}
+.tab-btn:hover { color: #111827; }
+.tab-btn.active {
+    color: #041627;
+    border-bottom-color: #041627;
+}
+
+/* ---- Subtle entry animation ---- */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+.animate-in {
+    animation: fadeInUp .5s cubic-bezier(.4,0,.2,1) both;
+}
+.animate-in-delay-1 { animation-delay: .08s; }
+.animate-in-delay-2 { animation-delay: .16s; }
+.animate-in-delay-3 { animation-delay: .24s; }
+.animate-in-delay-4 { animation-delay: .32s; }
+.animate-in-delay-5 { animation-delay: .40s; }
+
+/* ---- Tooltip ---- */
+.tooltip-trigger { position: relative; }
+.tooltip-trigger::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%) translateY(4px);
+    background: #111827;
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: all .15s ease;
+    z-index: 50;
+}
+.tooltip-trigger:hover::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* ---- Scrollbar for main content ---- */
+.main-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: #e5e7eb transparent;
+}
+.main-scroll::-webkit-scrollbar { width: 6px; }
+.main-scroll::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 6px; }
