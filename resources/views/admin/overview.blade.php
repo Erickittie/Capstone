@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en" class="light"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet"><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">try{
+<!DOCTYPE html><html lang="en" class="light" style=""><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet"><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">try{
         try {
             tailwind.config = {
                 darkMode: "class",
@@ -102,19 +102,19 @@
                 <p class="font-label-caps text-label-caps text-secondary tracking-widest uppercase -mt-1">Admin Portal</p>
             </div>
         </div>
-        <div class="flex-1 px-md space-y-1"><a class="flex items-center gap-md px-md py-sm font-bold text-primary border-r-2 border-primary bg-surface-container-low transition-colors duration-150" href="#">
+        <div class="flex-1 px-md space-y-1"><a class="flex items-center gap-md px-md py-sm text-secondary hover:bg-surface-container-low hover:text-primary transition-colors duration-150" href="/overview">
 <span class="material-symbols-outlined">dashboard</span>
 <span class="font-label-caps text-label-caps">Overview</span>
 </a>
-<a class="flex items-center gap-md px-md py-sm text-secondary hover:bg-surface-container-low hover:text-primary transition-colors duration-150" href="/users">
+<a class="flex items-center gap-md px-md py-sm text-secondary hover:bg-surface-container-low hover:text-primary transition-colors duration-150" href="#">
 <span class="material-symbols-outlined">group</span>
 <span class="font-label-caps text-label-caps">Users</span>
 </a>
-<a class="flex items-center gap-md px-md py-sm text-secondary hover:bg-surface-container-low hover:text-primary transition-colors duration-150" href="/classes">
+<a class="flex items-center gap-md px-md py-sm text-secondary hover:bg-surface-container-low hover:text-primary transition-colors duration-150" href="#">
 <span class="material-symbols-outlined">school</span>
 <span class="font-label-caps text-label-caps">Classes</span>
 </a>
-<a class="flex items-center gap-md px-md py-sm text-secondary hover:bg-surface-container-low hover:text-primary transition-colors duration-150" href="/reports">
+<a class="flex items-center gap-md px-md py-sm text-secondary hover:bg-surface-container-low hover:text-primary transition-colors duration-150" href="#">
 <span class="material-symbols-outlined">assessment</span>
 <span class="font-label-caps text-label-caps">Reports</span>
 </a></div>
@@ -123,7 +123,7 @@
 <span class="material-symbols-outlined">help</span>
 <span class="font-label-caps text-label-caps">Help</span>
 </a>
-<a class="flex items-center gap-md px-md py-sm text-secondary hover:text-primary transition-colors" href="/login">
+<a class="flex items-center gap-md px-md py-sm text-secondary hover:text-primary transition-colors" href="#">
 <span class="material-symbols-outlined">logout</span>
 <span class="font-label-caps text-label-caps">Logout</span>
 </a></div>
@@ -140,213 +140,98 @@
             </div>
 
             <!-- Main Content Grid -->
-            <div class="grid grid-cols-1 xl:grid-cols-3 gap-lg items-start">
+            <div class="grid grid-cols-1 xl:grid-cols-3 gap-lg items-start"><div class="xl:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-lg mb-md xl:grid-cols-3">
+    <!-- Total Students -->
+    <div class="bg-surface-container-lowest border border-outline-variant p-lg rounded-lg shadow-sm flex items-center gap-lg">
+        <div class="w-12 h-12 rounded-lg bg-secondary-container flex items-center justify-center">
+            <span class="material-symbols-outlined text-on-secondary-container">group</span>
+        </div>
+        <div>
+            <p class="text-label-caps font-label-caps text-secondary uppercase tracking-wider">Total Students</p>
+            <p class="text-headline-lg font-headline-lg text-primary">12,450</p>
+        </div>
+    </div>
+    <!-- Total Instructors -->
+    <div class="bg-surface-container-lowest border border-outline-variant p-lg rounded-lg shadow-sm flex items-center gap-lg">
+        <div class="w-12 h-12 rounded-lg bg-secondary-container flex items-center justify-center">
+            <span class="material-symbols-outlined text-on-secondary-container">person</span>
+        </div>
+        <div>
+            <p class="text-label-caps font-label-caps text-secondary uppercase tracking-wider">Total Instructors</p>
+            <p class="text-headline-lg font-headline-lg text-primary">840</p>
+        </div>
+    </div>
+    <!-- Total Classes -->
+    <div class="bg-surface-container-lowest border border-outline-variant p-lg rounded-lg shadow-sm flex items-center gap-lg">
+        <div class="w-12 h-12 rounded-lg bg-secondary-container flex items-center justify-center">
+            <span class="material-symbols-outlined text-on-secondary-container">school</span>
+        </div>
+        <div>
+            <p class="text-label-caps font-label-caps text-secondary uppercase tracking-wider">Total Classes</p>
+            <p class="text-headline-lg font-headline-lg text-primary">42</p>
+        </div>
+    </div>
+    <!-- Active Projects -->
+    
+</div>
                 
                 <!-- 1. Classes by Enrollment Section -->
-                <section class="xl:col-span-2 space-y-md">
-                    <div class="flex items-center justify-between">
-                        <h3 class="font-title-md text-title-md text-primary">Classes by Enrollment</h3>
-                        <button class="text-body-sm text-secondary hover:text-primary font-bold">Manage All Classes</button>
-                    </div>
-                    <div class="bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden shadow-sm">
-                        <table class="w-full text-left border-collapse">
-                            <thead>
-                                <tr class="bg-surface-container-low border-b border-outline-variant">
-                                    <th class="px-lg py-md font-label-caps text-label-caps text-secondary uppercase">Class Name</th>
-                                    <th class="px-lg py-md font-label-caps text-label-caps text-secondary uppercase">Instructor</th>
-                                    <th class="px-lg py-md font-label-caps text-label-caps text-secondary uppercase">Enrollment Count</th>
-                                    <th class="px-lg py-md font-label-caps text-label-caps text-secondary uppercase text-right">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-outline-variant">
-                                <tr class="hover:bg-surface-container-low/30 transition-colors">
-                                    <td class="px-lg py-md">
-                                        <div class="flex items-center gap-md">
-                                            <div class="w-8 h-8 rounded bg-primary-container flex items-center justify-center">
-                                                <span class="material-symbols-outlined text-white text-sm">code</span>
-                                            </div>
-                                            <div>
-                                                <div class="font-body-md font-bold text-primary">Advanced Algorithms 401</div>
-                                                <div class="text-[10px] text-secondary">CS_DEPT_A1</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-lg py-md text-body-sm text-on-surface-variant">Dr. Aris Thorne</td>
-                                    <td class="px-lg py-md">
-                                        <div class="flex items-center gap-sm">
-                                            <div class="flex-1 min-w-[80px] h-2 bg-outline-variant rounded-full overflow-hidden">
-                                                <div class="h-full bg-primary w-[85%]"></div>
-                                            </div>
-                                            <span class="text-body-sm font-bold min-w-[60px] text-right">128/150</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-lg py-md text-right">
-                                        <span class="px-2 py-1 bg-secondary-container text-on-secondary-container text-[10px] font-bold rounded-full uppercase">In Progress</span>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-surface-container-low/30 transition-colors">
-                                    <td class="px-lg py-md">
-                                        <div class="flex items-center gap-md">
-                                            <div class="w-8 h-8 rounded bg-primary-container flex items-center justify-center">
-                                                <span class="material-symbols-outlined text-white text-sm">history_edu</span>
-                                            </div>
-                                            <div>
-                                                <div class="font-body-md font-bold text-primary">Quantum History 102</div>
-                                                <div class="text-[10px] text-secondary">PHYS_DEPT_Q2</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-lg py-md text-body-sm text-on-surface-variant">Prof. Elena Vance</td>
-                                    <td class="px-lg py-md">
-                                        <div class="flex items-center gap-sm">
-                                            <div class="flex-1 min-w-[80px] h-2 bg-outline-variant rounded-full overflow-hidden">
-                                                <div class="h-full bg-primary w-[96%]"></div>
-                                            </div>
-                                            <span class="text-body-sm font-bold min-w-[60px] text-right">48/50</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-lg py-md text-right">
-                                        <span class="px-2 py-1 bg-green-100 text-green-800 text-[10px] font-bold rounded-full uppercase">Published</span>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-surface-container-low/30 transition-colors">
-                                    <td class="px-lg py-md">
-                                        <div class="flex items-center gap-md">
-                                            <div class="w-8 h-8 rounded bg-primary-container flex items-center justify-center">
-                                                <span class="material-symbols-outlined text-white text-sm">biotech</span>
-                                            </div>
-                                            <div>
-                                                <div class="font-body-md font-bold text-primary">Molecular Ethics</div>
-                                                <div class="text-[10px] text-secondary">BIO_DEPT_E1</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-lg py-md text-body-sm text-on-surface-variant">Sarah Jenkins</td>
-                                    <td class="px-lg py-md">
-                                        <div class="flex items-center gap-sm">
-                                            <div class="flex-1 min-w-[80px] h-2 bg-outline-variant rounded-full overflow-hidden">
-                                                <div class="h-full bg-primary w-[41%]"></div>
-                                            </div>
-                                            <span class="text-body-sm font-bold min-w-[60px] text-right">82/200</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-lg py-md text-right">
-                                        <span class="px-2 py-1 bg-amber-100 text-amber-800 text-[10px] font-bold rounded-full uppercase">Review</span>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-surface-container-low/30 transition-colors">
-                                    <td class="px-lg py-md">
-                                        <div class="flex items-center gap-md">
-                                            <div class="w-8 h-8 rounded bg-primary-container flex items-center justify-center">
-                                                <span class="material-symbols-outlined text-white text-sm">psychology</span>
-                                            </div>
-                                            <div>
-                                                <div class="font-body-md font-bold text-primary">Cognitive Frameworks</div>
-                                                <div class="text-[10px] text-secondary">PSY_DEPT_C3</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-lg py-md text-body-sm text-on-surface-variant">Dr. Liam Chen</td>
-                                    <td class="px-lg py-md">
-                                        <div class="flex items-center gap-sm">
-                                            <div class="flex-1 min-w-[80px] h-2 bg-outline-variant rounded-full overflow-hidden">
-                                                <div class="h-full bg-primary w-[75%]"></div>
-                                            </div>
-                                            <span class="text-body-sm font-bold min-w-[60px] text-right">75/100</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-lg py-md text-right">
-                                        <span class="px-2 py-1 bg-secondary-container text-on-secondary-container text-[10px] font-bold rounded-full uppercase">In Progress</span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </section>
+                
 
                 <!-- Sidebar Modules-->
-                <div class="space-y-lg">
+                <div class="space-y-lg xl:col-span-3">
                     <!-- 2. User Breakdown Section -->
-                    <section class="space-y-md">
-                        <h3 class="font-title-md text-title-md text-primary">User Breakdown</h3>
-                        <div class="bg-surface-container-lowest border border-outline-variant p-lg rounded-lg shadow-sm">
-                            <div class="space-y-md">
-                                <!-- Student Distribution -->
-                                <div class="space-y-xs">
-                                    <div class="flex justify-between items-end">
-                                        <span class="text-body-sm font-bold text-primary">Students</span>
-                                        <span class="text-title-md font-bold text-primary">12,450</span>
-                                    </div>
-                                    <div class="h-3 bg-surface-container-low rounded-full overflow-hidden">
-                                        <div class="h-full bg-primary w-[82%]"></div>
-                                    </div>
-                                    <p class="text-[10px] text-secondary">82% of total population</p>
-                                </div>
-                                <!-- Instructor Distribution -->
-                                <div class="space-y-xs">
-                                    <div class="flex justify-between items-end">
-                                        <span class="text-body-sm font-bold text-primary">Instructors</span>
-                                        <span class="text-title-md font-bold text-primary">840</span>
-                                    </div>
-                                    <div class="h-3 bg-surface-container-low rounded-full overflow-hidden">
-                                        <div class="h-full bg-secondary w-[12%]"></div>
-                                    </div>
-                                    <p class="text-[10px] text-secondary">12% of total population</p>
-                                </div>
-                                <!-- Admin Distribution -->
-                                <div class="space-y-xs">
-                                    <div class="flex justify-between items-end">
-                                        <span class="text-body-sm font-bold text-primary">Admins</span>
-                                        <span class="text-title-md font-bold text-primary">42</span>
-                                    </div>
-                                    <div class="h-3 bg-surface-container-low rounded-full overflow-hidden">
-                                        <div class="h-full bg-outline w-[6%]"></div>
-                                    </div>
-                                    <p class="text-[10px] text-secondary">6% of total population</p>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
+                    
 
                     <!-- 3. Recent Platform Activity Section -->
                     <section class="space-y-md">
                         <h3 class="font-title-md text-title-md text-primary">Recent Platform Activity</h3>
-                        <div class="bg-surface-container-lowest border border-outline-variant p-md rounded-lg shadow-sm space-y-md">
+                        <div class="bg-surface-container-lowest border border-outline-variant rounded-lg shadow-sm overflow-hidden">
                             <!-- Activity Item 1 -->
-                            <div class="flex gap-md border-b border-outline-variant pb-md last:border-0 last:pb-0">
-                                <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                                    <span class="material-symbols-outlined text-primary text-[18px]">add_circle</span>
-                                </div>
-                                <div class="space-y-1">
-                                    <p class="text-body-sm text-primary font-bold">New Course Created</p>
-                                    <p class="text-[12px] text-on-surface-variant">"Computational Ethics 505" added to Philosophy Dept.</p>
-                                    <span class="text-[10px] text-secondary uppercase font-bold tracking-wider">2 mins ago</span>
-                                </div>
-                            </div>
+                            <a href="#" class="flex items-center justify-between gap-md border-b border-outline-variant p-md hover:bg-surface-container-high transition-colors cursor-pointer last:border-0 py-lg">
+    <div class="flex gap-md">
+        <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+            <span class="material-symbols-outlined text-primary text-[18px]">add_circle</span>
+        </div>
+        <div class="space-y-1">
+            <p class="text-body-sm text-primary font-bold">New Course Created</p>
+            <p class="text-[12px] text-on-surface-variant">"Computational Ethics 505" added to Philosophy Dept.</p>
+            <span class="text-[10px] text-secondary uppercase font-bold tracking-wider">2 mins ago</span>
+        </div>
+    </div>
+    <span class="material-symbols-outlined text-secondary">chevron_right</span>
+</a>
                             <!-- Activity Item 2 -->
-                            <div class="flex gap-md border-b border-outline-variant pb-md last:border-0 last:pb-0">
-                                <div class="w-8 h-8 rounded-full bg-secondary/10 flex items-center justify-center flex-shrink-0">
-                                    <span class="material-symbols-outlined text-secondary text-[18px]">manage_accounts</span>
-                                </div>
-                                <div class="space-y-1">
-                                    <p class="text-body-sm text-primary font-bold">User Role Updated</p>
-                                    <p class="text-[12px] text-on-surface-variant">Sarah Jenkins elevated to Department Head.</p>
-                                    <span class="text-[10px] text-secondary uppercase font-bold tracking-wider">45 mins ago</span>
-                                </div>
-                            </div>
+                            <a href="#" class="flex items-center justify-between gap-md border-b border-outline-variant p-md hover:bg-surface-container-high transition-colors cursor-pointer last:border-0 py-lg">
+    <div class="flex gap-md">
+        <div class="w-8 h-8 rounded-full bg-secondary/10 flex items-center justify-center flex-shrink-0">
+            <span class="material-symbols-outlined text-secondary text-[18px]">manage_accounts</span>
+        </div>
+        <div class="space-y-1">
+            <p class="text-body-sm text-primary font-bold">User Role Updated</p>
+            <p class="text-[12px] text-on-surface-variant">Sarah Jenkins elevated to Department Head.</p>
+            <span class="text-[10px] text-secondary uppercase font-bold tracking-wider">45 mins ago</span>
+        </div>
+    </div>
+    <span class="material-symbols-outlined text-secondary">chevron_right</span>
+</a>
                             <!-- Activity Item 3 -->
-                            <div class="flex gap-md border-b border-outline-variant pb-md last:border-0 last:pb-0">
-                                <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
-                                    <span class="material-symbols-outlined text-green-700 text-[18px]">cloud_done</span>
-                                </div>
-                                <div class="space-y-1">
-                                    <p class="text-body-sm text-primary font-bold">System Backup Completed</p>
-                                    <p class="text-[12px] text-on-surface-variant">Weekly system state successfully archived.</p>
-                                    <span class="text-[10px] text-secondary uppercase font-bold tracking-wider">2 hours ago</span>
-                                </div>
-                            </div>
+                            <a href="#" class="flex items-center justify-between gap-md border-b border-outline-variant p-md hover:bg-surface-container-high transition-colors cursor-pointer last:border-0 py-lg">
+    <div class="flex gap-md">
+        <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
+            <span class="material-symbols-outlined text-green-700 text-[18px]">cloud_done</span>
+        </div>
+        <div class="space-y-1">
+            <p class="text-body-sm text-primary font-bold">System Backup Completed</p>
+            <p class="text-[12px] text-on-surface-variant">Weekly system state successfully archived.</p>
+            <span class="text-[10px] text-secondary uppercase font-bold tracking-wider">2 hours ago</span>
+        </div>
+    </div>
+    <span class="material-symbols-outlined text-secondary">chevron_right</span>
+</a>
                             <!-- Activity Item 4 -->
-                            <div class="flex gap-md border-b border-outline-variant pb-md last:border-0 last:pb-0">
-                                </div></div></section></div></div></div></main>
+                            </div></section></div></div></div></main>
+
+
 
 </body></html>
