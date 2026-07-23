@@ -23,9 +23,7 @@
     <!-- Mobile Menu Bar -->
     <div class="md:hidden flex items-center justify-between bg-[#FAF9FB] px-4 py-3 border-b border-gray-200 sticky top-0 z-40">
         <div class="flex items-center gap-2.5">
-            <div class="w-8 h-8 rounded-lg bg-black flex items-center justify-center text-white">
-                <span class="material-symbols-outlined text-lg">school</span>
-            </div>
+            <img src="{{ asset('images/carryon_logo_mark_v2.png') }}" class="w-8 h-8 object-contain" alt="CarryOn Logo">
             <div>
                 <span class="font-bold text-base tracking-tight text-gray-900">CarryOn</span>
                 <p class="text-[9px] uppercase tracking-wider text-gray-500 font-medium -mt-1">Academic Management</p>
@@ -41,9 +39,7 @@
         <!-- Logo & Header -->
         <div class="px-6 py-5 flex items-center gap-3 border-b border-gray-100">
             <a href="/dashboard" class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-lg bg-[#111827] flex items-center justify-center text-white shadow-sm">
-                    <span class="material-symbols-outlined text-xl">school</span>
-                </div>
+                <img src="{{ asset('images/carryon_logo_mark_v2.png') }}" class="w-9 h-9 object-contain" alt="CarryOn Logo">
                 <div>
                     <span class="font-bold text-lg tracking-tight text-gray-900 block">CarryOn</span>
                     <span class="text-[10px] uppercase tracking-widest text-gray-400 font-semibold block -mt-1">Academic Management</span>

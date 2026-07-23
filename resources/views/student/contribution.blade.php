@@ -17,9 +17,7 @@
     <!-- Mobile Menu Bar -->
     <div class="md:hidden flex items-center justify-between bg-[#FAF9FB] px-4 py-3 border-b border-gray-200 sticky top-0 z-40">
         <div class="flex items-center gap-2.5">
-            <div class="w-8 h-8 rounded-lg bg-black flex items-center justify-center text-white">
-                <span class="material-symbols-outlined text-lg">school</span>
-            </div>
+            <img src="{{ asset('images/carryon_logo_mark_v2.png') }}" class="w-8 h-8 object-contain" alt="CarryOn Logo">
             <span class="font-bold text-base tracking-tight text-gray-900">CarryOn</span>
         </div>
         <button id="mobile-menu-toggle" class="p-2 text-gray-600 hover:bg-gray-100 rounded-lg">
@@ -31,9 +29,7 @@
     <aside id="sidebar" class="fixed inset-y-0 left-0 z-30 w-64 bg-[#FAF9FB] border-r border-gray-200 flex flex-col transform -translate-x-full md:translate-x-0 md:static transition-transform duration-300 ease-in-out">
         <div class="px-6 py-5 flex items-center gap-3 border-b border-gray-100">
             <a href="/StudentDashboard" class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-lg bg-[#111827] flex items-center justify-center text-white shadow-sm">
-                    <span class="material-symbols-outlined text-xl">school</span>
-                </div>
+                <img src="{{ asset('images/carryon_logo_mark_v2.png') }}" class="w-9 h-9 object-contain" alt="CarryOn Logo">
                 <div>
                     <span class="font-bold text-lg tracking-tight text-gray-900 block">CarryOn</span>
                     <span class="text-[10px] uppercase tracking-widest text-gray-400 font-semibold block -mt-1">Student Portal</span>

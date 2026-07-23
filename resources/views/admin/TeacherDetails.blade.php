@@ -96,9 +96,12 @@
 
     <!-- SideNavBar -->
     <nav class="w-[260px] h-screen fixed left-0 top-0 flex flex-col py-lg bg-surface border-r border-outline-variant z-50">
-        <div class="px-lg mb-xl">
-            <h1 class="font-headline-lg text-headline-lg font-bold text-primary">CarryOn</h1>
-            <p class="font-label-caps text-label-caps text-secondary tracking-widest uppercase">Admin Portal</p>
+        <div class="px-lg mb-xl flex items-center gap-3">
+            <img src="{{ asset('images/carryon_logo_mark_v2.png') }}" class="w-8 h-8 object-contain" alt="CarryOn Logo">
+            <div>
+                <h1 class="font-headline-lg text-headline-lg font-bold text-primary leading-tight">CarryOn</h1>
+                <p class="font-label-caps text-label-caps text-secondary tracking-widest uppercase -mt-1">Admin Portal</p>
+            </div>
         </div>
         <div class="flex-1 px-md space-y-1">
             <a class="flex items-center gap-md px-md py-sm transition-colors duration-150 text-secondary hover:bg-surface-container-low hover:text-primary" href="/overview">

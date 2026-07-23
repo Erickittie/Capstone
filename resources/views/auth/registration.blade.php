@@ -15,7 +15,7 @@
 <div class="w-full max-w-[480px]">
 <!-- Header Section -->
 <div class="flex flex-col items-center mb-xl">
-<img alt="CarryOn Logo" class="h-16 w-16 mb-md object-contain" src="https://lh3.googleusercontent.com/aida/AP1WRLucGBg9N8aMpW00YSYyHNzx-amGnR6QlTIRwF4F1pZ4HoaIpRqg00ZNtc3mzJ7eM3-MzUKtT1Sx61tJndtNKM6ImqO-uWv52or527CVhlEgUSAj1lpeBXc5WJwf2TpaXHN6nc9ZEt4Ii_h6lH68TwqQvwxIOv2ymTD-PNcVuUS3KurctUGJtRIMYj3jnQ2STh9Ym72seVDwTE0164ulig_vvjLsw9RDOBXCbhMepaE3oOZYWYwAnPyTjg">
+<img alt="CarryOn Logo" class="h-16 w-16 mb-md object-contain" src="{{ asset('images/carryon_logo_mark_v2.png') }}">
 <h1 class="font-headline-lg text-headline-lg text-primary tracking-tight">Join CarryOn</h1>
 <p class="font-body-md text-on-surface-variant mt-xs">Empowering academic excellence.</p>
 </div>

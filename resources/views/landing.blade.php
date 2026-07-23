@@ -14,7 +14,7 @@
 <!-- Top AppBar Navigation -->
 <header class="sticky top-0 z-50 bg-surface border-b border-outline-variant flex justify-between items-center h-16 px-lg w-full">
 <div class="flex items-center gap-4">
-<img alt="CarryOn Logo" class="h-8 w-8 object-contain" src="https://lh3.googleusercontent.com/aida/AP1WRLucGBg9N8aMpW00YSYyHNzx-amGnR6QlTIRwF4F1pZ4HoaIpRqg00ZNtc3mzJ7eM3-MzUKtT1Sx61tJndtNKM6ImqO-uWv52or527CVhlEgUSAj1lpeBXc5WJwf2TpaXHN6nc9ZEt4Ii_h6lH68TwqQvwxIOv2ymTD-PNcVuUS3KurctUGJtRIMYj3jnQ2STh9Ym72seVDwTE0164ulig_vvjLsw9RDOBXCbhMepaE3oOZYWYwAnPyTjg"/>
+<img alt="CarryOn Logo" class="h-8 w-8 object-contain" src="{{ asset('images/carryon_logo_mark_v2.png') }}"/>
 <span class="font-headline-lg text-title-md font-bold text-primary">CarryOn</span>
 </div>
 <nav class="hidden md:flex items-center gap-xl">
@@ -260,7 +260,7 @@ Get Started for Free
 <div class="max-w-max-width mx-auto grid grid-cols-1 md:grid-cols-4 gap-xl">
 <div class="col-span-1 md:col-span-1 space-y-md">
 <div class="flex items-center gap-4">
-<img alt="CarryOn Logo" class="h-6 w-6" src="https://lh3.googleusercontent.com/aida/AP1WRLucGBg9N8aMpW00YSYyHNzx-amGnR6QlTIRwF4F1pZ4HoaIpRqg00ZNtc3mzJ7eM3-MzUKtT1Sx61tJndtNKM6ImqO-uWv52or527CVhlEgUSAj1lpeBXc5WJwf2TpaXHN6nc9ZEt4Ii_h6lH68TwqQvwxIOv2ymTD-PNcVuUS3KurctUGJtRIMYj3jnQ2STh9Ym72seVDwTE0164ulig_vvjLsw9RDOBXCbhMepaE3oOZYWYwAnPyTjg"/>
+<img alt="CarryOn Logo" class="h-6 w-6 object-contain" src="{{ asset('images/carryon_logo_mark_v2.png') }}"/>
 <span class="font-headline-lg text-title-md font-bold text-primary">CarryOn</span>
 </div>
 <p class="text-body-sm text-on-surface-variant">Empowering the next generation of academic leaders with rigorous project management infrastructure.</p>

@@ -23,7 +23,7 @@
 <div class="login-card bg-surface-container-lowest border border-outline-variant rounded-lg p-xl space-y-md">
 <!-- Brand Identity -->
 <div class="flex flex-col items-center text-center space-y-md">
-<img alt="CarryOn Logo" class="w-16 h-16 object-contain rounded-md" src="https://lh3.googleusercontent.com/aida/AP1WRLucGBg9N8aMpW00YSYyHNzx-amGnR6QlTIRwF4F1pZ4HoaIpRqg00ZNtc3mzJ7eM3-MzUKtT1Sx61tJndtNKM6ImqO-uWv52or527CVhlEgUSAj1lpeBXc5WJwf2TpaXHN6nc9ZEt4Ii_h6lH68TwqQvwxIOv2ymTD-PNcVuUS3KurctUGJtRIMYj3jnQ2STh9Ym72seVDwTE0164ulig_vvjLsw9RDOBXCbhMepaE3oOZYWYwAnPyTjg">
+<img alt="CarryOn Logo" class="w-16 h-16 object-contain" src="{{ asset('images/carryon_logo_mark_v2.png') }}">
 <div>
 <h1 class="font-headline-lg text-headline-lg text-primary">Welcome back</h1>
 <p class="font-body-sm text-body-sm text-on-surface-variant">Access your academic workspace</p>
