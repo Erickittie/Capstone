@@ -221,6 +221,20 @@
                         </span>
                     </div>
                 </a>
+                <!-- Check-In Request -->
+                <a href="/student/class/cs402/checkin" class="action-card bg-white rounded-xl border border-gray-200 p-6 group animate-in animate-in-delay-5">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center">
+                            <span class="material-symbols-outlined text-indigo-600 text-[26px]">event_available</span>
+                        </div>
+                        <span class="material-symbols-outlined text-gray-300 group-hover:text-gray-900 group-hover:translate-x-1 transition-all">arrow_forward</span>
+                    </div>
+                    <h3 class="font-bold text-gray-900 mb-1">Check-In Request</h3>
+                    <p class="text-sm text-gray-500 mb-4">Request a check-in meeting with your instructor and view approval status.</p>
+                    <div class="flex items-center gap-2 pt-3 border-t border-gray-100">
+                        <span class="badge badge-pending">1 Pending</span>
+                    </div>
+                </a>
             </div>
 
             <!-- Group Progress Overview -->
