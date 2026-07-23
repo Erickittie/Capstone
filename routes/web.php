@@ -26,6 +26,7 @@ Route::prefix('student')->group(function () {
     Route::view('class/{classId}/leader-vote', 'student.leader-vote');
     Route::view('class/{classId}/task-manager', 'student.task-manager');
     Route::view('class/{classId}/file-repository', 'student.file-repository');
+    Route::view('class/{classId}/checkin', 'student.checkin-schedule');
 });
 Route::view('/overview', 'admin.overview');
 Route::view('/users', 'admin.users');
