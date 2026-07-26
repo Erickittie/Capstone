@@ -232,7 +232,8 @@
                                         <span class="badge badge-pending">Pending</span>
                                     </div>
                                     <p class="text-xs text-gray-500 mt-0.5">Requested: July 20, 2024 · Online</p>
-                                    <p class="text-xs text-gray-500 mt-1.5 italic">Waiting for instructor to respond...</p>
+                                    <p class="text-xs text-gray-600 mt-1.5 bg-amber-50 rounded-lg px-3 py-2">
+                                        <span class="font-semibold text-amber-700"></span> Waiting for instructor to respond...
                                 </div>
                             </div>
 
