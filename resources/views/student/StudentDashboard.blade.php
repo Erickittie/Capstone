@@ -47,12 +47,12 @@
                 <span class="material-symbols-outlined text-[20px]">grid_view</span>
                 <span>Dashboard</span>
             </a>
-            <a href="#" class="flex items-center gap-3 px-3.5 py-2.5 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg text-[14px] font-medium transition-all duration-200">
+           <a href="/student/notifications" class="flex items-center gap-3 px-3.5 py-2.5 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg text-[14px] font-medium transition-all duration-200">
                 <span class="material-symbols-outlined text-[20px] text-gray-500">notifications</span>
                 <span>Notifications</span>
                 <span class="ml-auto bg-red-500 text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center">3</span>
             </a>
-            <a href="#" class="flex items-center gap-3 px-3.5 py-2.5 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg text-[14px] font-medium transition-all duration-200">
+            <a href="/student/profile" class="flex items-center gap-3 px-3.5 py-2.5 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg text-[14px] font-medium transition-all duration-200">
                 <span class="material-symbols-outlined text-[20px] text-gray-500">person</span>
                 <span>Profile</span>
             </a>
@@ -93,7 +93,7 @@
 
         <div class="px-6 lg:px-10 py-8 max-w-7xl mx-auto">
             <!-- Quick Stats Row -->
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8 animate-in">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8 animate-in">
                 <div class="bg-white rounded-xl border border-gray-200 p-5 flex items-center gap-4">
                     <div class="w-11 h-11 rounded-lg bg-blue-50 flex items-center justify-center">
                         <span class="material-symbols-outlined text-blue-600 text-[22px]">monitoring</span>
@@ -113,15 +113,15 @@
                     </div>
                 </div>
                 <div class="bg-white rounded-xl border border-gray-200 p-5 flex items-center gap-4">
-                    <div class="w-11 h-11 rounded-lg bg-purple-50 flex items-center justify-center">
-                        <span class="material-symbols-outlined text-purple-600 text-[22px]">how_to_vote</span>
-                    </div>
-                    <div>
-                        <p class="text-[11px] uppercase tracking-wider text-gray-400 font-semibold">Pending Votes</p>
-                        <p class="text-2xl font-bold text-gray-900">1</p>
-                    </div>
+                    <div class="w-11 h-11 rounded-lg bg-indigo-50 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-indigo-600 text-[22px]">event_available</span>
+                </div>
+                <div>
+                    <p class="text-[11px] uppercase tracking-wider text-gray-400 font-semibold">Check-In Pending</p>
+                    <p class="text-2xl font-bold text-gray-900">1</p>
                 </div>
             </div>
+        </div>  
 
             <!-- My Enrolled Classes -->
             <div class="mb-6 animate-in animate-in-delay-1">

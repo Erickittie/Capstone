@@ -71,6 +71,10 @@
                 <span class="material-symbols-outlined text-[20px] text-gray-500">folder_open</span>
                 <span>File Repository</span>
             </a>
+            <a href="/student/class/cs402/checkin" class="flex items-center gap-3 px-3.5 py-2.5 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg text-[14px] font-medium transition-all duration-200 pl-9">
+                <span class="material-symbols-outlined text-[20px] text-gray-500">event_available</span>
+                <span>Check-In Request</span>
+            </a>
         </nav>
         <div class="p-4 border-t border-gray-150">
             <a href="/login" class="flex items-center gap-3 px-3.5 py-2.5 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg text-[14px] font-medium transition-all duration-200">
@@ -106,7 +110,7 @@
 
         <div class="px-6 lg:px-10 py-8 max-w-7xl mx-auto">
             <!-- Class Quick Stats -->
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8 animate-in">
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-8 animate-in">
                 <div class="bg-white rounded-xl border border-gray-200 p-4 text-center">
                     <p class="text-[10px] uppercase tracking-wider text-gray-400 font-semibold mb-1">My Score</p>
                     <p class="text-3xl font-bold text-gray-900">91<span class="text-sm font-medium text-gray-400">%</span></p>
@@ -122,6 +126,10 @@
                 <div class="bg-white rounded-xl border border-gray-200 p-4 text-center">
                     <p class="text-[10px] uppercase tracking-wider text-gray-400 font-semibold mb-1">Project Manager</p>
                     <p class="text-lg font-bold text-gray-900 mt-1">Maria C.</p>
+                </div>
+                <div class="bg-white rounded-xl border border-gray-200 p-4 text-center">
+                    <p class="text-[10px] uppercase tracking-wider text-gray-400 font-semibold mb-1">Check-In</p>
+                    <p class="text-lg font-bold text-amber-600 mt-1">1 Pending</p>
                 </div>
             </div>
 
@@ -219,6 +227,20 @@
                             <span class="material-symbols-outlined text-[14px] mr-0.5">description</span>
                             12 files · 48.3 MB
                         </span>
+                    </div>
+                </a>
+                <!-- Check-In Request -->
+                <a href="/student/class/cs402/checkin" class="action-card bg-white rounded-xl border border-gray-200 p-6 group animate-in animate-in-delay-5">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center">
+                            <span class="material-symbols-outlined text-indigo-600 text-[26px]">event_available</span>
+                        </div>
+                        <span class="material-symbols-outlined text-gray-300 group-hover:text-gray-900 group-hover:translate-x-1 transition-all">arrow_forward</span>
+                    </div>
+                    <h3 class="font-bold text-gray-900 mb-1">Check-In Request</h3>
+                    <p class="text-sm text-gray-500 mb-4">Request a check-in meeting with your instructor and view approval status.</p>
+                    <div class="flex items-center gap-2 pt-3 border-t border-gray-100">
+                        <span class="badge badge-pending">1 Pending</span>
                     </div>
                 </a>
             </div>
