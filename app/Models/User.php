@@ -18,4 +18,9 @@ class User extends Authenticable {
     protected $hidden = [
         'password'
     ];
+
+    public function classes() {
+
+    return $this -> hasMany(ClassRoom::class, 'Instructor_Id');
+    }
 }
