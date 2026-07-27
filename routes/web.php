@@ -1,8 +1,35 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ClassController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\AuthController;
 
-Route::view('/', 'landing');
+Route::get('/', function(){
+    return redirect() ->route('login');
+});
+
+Route::middleware('guest') -> group(function(){
+    Route::get('/login', [AuthController::class, 'login']) -> name('login');
+    Route::post('/login', [AuthController::class, 'authenticate']) -> name('authenticate');
+});
+
+// Admin Routes
+
+Route::middleware('auth') -> group(function () {
+    Route::post('/logout', [AuthController::class, 'logout']) -> name('logout');
+    Route::get('/dashboard', [DashboardController::class, 'index']) -> name('dashboard');
+    Route::resource('users', UserController::class);
+    Route::resource('classes', ClassController::class);
+    Route::get('/reports', [ReportController::class, 'index']) -> name('reports.index');
+    Route::view('/teacher', 'instructor.dashboard') -> name('instructor.dashboard');
+    Route::view('/student', 'student.dashboard') -> name('student.dashboard');
+});
+
+
+/*Route::view('/', 'landing');
 
 Route::view('/registration', 'auth.registration');
 
@@ -33,4 +60,4 @@ Route::view('/TeacherDetails', 'admin.TeacherDetails');
 Route::view('/StudentDetails', 'admin.StudentDetails');
 Route::view('/classes', 'admin.classes');
 Route::view('/ClassDetails', 'admin.ClassDetails');
-Route::view('/reports', 'admin.reports');
+Route::view('/reports', 'admin.reports');*/
