@@ -26,4 +26,4 @@ Homestead.json
 Homestead.yaml
 Thumbs.db
 
-/database/migrations/create_checkin_request_table.php
+

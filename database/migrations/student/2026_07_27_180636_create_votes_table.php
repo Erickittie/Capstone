@@ -11,18 +11,26 @@ return new class extends Migration
      */
     public function up(): void
     {
-       Schema::create('votes', function (Blueprint $table) {
-            $table->id();
+       // Create the votes table to store student PM election votes
+        Schema::create('votes', function (Blueprint $table) {
+            $table->id(); // unique id for each vote record
+
+            $// The student who cast the vote
             $table->foreignId('voter_id')
                 ->constrained('users')
-                ->cascadeOnDelete();
+                ->cascadeOnDelete(); // delete vote if student is deleted
+
+            // The student who was voted for
             $table->foreignId('candidate_id')
                 ->constrained('users')
-                ->cascadeOnDelete();
-            $table->unsignedBigInteger('group_id');
-            $table->timestamps();
+                ->cascadeOnDelete(); // delete vote if candidate is deleted
 
-            // One student can only vote once per group
+             // Which group this vote belongs to
+            $table->unsignedBigInteger('group_id');
+
+            $table->timestamps(); // created_at and updated_at
+
+            // Prevent a student from voting more than once per group
             $table->unique(['voter_id', 'group_id']);
         });
     }
