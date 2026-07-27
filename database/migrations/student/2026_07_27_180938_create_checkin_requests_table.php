@@ -13,8 +13,20 @@ return new class extends Migration
     {
         Schema::create('checkin_requests', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('student_id')
+                ->constrained('users')
+                ->cascadeOnDelete();
+            $table->foreignId('class_room_id')
+                ->constrained('class_rooms')
+                ->cascadeOnDelete();
+            $table->string('reason');
+            $table->date('preferred_date');
+            $table->time('preferred_time');
+            $table->enum('mode', ['in-person', 'online', 'either']);
+            $table->text('message')->nullable();
+            $table->enum('status', ['pending', 'approved', 'declined'])->default('pending');
+            $table->text('instructor_note')->nullable();
             $table->timestamps();
-        });
     }
 
     /**
