@@ -1,130 +1,120 @@
-<!DOCTYPE html><html class="light" lang="en"><head>
-<meta charset="utf-8">
-<meta content="width=device-width, initial-scale=1.0" name="viewport">
-<title>Login - CarryOn Academic Systems</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
-<script src="{{ asset('js/tailwind-config.js') }}"></script>
-    <link href="{{ asset('css/login.css') }}" rel="stylesheet">
-</head>
-<body class="bg-background min-h-screen flex flex-col">
-<!-- Top Navigation (Shell suppressed as per transactional rule, but branding maintained) -->
-<header class="w-full h-16 flex items-center px-margin max-w-max-width mx-auto">
-<div class="flex items-center gap-base">
-<span class="font-display-lg text-headline-lg font-bold text-primary">CarryOn</span>
-</div>
-</header>
-<!-- Main Content: Login Canvas -->
-<main class="flex-grow flex items-center justify-center px-margin py-xl">
-<div class="w-full max-w-[440px]">
-<!-- Login Card -->
-<div class="login-card bg-surface-container-lowest border border-outline-variant rounded-lg p-xl space-y-md">
-<!-- Brand Identity -->
-<div class="flex flex-col items-center text-center space-y-md">
-<img alt="CarryOn Logo" class="w-16 h-16 object-contain" src="{{ asset('images/carryon_logo_mark_v2.png') }}">
-<div>
-<h1 class="font-headline-lg text-headline-lg text-primary">Welcome back</h1>
-<p class="font-body-sm text-body-sm text-on-surface-variant">Access your academic workspace</p>
-</div>
-</div>
-<!-- SSO Action -->
+<form action="{{ route('authenticate') }}" method="POST" class="space-y-6">
 
-<!-- Divider -->
+    @csrf
 
-<!-- Email Form -->
-<form class="space-y-md" onsubmit="event.preventDefault();">
-<div class="space-y-xs">
-<label class="font-label-caps text-label-caps text-on-surface-variant block uppercase" for="email">Academic Email</label>
-<div class="relative">
-<span class="absolute left-md top-1/2 -translate-y-1/2 material-symbols-outlined text-outline" data-icon="mail">mail</span>
-<input class="w-full h-11 pl-[44px] pr-md border border-outline-variant rounded-lg font-body-md text-body-md focus:outline-none focus:border-primary transition-colors bg-surface-container-low" id="email" placeholder="name@institution.edu" type="email">
-</div>
-</div>
-<div class="space-y-xs">
-<div class="flex justify-between items-center">
-<label class="font-label-caps text-label-caps text-on-surface-variant block uppercase" for="password">Password</label>
-<a class="font-body-sm text-body-sm text-secondary hover:text-primary transition-colors" href="#">Forgot password?</a>
-</div>
-<div class="relative">
-<span class="absolute left-md top-1/2 -translate-y-1/2 material-symbols-outlined text-outline" data-icon="lock">lock</span>
-<input class="w-full h-11 pl-[44px] pr-md border border-outline-variant rounded-lg font-body-md text-body-md focus:outline-none focus:border-primary transition-colors bg-surface-container-low" id="password" placeholder="••••••••" type="password">
-</div>
-</div>
-<div class="pt-sm space-y-sm">
-<button class="w-full h-12 bg-primary text-on-primary font-headline-lg-mobile text-body-md rounded-lg hover:opacity-90 active:scale-[0.98] transition-all" type="submit">
-                            Log In
-                        </button>
-<a href="/dashboard" class="w-full h-12 border border-outline text-primary font-headline-lg-mobile text-body-md rounded-lg flex items-center justify-center hover:bg-surface-container-low active:scale-[0.98] transition-all">
-                            Access Teacher Dashboard
-</a>
-<a href="/StudentDashboard" class="w-full h-12 border border-outline text-primary font-headline-lg-mobile text-body-md rounded-lg flex items-center justify-center hover:bg-surface-container-low active:scale-[0.98] transition-all">
-                            Access Student Dashboard
-</a>
-<a href="/overview" class="w-full h-12 border border-outline text-primary font-headline-lg-mobile text-body-md rounded-lg flex items-center justify-center hover:bg-surface-container-low active:scale-[0.98] transition-all">
-                            Access Admin Dashboard
-</a>
-</div>
+    @if(session('success'))
+        <div class="bg-green-50 border border-green-300 text-green-700 rounded-lg px-4 py-3 text-sm">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if($errors->any())
+        <div class="bg-red-50 border border-red-300 text-red-700 rounded-lg px-4 py-3 text-sm">
+            {{ $errors->first() }}
+        </div>
+    @endif
+
+    <!-- Email -->
+    <div>
+        <label
+            for="email"
+            class="block text-xs uppercase tracking-wider text-gray-500 font-semibold mb-2">
+
+            Academic Email
+
+        </label>
+
+        <div class="relative">
+
+            <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-gray-400">
+                mail
+            </span>
+
+            <input
+                id="email"
+                type="email"
+                name="email"
+                value="{{ old('email') }}"
+                placeholder="name@usjr.edu.ph"
+                class="w-full h-12 pl-12 pr-4 rounded-xl border border-gray-300 bg-gray-50 focus:bg-white focus:border-[#0A4D8C] focus:ring-4 focus:ring-blue-100 outline-none transition"
+                required>
+
+        </div>
+
+    </div>
+
+    <!-- Password -->
+    <div>
+
+        <div class="flex justify-between items-center mb-2">
+
+            <label
+                for="password"
+                class="text-xs uppercase tracking-wider text-gray-500 font-semibold">
+
+                Password
+
+            </label>
+
+            <a
+                href="#"
+                class="text-sm text-[#0A4D8C] hover:underline">
+
+                Forgot Password?
+
+            </a>
+
+        </div>
+
+        <div class="relative">
+
+            <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-gray-400">
+                lock
+            </span>
+
+            <input
+                id="password"
+                type="password"
+                name="password"
+                placeholder="Enter your password"
+                class="w-full h-12 pl-12 pr-4 rounded-xl border border-gray-300 bg-gray-50 focus:bg-white focus:border-[#0A4D8C] focus:ring-4 focus:ring-blue-100 outline-none transition"
+                required>
+
+        </div>
+
+    </div>
+
+    <!-- Remember -->
+    <div class="flex items-center justify-between">
+
+        <label class="flex items-center gap-2 text-sm text-gray-600">
+
+            <input
+                type="checkbox"
+                name="remember"
+                class="rounded border-gray-300 text-[#0A4D8C] focus:ring-[#0A4D8C]">
+
+            Remember me
+
+        </label>
+
+    </div>
+
+    <!-- Login Button -->
+    <button
+        type="submit"
+        class="w-full h-12 rounded-xl bg-[#0A4D8C] hover:bg-[#083A69] text-white font-semibold shadow-md hover:shadow-lg transition duration-300">
+
+        <span class="flex items-center justify-center gap-2">
+
+            <span class="material-symbols-outlined text-[20px]">
+                login
+            </span>
+
+            Sign In
+
+        </span>
+
+    </button>
+
 </form>
-<!-- Help Link -->
-<div class="text-center pt-md">
-<p class="font-body-sm text-body-sm text-on-surface-variant">
-                        New to CarryOn? 
-                        <a class="text-primary font-semibold hover:underline" href="#">Contact your Administrator</a>
-</p>
-</div>
-</div>
-<!-- Contextual Information (Academic Rigor) -->
-<div class="mt-lg grid grid-cols-2 gap-md opacity-60">
-<div class="flex items-start gap-sm">
-<span class="material-symbols-outlined text-[18px]" data-icon="verified_user">verified_user</span>
-<p class="font-body-sm text-[12px] leading-tight">Secure Research Environment</p>
-</div>
-<div class="flex items-start gap-sm">
-<span class="material-symbols-outlined text-[18px]" data-icon="history_edu">history_edu</span>
-<p class="font-body-sm text-[12px] leading-tight">FERPA &amp; GDPR Compliant</p>
-</div>
-</div>
-</div>
-</main>
-<!-- Simple Transactional Footer -->
-<footer class="w-full py-xl border-t border-outline-variant">
-<div class="max-w-max-width mx-auto px-margin flex flex-col md:flex-row justify-between items-center gap-md">
-<p class="font-body-sm text-body-sm text-on-surface-variant">© 2024 CarryOn Academic Systems. All rights reserved.</p>
-<div class="flex gap-lg">
-<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Research Ethics</a>
-<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Institutional Access</a>
-<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Contact Support</a>
-</div>
-</div>
-</footer>
-<script>
-        // Micro-interaction for input focusing
-        document.querySelectorAll('input').forEach(input => {
-            input.addEventListener('focus', () => {
-                input.parentElement.querySelector('.material-symbols-outlined').style.color = '#041627';
-            });
-            input.addEventListener('blur', () => {
-                input.parentElement.querySelector('.material-symbols-outlined').style.color = '#74777d';
-            });
-        });
-
-        // Simple login validation simulation
-        const loginBtn = document.querySelector('button[type="submit"]');
-        loginBtn.addEventListener('click', (e) => {
-            const originalText = loginBtn.innerText;
-            loginBtn.innerText = 'Verifying...';
-            loginBtn.disabled = true;
-            loginBtn.style.opacity = '0.7';
-            
-            setTimeout(() => {
-                loginBtn.innerText = originalText;
-                loginBtn.disabled = false;
-                loginBtn.style.opacity = '1';
-            }, 1500);
-        });
-    </script>
-
-
-</body></html>
