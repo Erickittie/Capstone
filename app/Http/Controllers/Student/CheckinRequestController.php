@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Student;
 
+use App\Models\Student\CheckinRequest;
 use App\Http\Controllers\Controller;
-use App\Models\CheckinRequest;
 use Illuminate\Http\Request;
 
 class CheckinRequestController extends Controller

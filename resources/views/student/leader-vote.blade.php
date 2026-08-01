@@ -57,6 +57,9 @@
             <a href="/student/class/cs402/file-repository" class="flex items-center gap-3 px-3.5 py-2.5 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg text-[14px] font-medium transition-all duration-200 pl-9">
                 <span class="material-symbols-outlined text-[20px] text-gray-500">folder_open</span><span>File Repository</span>
             </a>
+            <a href="/student/class/cs402/checkin" class="flex items-center gap-3 px-3.5 py-2.5 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg text-[14px] font-medium transition-all duration-200 pl-9">
+                <span class="material-symbols-outlined text-[20px] text-gray-500">event_available</span><span>Check-In Request</span>
+            </a>
         </nav>
         <div class="p-4 border-t border-gray-150">
             <a href="/login" class="flex items-center gap-3 px-3.5 py-2.5 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg text-[14px] font-medium transition-all duration-200">

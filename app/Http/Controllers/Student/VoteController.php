@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
-use App\Models\Vote;
+use App\Models\Student\Vote;
 use Illuminate\Http\Request;
 
 class VoteController extends Controller

@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('votes', function (Blueprint $table) {
             $table->id(); // unique id for each vote record
 
-            $// The student who cast the vote
+            // The student who cast the vote
             $table->foreignId('voter_id')
                 ->constrained('users')
                 ->cascadeOnDelete(); // delete vote if student is deleted

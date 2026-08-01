@@ -50,11 +50,22 @@ Route::prefix('student')->group(function () {
     Route::view('class/{classId}', 'student.class-detail');
     Route::view('class/{classId}/contribution', 'student.contribution');
     Route::view('class/{classId}/group-status', 'student.group-status');
-    Route::view('class/{classId}/leader-vote', 'student.leader-vote');
     Route::view('class/{classId}/task-manager', 'student.task-manager');
     Route::view('class/{classId}/file-repository', 'student.file-repository');
-    Route::view('class/{classId}/checkin', 'student.checkin-schedule');
+
+    // Check-in request routes
+    Route::get('class/{classId}/checkin', [\App\Http\Controllers\Student\CheckinRequestController::class, 'index'])
+        ->name('student.checkin.index');
+    Route::post('class/{classId}/checkin', [\App\Http\Controllers\Student\CheckinRequestController::class, 'store'])
+        ->name('student.checkin.store');
+
+    // Vote routes
+    Route::get('class/{classId}/leader-vote', [\App\Http\Controllers\Student\VoteController::class, 'index'])
+        ->name('student.vote.index');
+    Route::post('class/{classId}/leader-vote', [\App\Http\Controllers\Student\VoteController::class, 'store'])
+        ->name('student.vote.store');
 });
+
 Route::view('/overview', 'admin.overview');
 Route::view('/users', 'admin.users');
 Route::view('/TeacherDetails', 'admin.TeacherDetails');
