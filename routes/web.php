@@ -29,7 +29,7 @@ Route::middleware('auth') -> group(function () {
 });
 
 
-/*Route::view('/', 'landing');
+Route::view('/', 'landing');
 
 Route::view('/registration', 'auth.registration');
 
@@ -61,4 +61,4 @@ Route::view('/TeacherDetails', 'admin.TeacherDetails');
 Route::view('/StudentDetails', 'admin.StudentDetails');
 Route::view('/classes', 'admin.classes');
 Route::view('/ClassDetails', 'admin.ClassDetails');
-Route::view('/reports', 'admin.reports');*/
+Route::view('/reports', 'admin.reports');
