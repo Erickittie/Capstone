@@ -19,23 +19,26 @@ Route::middleware('guest') -> group(function(){
 // Admin Routes
 
 Route::middleware('auth') -> group(function () {
-    Route::post('/logout', [AuthController::class, 'logout']) -> name('logout');
     Route::get('/dashboard', [DashboardController::class, 'index']) -> name('dashboard');
     Route::resource('users', UserController::class);
     Route::resource('classes', ClassController::class);
     Route::get('/reports', [ReportController::class, 'index']) -> name('reports.index');
-    Route::view('/teacher', 'instructor.dashboard') -> name('instructor.dashboard');
-    Route::view('/student', 'student.dashboard') -> name('student.dashboard');
+    Route::post('/logout', [AuthController::class, 'logout']) -> name('logout');
 });
 
+Route::middleware('auth') -> group(function () {
+    Route::get('/teacher', function() {
+        return view('instructor.dashboard');
+    }) -> name('instructor.dashboard');
+});
 
-Route::view('/', 'landing');
+Route::middleware('auth') -> group(function () {
+    Route::get('/student', function() {
+        return view('student.StudentDashboard');
+    }) -> name('student.dashboard');
+});
 
 Route::view('/registration', 'auth.registration');
-
-Route::view('/login', 'auth.login');
-
-Route::view('/dashboard', 'instructor.dashboard');
 
 Route::prefix('instructor')->group(function () {
     Route::view('create-class', 'instructor.create-class');
@@ -43,8 +46,6 @@ Route::prefix('instructor')->group(function () {
     Route::view('task-ledger', 'instructor.task-ledger');
     Route::view('course-detail', 'instructor.course-detail');
 });
-
-Route::view('/StudentDashboard', 'student.StudentDashboard');
 
 Route::prefix('student')->group(function () {
     Route::view('class/{classId}', 'student.class-detail');
@@ -65,11 +66,3 @@ Route::prefix('student')->group(function () {
     Route::post('class/{classId}/leader-vote', [\App\Http\Controllers\Student\VoteController::class, 'store'])
         ->name('student.vote.store');
 });
-
-Route::view('/overview', 'admin.overview');
-Route::view('/users', 'admin.users');
-Route::view('/TeacherDetails', 'admin.TeacherDetails');
-Route::view('/StudentDetails', 'admin.StudentDetails');
-Route::view('/classes', 'admin.classes');
-Route::view('/ClassDetails', 'admin.ClassDetails');
-Route::view('/reports', 'admin.reports');
