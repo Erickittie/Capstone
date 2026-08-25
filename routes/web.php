@@ -23,7 +23,12 @@ Route::middleware('auth') -> group(function () {
     Route::resource('users', UserController::class);
     Route::resource('classes', ClassController::class);
     Route::get('/reports', [ReportController::class, 'index']) -> name('reports.index');
+    Route::get('/reports/enrollment', [ReportController::class, 'enrollment'])->name('reports.enrollment');
+    Route::get('/reports/contribution', [ReportController::class, 'contribution'])->name('reports.contribution');
+    Route::get('/reports/completion', [ReportController::class, 'completion'])->name('reports.completion');
     Route::post('/logout', [AuthController::class, 'logout']) -> name('logout');
+
+
 });
 
 Route::middleware('auth') -> group(function () {
