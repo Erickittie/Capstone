@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -34,6 +35,11 @@ class UserController extends Controller
             'email'      => 'required|email|unique:users,email',
             'password'   => 'required|min:8',
             'role'       => 'required',
+            'student_id' => [
+            'nullable',
+            'required_if:role,Student',
+            'unique:users,student_id',
+            ],
             'department' => 'nullable',
             'status'     => 'required',
         ]);
@@ -43,6 +49,9 @@ class UserController extends Controller
             'email'      => $request->email,
             'password'   => Hash::make($request->password),
             'role'       => $request->role,
+            'student_id' => $request->role === 'Student'
+            ? $request->student_id 
+            : null,
             'department' => $request->department,
             'status'     => $request->status,
         ]);
@@ -67,6 +76,11 @@ class UserController extends Controller
             'name'       => 'required',
             'email'      => 'required|email|unique:users,email,' . $user->id,
             'role'       => 'required',
+            'student_id' => [
+                'nullable',
+                'required_if:role,Student',
+                Rule::unique('users', 'student_id') -> ignore($user -> id),
+            ],
             'department' => 'nullable',
             'status'     => 'required',
         ]);
@@ -75,6 +89,9 @@ class UserController extends Controller
             'name'       => $request->name,
             'email'      => $request->email,
             'role'       => $request->role,
+            'student_id' => $request -> role === 'Student'
+            ? $request->student_id
+            :null,  
             'department' => $request->department,
             'status'     => $request->status,
         ]);
