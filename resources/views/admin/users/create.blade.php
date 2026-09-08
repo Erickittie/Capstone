@@ -1,3 +1,4 @@
+```blade
 @extends('layouts.app')
 
 @section('content')
@@ -31,112 +32,146 @@
 
         @csrf
 
+        {{-- Full Name --}}
         <div class="mb-4">
 
             <label class="block font-semibold mb-2">
-
                 Full Name
-
             </label>
 
             <input
                 type="text"
                 name="name"
                 value="{{ old('name') }}"
-                class="w-full border rounded p-3">
+                class="w-full border rounded p-3"
+                required>
 
         </div>
 
+        {{-- Email --}}
         <div class="mb-4">
 
             <label class="block font-semibold mb-2">
-
                 Email
-
             </label>
 
             <input
                 type="email"
                 name="email"
                 value="{{ old('email') }}"
-                class="w-full border rounded p-3">
+                class="w-full border rounded p-3"
+                required>
 
         </div>
 
+        {{-- Password --}}
         <div class="mb-4">
 
             <label class="block font-semibold mb-2">
-
                 Password
-
             </label>
 
             <input
                 type="password"
                 name="password"
-                class="w-full border rounded p-3">
+                class="w-full border rounded p-3"
+                required>
 
         </div>
 
+        {{-- Role --}}
         <div class="mb-4">
 
             <label class="block font-semibold mb-2">
-
                 Role
-
             </label>
 
             <select
                 name="role"
-                class="w-full border rounded p-3">
+                id="role"
+                class="w-full border rounded p-3"
+                required>
 
                 <option value="">Choose Role</option>
 
-                <option value="Admin">Admin</option>
+                <option value="Admin" {{ old('role') == 'Admin' ? 'selected' : '' }}>
+                    Admin
+                </option>
 
-                <option value="Instructor">Instructor</option>
+                <option value="Instructor" {{ old('role') == 'Instructor' ? 'selected' : '' }}>
+                    Instructor
+                </option>
 
-                <option value="Student">Student</option>
+                <option value="Student" {{ old('role') == 'Student' ? 'selected' : '' }}>
+                    Student
+                </option>
 
             </select>
 
         </div>
 
+        {{-- Student ID --}}
+        <div
+            id="student-id-container"
+            class="mb-4 {{ old('role') == 'Student' ? '' : 'hidden' }}">
+
+            <label class="block font-semibold mb-2">
+                Student ID Number
+            </label>
+
+            <input
+                type="text"
+                name="student_id"
+                id="student_id"
+                value="{{ old('student_id') }}"
+                placeholder="e.g. 2026-0001"
+                class="w-full border rounded p-3">
+
+            <p class="text-sm text-gray-500 mt-1">
+                Required for Student accounts.
+            </p>
+
+        </div>
+
+        {{-- Department --}}
         <div class="mb-4">
 
             <label class="block font-semibold mb-2">
-
                 Department
-
             </label>
 
             <input
                 type="text"
                 name="department"
+                value="{{ old('department') }}"
                 class="w-full border rounded p-3">
 
         </div>
 
+        {{-- Status --}}
         <div class="mb-5">
 
             <label class="block font-semibold mb-2">
-
                 Status
-
             </label>
 
             <select
                 name="status"
                 class="w-full border rounded p-3">
 
-                <option value="Active">Active</option>
+                <option value="Active" {{ old('status', 'Active') == 'Active' ? 'selected' : '' }}>
+                    Active
+                </option>
 
-                <option value="Inactive">Inactive</option>
+                <option value="Inactive" {{ old('status') == 'Inactive' ? 'selected' : '' }}>
+                    Inactive
+                </option>
 
             </select>
 
         </div>
 
+        {{-- Buttons --}}
         <div class="flex gap-3">
 
             <button
@@ -161,4 +196,35 @@
 
 </div>
 
+{{-- Show/Hide Student ID --}}
+<script>
+
+    const roleSelect = document.getElementById('role');
+    const studentIdContainer = document.getElementById('student-id-container');
+    const studentIdInput = document.getElementById('student_id');
+
+    function toggleStudentId() {
+
+        if (roleSelect.value === 'Student') {
+
+            studentIdContainer.classList.remove('hidden');
+            studentIdInput.required = true;
+
+        } else {
+
+            studentIdContainer.classList.add('hidden');
+            studentIdInput.required = false;
+            studentIdInput.value = '';
+
+        }
+
+    }
+
+    roleSelect.addEventListener('change', toggleStudentId);
+
+    toggleStudentId();
+
+</script>
+
 @endsection
+```
