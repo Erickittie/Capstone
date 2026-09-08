@@ -6,6 +6,12 @@ use App\Http\Controllers\ClassController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\InstructorDashboardController;
+use App\Http\Controllers\InstructorClassController;
+use App\Http\Controllers\InstructorGroupController;
+use App\Http\Controllers\TaskController;
+use App\Http\Controllers\InstructorProjectController;
+use App\Http\Controllers\InstructorTaskLedgerController;
 
 Route::get('/', function(){
     return redirect() ->route('login');
@@ -16,40 +22,76 @@ Route::middleware('guest') -> group(function(){
     Route::post('/login', [AuthController::class, 'authenticate']) -> name('authenticate');
 });
 
-// Admin Routes
+Route::view('/registration', 'auth.registration') -> name('registration');
 
-Route::middleware('auth') -> group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index']) -> name('dashboard');
+// Admin Routes
+Route::middleware(['auth', 'role:Admin']) ->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index']) ->name('dashboard');
     Route::resource('users', UserController::class);
     Route::resource('classes', ClassController::class);
-    Route::get('/reports', [ReportController::class, 'index']) -> name('reports.index');
-    Route::get('/reports/enrollment', [ReportController::class, 'enrollment'])->name('reports.enrollment');
-    Route::get('/reports/contribution', [ReportController::class, 'contribution'])->name('reports.contribution');
-    Route::get('/reports/completion', [ReportController::class, 'completion'])->name('reports.completion');
-    Route::post('/logout', [AuthController::class, 'logout']) -> name('logout');
-
-
+    Route::get('/reports', [ReportController::class, 'index']) ->name('reports.index');
+    Route::get('/reports/enrollment', [ReportController::class, 'enrollment']) ->name('reports.enrollment');
+    Route::get('/reports/contribution', [ReportController::class, 'contribution']) ->name('reports.contribution');
+    Route::get('/reports/completion', [ReportController::class, 'completion']) ->name('reports.completion');
 });
 
-Route::middleware('auth') -> group(function () {
-    Route::get('/teacher', function() {
-        return view('instructor.dashboard');
-    }) -> name('instructor.dashboard');
-});
-
-Route::middleware('auth') -> group(function () {
-    Route::get('/student', function() {
-        return view('student.StudentDashboard');
-    }) -> name('student.dashboard');
-});
-
-Route::view('/registration', 'auth.registration');
-
-Route::prefix('instructor')->group(function () {
-    Route::view('create-class', 'instructor.create-class');
-    Route::view('group-assignment', 'instructor.group-assignment');
-    Route::view('task-ledger', 'instructor.task-ledger');
-    Route::view('course-detail', 'instructor.course-detail');
+Route::middleware(['auth', 'role:Instructor'])->group(function () {
+    Route::get(
+        '/teacher',
+        [InstructorDashboardController::class, 'index']
+    )->name('instructor.dashboard');
+    Route::get(
+        '/instructor/class/{classId}',
+        [InstructorClassController::class, 'show']
+    )->name('instructor.class.configure');
+    Route::post(
+        '/instructor/class/{classId}/roster/import',
+        [InstructorClassController::class, 'importRoster']
+    )->name('instructor.class.roster.import');
+    Route::get(
+        '/instructor/class/{classId}/groups',
+        [InstructorGroupController::class, 'index']
+    )->name('instructor.class.groups');
+    Route::post(
+        '/instructor/class/{classId}/groups/manual',
+        [InstructorGroupController::class, 'saveManual']
+    )->name('instructor.class.groups.manual');
+    Route::post(
+        '/instructor/class/{classId}/groups/automatic',
+        [InstructorGroupController::class, 'automatic']
+    )->name('instructor.class.groups.automatic');
+    Route::get(
+        '/instructor/class/{classId}/projects',
+        [InstructorProjectController::class, 'index']
+    )->name('instructor.projects.index');
+    Route::get(
+        '/instructor/class/{classId}/projects/create',
+        [InstructorProjectController::class, 'create']
+    )->name('instructor.projects.create');
+    Route::post(
+        '/instructor/class/{classId}/projects',
+        [InstructorProjectController::class, 'store']
+    )->name('instructor.projects.store');
+    Route::get(
+        '/instructor/class/{classId}/projects/{projectId}/edit',
+        [InstructorProjectController::class, 'edit']
+    )->name('instructor.projects.edit');
+    Route::put(
+        '/instructor/class/{classId}/projects/{projectId}',
+        [InstructorProjectController::class, 'update']
+    )->name('instructor.projects.update');
+    Route::delete(
+        '/instructor/class/{classId}/projects/{projectId}',
+        [InstructorProjectController::class, 'destroy']
+    )->name('instructor.projects.destroy');
+    Route::get(
+        '/instructor/class/{classId}/task-ledger',
+        [InstructorTaskLedgerController::class, 'index']
+    )->name('instructor.tasks.ledger');
+    Route::get(
+        '/instructor/class/{classId}/task-ledger/data',
+        [InstructorTaskLedgerController::class, 'data']
+    )->name('instructor.tasks.ledger.data');
 });
 
 Route::prefix('student')->group(function () {
@@ -70,4 +112,8 @@ Route::prefix('student')->group(function () {
         ->name('student.vote.index');
     Route::post('class/{classId}/leader-vote', [\App\Http\Controllers\Student\VoteController::class, 'store'])
         ->name('student.vote.store');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout']) ->name('logout');
 });
