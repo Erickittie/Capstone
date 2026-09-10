@@ -9,9 +9,12 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\InstructorDashboardController;
 use App\Http\Controllers\InstructorClassController;
 use App\Http\Controllers\InstructorGroupController;
-use App\Http\Controllers\TaskController;
+use App\Http\Controllers\Student\TaskController;
 use App\Http\Controllers\InstructorProjectController;
 use App\Http\Controllers\InstructorTaskLedgerController;
+use App\Http\Controllers\Student\StudentDashboardController;
+use App\Http\Controllers\Student\StudentClassController;
+use App\Http\Controllers\Student\VoteController;
 
 Route::get('/', function(){
     return redirect() ->route('login');
@@ -94,24 +97,60 @@ Route::middleware(['auth', 'role:Instructor'])->group(function () {
     )->name('instructor.tasks.ledger.data');
 });
 
-Route::prefix('student')->group(function () {
-    Route::view('class/{classId}', 'student.class-detail');
-    Route::view('class/{classId}/contribution', 'student.contribution');
-    Route::view('class/{classId}/group-status', 'student.group-status');
-    Route::view('class/{classId}/task-manager', 'student.task-manager');
-    Route::view('class/{classId}/file-repository', 'student.file-repository');
+Route::middleware(['auth', 'role:Student'])->group(function () {
+    Route::get(
+        '/student',
+        [StudentDashboardController::class, 'index']
+    )->name('student.dashboard');
+    Route::get(
+        '/student/class/{classId}',
+        [StudentClassController::class, 'show']
+    )->name('student.class.detail');
+    Route::get(
+        '/student/class/{classId}/projects/{projectId}',
+        [TaskController::class, 'project']
+    )->name('student.project.show');
+    Route::get(
+        '/student/class/{classId}/projects/{projectId}/tasks/create',
+        [TaskController::class, 'create']
+    )->name('student.tasks.create');
+    Route::post(
+        '/student/class/{classId}/projects/{projectId}/tasks',
+        [TaskController::class, 'store']
+    )->name('student.tasks.store');
+    Route::view(
+        '/student/class/{classId}/contribution',
+        'student.contribution'
+    )->name('student.contribution');
+    Route::view(
+        '/student/class/{classId}/group-status',
+        'student.group-status'
+    )->name('student.group.status');
+    Route::view(
+        '/student/class/{classId}/task-manager',
+        'student.task-manager'
+    )->name('student.task.manager');
+    Route::view(
+        '/student/class/{classId}/file-repository',
+        'student.file-repository'
+    )->name('student.file.repository');
+    Route::get(
+        '/student/class/{classId}/checkin',
+        [CheckinRequestController::class, 'index']
+    )->name('student.checkin.index');
+    Route::post(
+        '/student/class/{classId}/checkin',
+        [CheckinRequestController::class, 'store']
+    )->name('student.checkin.store');
+    Route::get(
+        '/student/class/{classId}/leader-vote',
+        [VoteController::class, 'index']
+    )->name('student.vote.index');
+    Route::post(
+        '/student/class/{classId}/leader-vote',
+        [VoteController::class, 'store']
+    )->name('student.vote.store');
 
-    // Check-in request routes
-    Route::get('class/{classId}/checkin', [\App\Http\Controllers\Student\CheckinRequestController::class, 'index'])
-        ->name('student.checkin.index');
-    Route::post('class/{classId}/checkin', [\App\Http\Controllers\Student\CheckinRequestController::class, 'store'])
-        ->name('student.checkin.store');
-
-    // Vote routes
-    Route::get('class/{classId}/leader-vote', [\App\Http\Controllers\Student\VoteController::class, 'index'])
-        ->name('student.vote.index');
-    Route::post('class/{classId}/leader-vote', [\App\Http\Controllers\Student\VoteController::class, 'store'])
-        ->name('student.vote.store');
 });
 
 Route::middleware('auth')->group(function () {
