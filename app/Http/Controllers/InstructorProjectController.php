@@ -16,6 +16,7 @@ class InstructorProjectController extends Controller
             ->firstOrFail();
 
         $projects = Project::where('class_room_id', $class->id)
+            ->with('groups')
             ->latest()
             ->get();
 
@@ -31,9 +32,13 @@ class InstructorProjectController extends Controller
             ->where('Instructor_Id', Auth::id())
             ->firstOrFail();
 
+        $groups = $class->groups()
+            ->with('students')
+            ->get();
+
         return view(
             'instructor.projects.create',
-            compact('class')
+            compact('class', 'groups')
         );
     }
 
@@ -44,36 +49,59 @@ class InstructorProjectController extends Controller
             ->firstOrFail();
 
         $request->validate([
-            'title' => [
-                'required',
-                'string',
-                'max:255',
-            ],
+            'title' => ['required', 'string', 'max:255'],
 
             'description' => [
                 'nullable',
-                'string',
+                'string'
             ],
 
             'start_date' => [
                 'nullable',
-                'date',
+                'date'
             ],
 
             'end_date' => [
                 'nullable',
                 'date',
-                'after_or_equal:start_date',
+                'after_or_equal:start_date'
             ],
 
             'status' => [
                 'required',
                 'string',
-                'max:50',
+                'max:50'
+            ],
+
+            'groups' => [
+                'required',
+                'array',
+                'min:1'
+            ],
+
+            'groups.*' => [
+                'integer',
+                'exists:groups,id'
             ],
         ]);
 
-        Project::create([
+        $validGroupIds = $class->groups()
+            ->whereIn('groups.id', $request->groups)
+            ->pluck('groups.id')
+            ->toArray();
+
+
+        if (count($validGroupIds) !== count($request->groups)) {
+
+            return back()
+                ->withInput()
+                ->withErrors([
+                    'groups' =>
+                        'One or more selected groups do not belong to this class.'
+                ]);
+        }
+
+        $project = Project::create([
             'class_room_id' => $class->id,
             'title' => $request->title,
             'description' => $request->description,
@@ -82,6 +110,8 @@ class InstructorProjectController extends Controller
             'status' => $request->status,
         ]);
 
+        $project->groups()->sync($validGroupIds);
+
         return redirect()
             ->route(
                 'instructor.projects.index',
@@ -89,7 +119,7 @@ class InstructorProjectController extends Controller
             )
             ->with(
                 'success',
-                'Project created successfully.'
+                'Project created and assigned to the selected groups successfully.'
             );
     }
 
@@ -101,13 +131,19 @@ class InstructorProjectController extends Controller
 
         $project = Project::where('id', $projectId)
             ->where('class_room_id', $class->id)
+            ->with('groups')
             ->firstOrFail();
+
+        $groups = $class->groups()
+            ->with('students')
+            ->get();
 
         return view(
             'instructor.projects.edit',
-            compact('class', 'project')
+            compact('class', 'project', 'groups')
         );
     }
+
 
     public function update(
         Request $request,
@@ -123,34 +159,56 @@ class InstructorProjectController extends Controller
             ->firstOrFail();
 
         $request->validate([
-            'title' => [
-                'required',
-                'string',
-                'max:255',
-            ],
+            'title' => ['required', 'string', 'max:255'],
 
             'description' => [
                 'nullable',
-                'string',
+                'string'
             ],
 
             'start_date' => [
                 'nullable',
-                'date',
+                'date'
             ],
 
             'end_date' => [
                 'nullable',
                 'date',
-                'after_or_equal:start_date',
+                'after_or_equal:start_date'
             ],
 
             'status' => [
                 'required',
                 'string',
-                'max:50',
+                'max:50'
+            ],
+
+            'groups' => [
+                'required',
+                'array',
+                'min:1'
+            ],
+
+            'groups.*' => [
+                'integer',
+                'exists:groups,id'
             ],
         ]);
+
+        $validGroupIds = $class->groups()
+            ->whereIn('groups.id', $request->groups)
+            ->pluck('groups.id')
+            ->toArray();
+
+        if (count($validGroupIds) !== count($request->groups)) {
+
+            return back()
+                ->withInput()
+                ->withErrors([
+                    'groups' =>
+                        'One or more selected groups do not belong to this class.'
+                ]);
+        }
 
         $project->update([
             'title' => $request->title,
@@ -159,6 +217,8 @@ class InstructorProjectController extends Controller
             'end_date' => $request->end_date,
             'status' => $request->status,
         ]);
+
+        $project->groups()->sync($validGroupIds);
 
         return redirect()
             ->route(
@@ -170,6 +230,7 @@ class InstructorProjectController extends Controller
                 'Project updated successfully.'
             );
     }
+
 
     public function destroy($classId, $projectId)
     {
