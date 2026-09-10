@@ -3,57 +3,160 @@
 namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
-use App\Models\Student\Vote;
+use App\Models\Group;
+use App\Models\Student\GroupLeaderVote;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class VoteController extends Controller
 {
-    // Show the leader vote page with current vote counts
-    public function index($groupId)
+
+    public function index($classId)
     {
-        // Get all votes for this group
-        $votes = Vote::where('group_id', $groupId)
-            ->with('candidate') // load candidate details
-            ->get();
+        $student = Auth::user();
 
-        // Count votes per candidate
-        $voteCounts = $votes->groupBy('candidate_id')
-            ->map(fn($v) => $v->count());
+        $group = Group::where('class_room_id', $classId)
+            ->whereHas('students', function ($query) use ($student) {
+                $query->where('users.id', $student->id);
+            })
+            ->with('students')
+            ->firstOrFail();
 
-        // Check if logged-in student already voted in this group
-        $hasVoted = Vote::where('voter_id', auth()->id())
-            ->where('group_id', $groupId)
-            ->exists();
+        $existingVote = GroupLeaderVote::where('group_id', $group->id)
+            ->where('voter_id', $student->id)
+            ->first();
 
-        return view('student.leader-vote', compact('votes', 'voteCounts', 'hasVoted'));
+        $leader = $group->students
+            ->first(function ($member) {
+                return $member->pivot->is_leader;
+            });
+
+        return view('student.leader-vote', compact(
+            'student',
+            'group',
+            'existingVote',
+            'leader'
+        ));
     }
 
-    // Save a student's vote for a candidate
-    public function store(Request $request)
+    public function store(Request $request, $classId)
     {
-        // Validate the form fields
-        $request->validate([
-            'candidate_id' => 'required|exists:users,id',
-            'group_id'     => 'required',
-        ]);
+        $student = Auth::user();
 
-        // Check if student already voted in this group
-        $alreadyVoted = Vote::where('voter_id', auth()->id())
-            ->where('group_id', $request->group_id)
-            ->exists();
+        $group = Group::where('class_room_id', $classId)
+            ->whereHas('students', function ($query) use ($student) {
+                $query->where('users.id', $student->id);
+            })
+            ->with('students')
+            ->firstOrFail();
 
-        if ($alreadyVoted) {
-            // Redirect back with error if already voted
-            return redirect()->back()->with('error', 'You have already cast your vote.');
+        $leaderExists = $group->students
+            ->contains(function ($member) {
+                return $member->pivot->is_leader;
+            });
+
+        if ($leaderExists) {
+            return back()->with(
+                'error',
+                'A group leader has already been selected.'
+            );
         }
 
-        // Save the vote
-        Vote::create([
-            'voter_id'     => auth()->id(), // logged-in student
-            'candidate_id' => $request->candidate_id,
-            'group_id'     => $request->group_id,
+        $request->validate([
+            'candidate_id' => ['required', 'integer'],
         ]);
 
-        return redirect()->back()->with('success', 'Your vote has been cast successfully.');
+        $candidate = $group->students()
+            ->where('users.id', $request->candidate_id)
+            ->first();
+
+        if (!$candidate) {
+            return back()->with(
+                'error',
+                'You can only vote for a member of your group.'
+            );
+        }
+
+        GroupLeaderVote::updateOrCreate(
+            [
+                'group_id' => $group->id,
+                'voter_id' => $student->id,
+            ],
+            [
+                'candidate_id' => $candidate->id,
+            ]
+        );
+
+        $totalMembers = $group->students->count();
+
+        $totalVotes = GroupLeaderVote::where(
+            'group_id',
+            $group->id
+        )->count();
+
+        if ($totalVotes < $totalMembers) {
+
+            $remaining = $totalMembers - $totalVotes;
+
+            return back()->with(
+                'success',
+                "Your vote has been recorded. {$remaining} member(s) still need to vote."
+            );
+        }
+
+        $voteCounts = GroupLeaderVote::where(
+            'group_id',
+            $group->id
+        )
+        ->select(
+            'candidate_id',
+            DB::raw('COUNT(*) as total_votes')
+        )
+        ->groupBy('candidate_id')
+        ->orderByDesc('total_votes')
+        ->get();
+
+        if ($voteCounts->isEmpty()) {
+            return back()->with(
+                'error',
+                'No votes were found.'
+            );
+        }
+
+        $highestVotes = $voteCounts->first()->total_votes;
+
+        $winners = $voteCounts->where(
+            'total_votes',
+            $highestVotes
+        );
+
+        if ($winners->count() > 1) {
+
+            return back()->with(
+                'error',
+                'There is a tie. The group must vote again.'
+            );
+        }
+
+        $winnerId = $voteCounts->first()->candidate_id;
+
+        DB::table('group_members')
+            ->where('group_id', $group->id)
+            ->update([
+                'is_leader' => false
+            ]);
+
+        DB::table('group_members')
+            ->where('group_id', $group->id)
+            ->where('student_id', $winnerId)
+            ->update([
+                'is_leader' => true
+            ]);
+
+        return back()->with(
+            'success',
+            'Voting is complete! The group leader has been selected.'
+        );
     }
 }
