@@ -6,8 +6,8 @@ use Illuminate\Foundation\Auth\User as Authenticable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class User extends Authenticable {
-
+class User extends Authenticable
+{
     protected $fillable = [
         'name',
         'email',
@@ -22,28 +22,33 @@ class User extends Authenticable {
         'password'
     ];
 
-    public function instructorClasses(): HasMany {
-
-    return $this -> hasMany(ClassRoom::class, 'Instructor_Id');
+    public function instructorClasses(): HasMany
+    {
+        return $this->hasMany(
+            ClassRoom::class,
+            'Instructor_Id'
+        );
     }
 
-    public function classes(): BelongsToMany {
-        return $this -> belongsToMany(
+    public function classes(): BelongsToMany
+    {
+        return $this->belongsToMany(
             ClassRoom::class,
             'class_student',
-            'class_room_id',
+            'student_id',
             'class_room_id'
-        ) -> withTimestamps();
+        )->withTimestamps();
     }
 
-    public function groups(): BelongsToMany {
-        return $this -> belongsToMany (
+    public function groups(): BelongsToMany
+    {
+        return $this->belongsToMany(
             Group::class,
             'group_members',
             'student_id',
             'group_id'
         )
-        -> withPivot('is_leader')
-        -> withTimestamps();
+        ->withPivot('is_leader')
+        ->withTimestamps();
     }
 }
