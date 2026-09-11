@@ -15,6 +15,8 @@ use App\Http\Controllers\InstructorTaskLedgerController;
 use App\Http\Controllers\Student\StudentDashboardController;
 use App\Http\Controllers\Student\StudentClassController;
 use App\Http\Controllers\Student\VoteController;
+use App\Http\Controllers\Student\NotificationController;
+
 
 Route::get('/', function(){
     return redirect() ->route('login');
@@ -150,7 +152,42 @@ Route::middleware(['auth', 'role:Student'])->group(function () {
         '/student/class/{classId}/leader-vote',
         [VoteController::class, 'store']
     )->name('student.vote.store');
-
+    Route::get(
+    '/student/class/{classId}/projects/{projectId}/tasks/{taskId}',
+    [TaskController::class, 'show']
+    )->name('student.tasks.show');
+    Route::post(
+    '/student/class/{classId}/projects/{projectId}/tasks/{taskId}/start',
+    [TaskController::class, 'start']
+    )->name('student.tasks.start');
+    Route::post(
+    '/student/class/{classId}/projects/{projectId}/tasks/{taskId}/submit',
+    [TaskController::class, 'submit']
+    )->name('student.tasks.submit');
+    Route::get(
+    '/student/class/{classId}/projects/{projectId}/tasks/{taskId}/review',
+    [TaskController::class, 'review']
+    )->name('student.tasks.review');
+    Route::post(
+    '/student/class/{classId}/projects/{projectId}/tasks/{taskId}/submissions/{submissionId}/approve',
+    [TaskController::class, 'approveSubmission']
+    )->name('student.tasks.approve');
+    Route::post(
+    '/student/class/{classId}/projects/{projectId}/tasks/{taskId}/submissions/{submissionId}/reject',
+    [TaskController::class, 'rejectSubmission']
+    )->name('student.tasks.reject');
+    Route::get(
+    '/student/notifications',
+    [NotificationController::class, 'index']
+    )->name('student.notifications.index');
+    Route::post(
+    '/student/notifications/{notification}/read',
+    [NotificationController::class, 'read']
+    )->name('student.notifications.read');
+    Route::post(
+    '/student/notifications/read-all',
+    [NotificationController::class, 'readAll']
+    )->name('student.notifications.readAll');
 });
 
 Route::middleware('auth')->group(function () {
