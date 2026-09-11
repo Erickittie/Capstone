@@ -1,85 +1,208 @@
 <!DOCTYPE html>
-<html lang="en">
+
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
 
-    <title>@yield('title', 'CarryOn - Student')</title>
+```
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <script src="https://cdn.tailwindcss.com"></script>
+<meta name="csrf-token" content="{{ csrf_token() }}">
 
-    @yield('head')
+<title>{{ config('app.name', 'CarryOn') }}</title>
+
+{{-- Tailwind CSS --}}
+<script src="https://cdn.tailwindcss.com"></script>
+
+@stack('styles')
+```
+
 </head>
 
-<body class="bg-gray-100 min-h-screen">
+<body class="bg-gray-50 text-gray-800 min-h-screen">
 
-    <!-- TOP NAVBAR -->
-    <nav class="bg-white border-b border-gray-200 fixed top-0 left-0 right-0 z-50">
-        <div class="h-16 px-6 flex items-center justify-between">
+```
+{{-- =========================================================
+     TOP NAVIGATION
+========================================================== --}}
 
-            <!-- Logo -->
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
-                    <span class="text-white font-bold text-lg">C</span>
-                </div>
+<nav class="fixed top-0 left-0 right-0 z-50
+            bg-white border-b border-gray-200 shadow-sm">
 
-                <div>
-                    <h1 class="font-bold text-gray-800 text-lg">
-                        CarryOn
-                    </h1>
+    <div class="h-16 px-6 flex items-center justify-between">
 
-                    <p class="text-xs text-gray-500">
-                        Student Portal
-                    </p>
-                </div>
-            </div>
+        {{-- LOGO --}}
 
-            <!-- Right side -->
-            <div class="flex items-center gap-4">
+        <div class="flex items-center">
 
-                <div class="text-right">
+            <a
+                href="{{ route('student.dashboard') }}"
+                class="text-2xl font-bold text-blue-600"
+            >
+                CarryOn
+            </a>
+
+        </div>
+
+
+        {{-- RIGHT SIDE --}}
+
+        <div class="flex items-center gap-5">
+
+            @auth
+
+                {{-- =================================================
+                     NOTIFICATIONS
+                ================================================== --}}
+
+                @php
+                    $unreadCount = \App\Models\Student\Notification::where(
+                        'user_id',
+                        auth()->id()
+                    )
+                    ->where('is_read', false)
+                    ->count();
+                @endphp
+
+                <a
+                    href="{{ route('student.notifications.index') }}"
+                    class="relative flex items-center gap-2
+                           px-4 py-2
+                           bg-blue-600
+                           text-white
+                           rounded-lg
+                           hover:bg-blue-700
+                           transition
+                           shadow-sm
+                           whitespace-nowrap"
+                >
+
+                    <span class="text-xl leading-none">
+                        🔔
+                    </span>
+
+                    <span class="font-medium">
+                        Notifications
+                    </span>
+
+                    @if($unreadCount > 0)
+
+                        <span
+                            class="flex items-center justify-center
+                                   min-w-[22px]
+                                   h-[22px]
+                                   px-1
+                                   bg-red-500
+                                   text-white
+                                   text-xs
+                                   font-bold
+                                   rounded-full"
+                        >
+                            {{ $unreadCount > 99 ? '99+' : $unreadCount }}
+                        </span>
+
+                    @endif
+
+                </a>
+
+
+                {{-- USER --}}
+
+                <div class="hidden sm:block text-right">
+
                     <p class="text-sm font-semibold text-gray-800">
                         {{ auth()->user()->name }}
                     </p>
 
                     <p class="text-xs text-gray-500">
-                        Student
+                        {{ auth()->user()->role }}
                     </p>
+
                 </div>
 
-                <!-- Logout -->
-                <form method="POST" action="{{ route('logout') }}">
+
+                {{-- LOGOUT --}}
+
+                <form
+                    method="POST"
+                    action="{{ route('logout') }}"
+                >
+
                     @csrf
 
                     <button
                         type="submit"
-                        class="px-4 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg">
+                        class="px-4 py-2
+                               text-sm
+                               font-medium
+                               text-gray-600
+                               hover:text-red-600
+                               transition
+                               whitespace-nowrap"
+                    >
                         Logout
                     </button>
+
                 </form>
 
-            </div>
+            @endauth
 
         </div>
-    </nav>
+
+    </div>
+
+</nav>
 
 
-    <!-- SIDEBAR -->
-    <aside class="fixed top-16 left-0 bottom-0 w-64 bg-white border-r border-gray-200">
+{{-- =========================================================
+     SIDEBAR
+========================================================== --}}
 
-        <div class="p-4">
+<aside
+    class="fixed
+           top-16
+           left-0
+           bottom-0
+           z-40
+           w-64
+           bg-white
+           border-r
+           border-gray-200
+           shadow-sm
+           overflow-y-auto"
+>
 
-            <p class="text-xs font-semibold text-gray-400 uppercase mb-3">
-                Student Menu
-            </p>
+    <div class="p-5">
 
-            <!-- Dashboard -->
+        {{-- STUDENT MENU --}}
+
+        <p class="px-3 mb-3 text-xs font-semibold
+                  uppercase tracking-wider text-gray-400">
+            Student Menu
+        </p>
+
+
+        <nav class="space-y-1">
+
+            {{-- =================================================
+                 DASHBOARD
+            ================================================== --}}
+
             <a
                 href="{{ route('student.dashboard') }}"
-                class="flex items-center gap-3 px-4 py-3 rounded-lg
-                       text-gray-700 hover:bg-blue-50 hover:text-blue-600 mb-1">
+                class="flex items-center gap-3
+                       px-4 py-3
+                       rounded-xl
+                       text-gray-700
+                       hover:bg-blue-50
+                       hover:text-blue-600
+                       transition"
+            >
 
-                <span>🏠</span>
+                <span class="text-lg">
+                    🏠
+                </span>
 
                 <span class="font-medium">
                     Dashboard
@@ -88,151 +211,217 @@
             </a>
 
 
-            <!-- My Classes -->
-            <a
-                href="{{ route('student.dashboard') }}"
-                class="flex items-center gap-3 px-4 py-3 rounded-lg
-                       text-gray-700 hover:bg-blue-50 hover:text-blue-600 mb-1">
+            {{-- =================================================
+                 CURRENT CLASS
+            ================================================== --}}
 
-                <span>📚</span>
+            @php
+                $studentClasses = auth()->user()
+                    ->classes()
+                    ->latest('class_rooms.id')
+                    ->get();
+            @endphp
 
-                <span class="font-medium">
+
+            <div class="pt-4">
+
+                <p class="px-4 mb-2 text-xs font-semibold
+                          uppercase tracking-wider text-gray-400">
                     My Classes
-                </span>
-
-            </a>
+                </p>
 
 
-            <div class="border-t border-gray-200 my-4"></div>
+                @forelse($studentClasses as $studentClass)
+
+                    <a
+                        href="{{ route(
+                            'student.class.detail',
+                            $studentClass->id
+                        ) }}"
+                        class="flex items-center gap-3
+                               px-4 py-3
+                               rounded-xl
+                               text-gray-700
+                               hover:bg-blue-50
+                               hover:text-blue-600
+                               transition"
+                    >
+
+                        <span class="text-lg">
+                            📚
+                        </span>
+
+                        <div class="min-w-0">
+
+                            <p class="font-medium truncate">
+                                {{ $studentClass->course_code }}
+                            </p>
+
+                            <p class="text-xs text-gray-400 truncate">
+                                {{ $studentClass->course_name }}
+                            </p>
+
+                        </div>
+
+                    </a>
+
+                @empty
+
+                    <p class="px-4 py-2 text-sm text-gray-400">
+                        No classes enrolled.
+                    </p>
+
+                @endforelse
+
+            </div>
 
 
-            <p class="text-xs font-semibold text-gray-400 uppercase mb-3">
-                Class Management
-            </p>
+            {{-- =================================================
+                 NOTIFICATIONS
+            ================================================== --}}
 
-
-            <!-- These will work when a class is selected -->
-            @if(isset($class))
+            <div class="pt-4">
 
                 <a
-                    href="{{ route('student.class.detail', $class->id) }}"
-                    class="flex items-center gap-3 px-4 py-3 rounded-lg
-                           text-gray-700 hover:bg-blue-50 hover:text-blue-600 mb-1">
+                    href="{{ route('student.notifications.index') }}"
+                    class="flex items-center justify-between
+                           px-4 py-3
+                           rounded-xl
+                           text-gray-700
+                           hover:bg-blue-50
+                           hover:text-blue-600
+                           transition"
+                >
 
-                    <span>📋</span>
+                    <div class="flex items-center gap-3">
 
-                    <span>
-                        Class Overview
-                    </span>
+                        <span class="text-lg">
+                            🔔
+                        </span>
+
+                        <span class="font-medium">
+                            Notifications
+                        </span>
+
+                    </div>
+
+
+                    @if($unreadCount > 0)
+
+                        <span
+                            class="flex items-center justify-center
+                                   min-w-[22px]
+                                   h-[22px]
+                                   px-1
+                                   bg-red-500
+                                   text-white
+                                   text-xs
+                                   font-bold
+                                   rounded-full"
+                        >
+                            {{ $unreadCount > 99 ? '99+' : $unreadCount }}
+                        </span>
+
+                    @endif
 
                 </a>
 
+            </div>
 
-                <a
-                    href="{{ route('student.contribution', $class->id) }}"
-                    class="flex items-center gap-3 px-4 py-3 rounded-lg
-                           text-gray-700 hover:bg-blue-50 hover:text-blue-600 mb-1">
-
-                    <span>📊</span>
-
-                    <span>
-                        My Contribution
-                    </span>
-
-                </a>
+        </nav>
 
 
-                <a
-                    href="{{ route('student.group.status', $class->id) }}"
-                    class="flex items-center gap-3 px-4 py-3 rounded-lg
-                           text-gray-700 hover:bg-blue-50 hover:text-blue-600 mb-1">
+        {{-- =================================================
+             SIDEBAR FOOTER
+        ================================================== --}}
 
-                    <span>👥</span>
+        <div class="mt-8 pt-5 border-t border-gray-200">
 
-                    <span>
-                        Group Status
-                    </span>
+            <div class="px-4">
 
-                </a>
+                <p class="text-xs text-gray-400">
+                    Signed in as
+                </p>
 
+                <p class="text-sm font-semibold text-gray-700 mt-1 truncate">
+                    {{ auth()->user()->name }}
+                </p>
 
-                <a
-                    href="{{ route('student.task.manager', $class->id) }}"
-                    class="flex items-center gap-3 px-4 py-3 rounded-lg
-                           text-gray-700 hover:bg-blue-50 hover:text-blue-600 mb-1">
+                <p class="text-xs text-gray-400 mt-1">
+                    Student
+                </p>
 
-                    <span>✅</span>
-
-                    <span>
-                        My Tasks
-                    </span>
-
-                </a>
-
-
-                <a
-                    href="{{ route('student.file.repository', $class->id) }}"
-                    class="flex items-center gap-3 px-4 py-3 rounded-lg
-                           text-gray-700 hover:bg-blue-50 hover:text-blue-600 mb-1">
-
-                    <span>📁</span>
-
-                    <span>
-                        File Repository
-                    </span>
-
-                </a>
-
-
-                <a
-                    href="{{ route('student.checkin.index', $class->id) }}"
-                    class="flex items-center gap-3 px-4 py-3 rounded-lg
-                           text-gray-700 hover:bg-blue-50 hover:text-blue-600 mb-1">
-
-                    <span>🕐</span>
-
-                    <span>
-                        Check-in Request
-                    </span>
-
-                </a>
-
-            @endif
+            </div>
 
         </div>
 
-    </aside>
+    </div>
+
+</aside>
 
 
-    <!-- MAIN CONTENT -->
-    <main class="ml-64 pt-16 min-h-screen">
+{{-- =========================================================
+     MAIN CONTENT
+========================================================== --}}
 
-        <div class="p-6">
+<main class="ml-64 pt-16 min-h-screen">
 
-            @if(session('success'))
-                <div class="mb-6 bg-green-50 border border-green-200
-                            text-green-700 px-4 py-3 rounded-lg">
-                    {{ session('success') }}
-                </div>
-            @endif
+    {{-- SUCCESS MESSAGE --}}
 
+    @if(session('success'))
 
-            @if(session('error'))
-                <div class="mb-6 bg-red-50 border border-red-200
-                            text-red-700 px-4 py-3 rounded-lg">
-                    {{ session('error') }}
-                </div>
-            @endif
+        <div class="max-w-7xl mx-auto px-6 pt-6">
 
-
-            @yield('content')
+            <div
+                class="p-4
+                       bg-green-100
+                       border border-green-200
+                       text-green-700
+                       rounded-lg"
+            >
+                {{ session('success') }}
+            </div>
 
         </div>
 
-    </main>
+    @endif
 
 
-    @yield('scripts')
+    {{-- ERROR MESSAGE --}}
+
+    @if(session('error'))
+
+        <div class="max-w-7xl mx-auto px-6 pt-6">
+
+            <div
+                class="p-4
+                       bg-red-100
+                       border border-red-200
+                       text-red-700
+                       rounded-lg"
+            >
+                {{ session('error') }}
+            </div>
+
+        </div>
+
+    @endif
+
+
+    {{-- PAGE CONTENT --}}
+
+    <div class="px-6 py-8">
+
+        @yield('content')
+
+    </div>
+
+</main>
+
+
+@stack('scripts')
+```
 
 </body>
+
 </html>
