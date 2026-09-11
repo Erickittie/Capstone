@@ -3,12 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Ulluminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class TaskSubmission extends Model
 {
-    //
-    protected $fillable  = [
+    protected $fillable = [
         'task_id',
         'student_id',
         'submission_text',
@@ -33,7 +32,7 @@ class TaskSubmission extends Model
         );
     }
 
-     public function student(): BelongsTo
+    public function student(): BelongsTo
     {
         return $this->belongsTo(
             User::class,
