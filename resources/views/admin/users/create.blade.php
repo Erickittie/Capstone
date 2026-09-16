@@ -1,20 +1,47 @@
-```blade
 @extends('layouts.admin')
 
 @section('content')
 
 <div class="max-w-3xl mx-auto p-8">
 
-    <div class="mb-6">
-        <h1 class="text-3xl font-bold">Create User</h1>
-        <p class="text-gray-500">Add a new user to the system.</p>
+    {{-- Header --}}
+    <div class="mb-6 flex items-start justify-between gap-4">
+
+        <div>
+            <h1 class="text-3xl font-bold">
+                Create User
+            </h1>
+
+            <p class="text-gray-500 mt-1">
+                Add a new user to the system.
+            </p>
+        </div>
+
+        {{-- Bulk Registration Button --}}
+        <a
+            href="{{ route('admin.users.bulk-register') }}"
+            class="inline-flex items-center gap-2
+                   bg-purple-600 text-white
+                   px-5 py-3 rounded-lg
+                   font-semibold
+                   hover:bg-purple-700
+                   transition
+                   whitespace-nowrap">
+
+            📥 Bulk Registration
+
+        </a>
+
     </div>
 
+
+    {{-- Validation Errors --}}
     @if ($errors->any())
 
-        <div class="bg-red-100 border border-red-400 text-red-700 p-4 rounded mb-5">
+        <div class="bg-red-100 border border-red-400
+                    text-red-700 p-4 rounded mb-5">
 
-            <ul>
+            <ul class="list-disc list-inside">
 
                 @foreach($errors->all() as $error)
 
@@ -28,9 +55,14 @@
 
     @endif
 
-    <form action="{{ route('users.store') }}" method="POST">
+
+    {{-- Create User Form --}}
+    <form
+        action="{{ route('users.store') }}"
+        method="POST">
 
         @csrf
+
 
         {{-- Full Name --}}
         <div class="mb-4">
@@ -48,6 +80,7 @@
 
         </div>
 
+
         {{-- Email --}}
         <div class="mb-4">
 
@@ -64,6 +97,7 @@
 
         </div>
 
+
         {{-- Password --}}
         <div class="mb-4">
 
@@ -79,6 +113,7 @@
 
         </div>
 
+
         {{-- Role --}}
         <div class="mb-4">
 
@@ -92,23 +127,38 @@
                 class="w-full border rounded p-3"
                 required>
 
-                <option value="">Choose Role</option>
+                <option value="">
+                    Choose Role
+                </option>
 
-                <option value="Admin" {{ old('role') == 'Admin' ? 'selected' : '' }}>
+                <option
+                    value="Admin"
+                    {{ old('role') == 'Admin' ? 'selected' : '' }}>
+
                     Admin
+
                 </option>
 
-                <option value="Instructor" {{ old('role') == 'Instructor' ? 'selected' : '' }}>
+                <option
+                    value="Instructor"
+                    {{ old('role') == 'Instructor' ? 'selected' : '' }}>
+
                     Instructor
+
                 </option>
 
-                <option value="Student" {{ old('role') == 'Student' ? 'selected' : '' }}>
+                <option
+                    value="Student"
+                    {{ old('role') == 'Student' ? 'selected' : '' }}>
+
                     Student
+
                 </option>
 
             </select>
 
         </div>
+
 
         {{-- Student ID --}}
         <div
@@ -133,6 +183,7 @@
 
         </div>
 
+
         {{-- Department --}}
         <div class="mb-4">
 
@@ -148,6 +199,7 @@
 
         </div>
 
+
         {{-- Status --}}
         <div class="mb-5">
 
@@ -159,24 +211,36 @@
                 name="status"
                 class="w-full border rounded p-3">
 
-                <option value="Active" {{ old('status', 'Active') == 'Active' ? 'selected' : '' }}>
+                <option
+                    value="Active"
+                    {{ old('status', 'Active') == 'Active' ? 'selected' : '' }}>
+
                     Active
+
                 </option>
 
-                <option value="Inactive" {{ old('status') == 'Inactive' ? 'selected' : '' }}>
+                <option
+                    value="Inactive"
+                    {{ old('status') == 'Inactive' ? 'selected' : '' }}>
+
                     Inactive
+
                 </option>
 
             </select>
 
         </div>
 
+
         {{-- Buttons --}}
         <div class="flex gap-3">
 
             <button
                 type="submit"
-                class="bg-blue-600 text-white px-6 py-3 rounded">
+                class="bg-blue-600 text-white
+                       px-6 py-3 rounded
+                       hover:bg-blue-700
+                       transition">
 
                 Save User
 
@@ -184,7 +248,10 @@
 
             <a
                 href="{{ route('users.index') }}"
-                class="bg-gray-500 text-white px-6 py-3 rounded">
+                class="bg-gray-500 text-white
+                       px-6 py-3 rounded
+                       hover:bg-gray-600
+                       transition">
 
                 Cancel
 
@@ -196,35 +263,49 @@
 
 </div>
 
-{{-- Show/Hide Student ID --}}
+
+{{-- Show / Hide Student ID --}}
 <script>
 
-    const roleSelect = document.getElementById('role');
-    const studentIdContainer = document.getElementById('student-id-container');
-    const studentIdInput = document.getElementById('student_id');
+    const roleSelect =
+        document.getElementById('role');
+
+    const studentIdContainer =
+        document.getElementById('student-id-container');
+
+    const studentIdInput =
+        document.getElementById('student_id');
+
 
     function toggleStudentId() {
 
         if (roleSelect.value === 'Student') {
 
             studentIdContainer.classList.remove('hidden');
+
             studentIdInput.required = true;
 
         } else {
 
             studentIdContainer.classList.add('hidden');
+
             studentIdInput.required = false;
+
             studentIdInput.value = '';
 
         }
 
     }
 
-    roleSelect.addEventListener('change', toggleStudentId);
+
+    roleSelect.addEventListener(
+        'change',
+        toggleStudentId
+    );
+
 
     toggleStudentId();
 
 </script>
 
 @endsection
-```
