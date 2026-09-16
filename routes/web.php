@@ -16,6 +16,9 @@ use App\Http\Controllers\Student\StudentDashboardController;
 use App\Http\Controllers\Student\StudentClassController;
 use App\Http\Controllers\Student\VoteController;
 use App\Http\Controllers\Student\NotificationController;
+use App\Http\Controllers\Student\ContributionController;
+use App\Http\Controllers\Student\MyContributionController;
+use App\Http\Controllers\Admin\BulkUserRegistrationController;
 
 
 Route::get('/', function(){
@@ -38,6 +41,11 @@ Route::middleware(['auth', 'role:Admin']) ->group(function () {
     Route::get('/reports/enrollment', [ReportController::class, 'enrollment']) ->name('reports.enrollment');
     Route::get('/reports/contribution', [ReportController::class, 'contribution']) ->name('reports.contribution');
     Route::get('/reports/completion', [ReportController::class, 'completion']) ->name('reports.completion');
+    Route::get('/admin/users/bulk-register', [BulkUserRegistrationController::class, 'index']) ->name('admin.users.bulk-register');
+    Route::get('/admin/users/bulk-register/template', [BulkUserRegistrationController::class, 'template']) ->name('admin.users.bulk-register.template');
+    Route::post('/admin/users/bulk-register', [BulkUserRegistrationController::class, 'import']) ->name('admin.users.bulk-register.import');
+    Route::get('/users/{user}/reset-password', [UserController::class, 'editPassword']) ->name('users.password.edit');
+    Route::put('/users/{user}/reset-password', [UserController::class, 'updatePassword']) ->name('users.password.update');
 });
 
 Route::middleware(['auth', 'role:Instructor'])->group(function () {
@@ -120,9 +128,9 @@ Route::middleware(['auth', 'role:Student'])->group(function () {
         '/student/class/{classId}/projects/{projectId}/tasks',
         [TaskController::class, 'store']
     )->name('student.tasks.store');
-    Route::view(
-        '/student/class/{classId}/contribution',
-        'student.contribution'
+    Route::get(
+    '/student/class/{classId}/contribution',
+    [ContributionController::class, 'index']
     )->name('student.contribution');
     Route::view(
         '/student/class/{classId}/group-status',
@@ -188,6 +196,10 @@ Route::middleware(['auth', 'role:Student'])->group(function () {
     '/student/notifications/read-all',
     [NotificationController::class, 'readAll']
     )->name('student.notifications.readAll');
+    Route::get(
+    '/student/class/{classId}/my-contribution',
+    [MyContributionController::class, 'classContribution']
+    )->name('student.my.contribution.class');
 });
 
 Route::middleware('auth')->group(function () {
