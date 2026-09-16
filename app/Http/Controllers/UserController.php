@@ -36,9 +36,9 @@ class UserController extends Controller
             'password'   => 'required|min:8',
             'role'       => 'required',
             'student_id' => [
-            'nullable',
-            'required_if:role,Student',
-            'unique:users,student_id',
+                'nullable',
+                'required_if:role,Student',
+                'unique:users,student_id',
             ],
             'department' => 'nullable',
             'status'     => 'required',
@@ -50,8 +50,8 @@ class UserController extends Controller
             'password'   => Hash::make($request->password),
             'role'       => $request->role,
             'student_id' => $request->role === 'Student'
-            ? $request->student_id 
-            : null,
+                ? $request->student_id
+                : null,
             'department' => $request->department,
             'status'     => $request->status,
         ]);
@@ -79,7 +79,7 @@ class UserController extends Controller
             'student_id' => [
                 'nullable',
                 'required_if:role,Student',
-                Rule::unique('users', 'student_id') -> ignore($user -> id),
+                Rule::unique('users', 'student_id')->ignore($user->id),
             ],
             'department' => 'nullable',
             'status'     => 'required',
@@ -89,15 +89,40 @@ class UserController extends Controller
             'name'       => $request->name,
             'email'      => $request->email,
             'role'       => $request->role,
-            'student_id' => $request -> role === 'Student'
-            ? $request->student_id
-            :null,  
+            'student_id' => $request->role === 'Student'
+                ? $request->student_id
+                : null,
             'department' => $request->department,
             'status'     => $request->status,
         ]);
 
         return redirect()->route('users.index')
             ->with('success', 'User updated successfully.');
+    }
+
+    public function editPassword(User $user)
+    {
+        return view('admin.users.reset-password', compact('user'));
+    }
+
+    public function updatePassword(Request $request, User $user)
+    {
+        $request->validate([
+            'password' => [
+                'required',
+                'string',
+                'min:8',
+                'confirmed',
+            ],
+        ]);
+
+        $user->update([
+            'password' => Hash::make($request->password),
+        ]);
+
+        return redirect()
+            ->route('users.index')
+            ->with('success', 'Password has been reset successfully.');
     }
 
     public function destroy(User $user)
