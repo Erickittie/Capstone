@@ -1,3 +1,4 @@
+```blade
 @extends('layouts.student')
 
 @section('title', $class->course_code)
@@ -118,6 +119,7 @@
                         <div class="mt-5 grid grid-cols-2 gap-4">
 
                             <div>
+
                                 <p class="text-xs text-gray-400">
                                     Start Date
                                 </p>
@@ -130,10 +132,12 @@
                                         : 'Not set' }}
 
                                 </p>
+
                             </div>
 
 
                             <div>
+
                                 <p class="text-xs text-gray-400">
                                     End Date
                                 </p>
@@ -146,6 +150,7 @@
                                         : 'Not set' }}
 
                                 </p>
+
                             </div>
 
                         </div>
@@ -262,7 +267,7 @@
 
 
         {{-- =====================================================
-             CONTRIBUTION
+             GROUP CONTRIBUTION & PROGRESS
         ====================================================== --}}
         <a href="{{ route('student.contribution', $class->id) }}"
            class="bg-white border border-gray-200
@@ -275,11 +280,38 @@
             </div>
 
             <h3 class="text-xl font-bold text-gray-800">
-                My Contribution
+                Group Contribution & Progress
             </h3>
 
             <p class="text-gray-500 mt-2">
-                View your contribution percentage and progress.
+                View your group members' contribution percentages
+                and progress.
+            </p>
+
+        </a>
+
+
+        {{-- =====================================================
+             MY CONTRIBUTION SCORE
+        ====================================================== --}}
+        <a href="{{ route('student.my.contribution.class', $class->id) }}"
+           class="bg-white border border-gray-200
+                  rounded-2xl p-6
+                  hover:shadow-md hover:border-blue-300
+                  hover:bg-blue-50/30
+                  transition">
+
+            <div class="text-3xl mb-4">
+                🎯
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-800">
+                My Contribution Score
+            </h3>
+
+            <p class="text-gray-500 mt-2">
+                View your real-time contribution score
+                for this class.
             </p>
 
         </a>
@@ -356,8 +388,10 @@
 
         </a>
 
+
     </div>
 
 </div>
 
 @endsection
+```
