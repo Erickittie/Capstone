@@ -8,6 +8,7 @@
     <div class="mb-6 flex items-start justify-between gap-4">
 
         <div>
+
             <h1 class="text-3xl font-bold">
                 Create User
             </h1>
@@ -15,6 +16,7 @@
             <p class="text-gray-500 mt-1">
                 Add a new user to the system.
             </p>
+
         </div>
 
         {{-- Bulk Registration Button --}}
@@ -45,7 +47,9 @@
 
                 @foreach($errors->all() as $error)
 
-                    <li>{{ $error }}</li>
+                    <li>
+                        {{ $error }}
+                    </li>
 
                 @endforeach
 
@@ -191,11 +195,48 @@
                 Department
             </label>
 
-            <input
-                type="text"
+            <select
                 name="department"
-                value="{{ old('department') }}"
-                class="w-full border rounded p-3">
+                class="w-full border rounded p-3"
+                required>
+
+                <option value="">
+                    Choose Department
+                </option>
+
+                <option
+                    value="SCS"
+                    {{ old('department') == 'SCS' ? 'selected' : '' }}>
+
+                    School of Computing Studies (SCS)
+
+                </option>
+
+                <option
+                    value="SEA"
+                    {{ old('department') == 'SEA' ? 'selected' : '' }}>
+
+                    School of Engineering and Architecture (SEA)
+
+                </option>
+
+                <option
+                    value="SBA"
+                    {{ old('department') == 'SBA' ? 'selected' : '' }}>
+
+                    School of Business and Accountancy (SBA)
+
+                </option>
+
+                <option
+                    value="SAS"
+                    {{ old('department') == 'SAS' ? 'selected' : '' }}>
+
+                    School of Arts and Sciences (SAS)
+
+                </option>
+
+            </select>
 
         </div>
 
