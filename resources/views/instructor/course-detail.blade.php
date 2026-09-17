@@ -159,7 +159,7 @@
 
 
                 <p class="text-gray-500 mt-1">
-                    Section: {{ $class->section }}
+                    Offer Code: {{ $class->offer_code }}
                 </p>
 
 
