@@ -110,9 +110,9 @@
                         <div class="mt-4 space-y-2 text-sm text-gray-500">
 
                             <p>
-                                Section:
+                                Offer Code:
                                 <span class="font-medium text-gray-700">
-                                    {{ $class->section }}
+                                    {{ $class->offer_code }}
                                 </span>
                             </p>
 
