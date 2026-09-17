@@ -25,7 +25,7 @@
                     text-sm text-gray-500">
 
             <span>
-                Section: {{ $class->section }}
+                Offer Code: {{ $class->offer_code }}
             </span>
 
             <span>
