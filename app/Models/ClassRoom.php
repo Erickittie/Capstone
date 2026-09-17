@@ -13,7 +13,7 @@ class ClassRoom extends Model
     protected $fillable = [
         'course_code',
         'course_name',
-        'section',
+        'offer_code',
         'semester',
         'academic_year',
         'Instructor_Id'
