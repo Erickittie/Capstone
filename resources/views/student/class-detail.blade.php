@@ -1,41 +1,38 @@
-```blade
 @extends('layouts.student')
 
 @section('title', $class->course_code)
 
 @section('content')
 
-<div class="max-w-6xl mx-auto">
+<div class="space-y-8">
 
     {{-- =========================================================
          CLASS HEADER
     ========================================================== --}}
-    <div class="bg-white rounded-2xl border border-gray-200
-                shadow-sm p-6 mb-8">
+    <div class="bg-white rounded-2xl border border-gray-200/80 shadow-xs p-6">
 
-        <h1 class="text-3xl font-bold text-gray-800">
-            {{ $class->course_code }}
-        </h1>
-
-        <p class="text-lg text-gray-600 mt-1">
-            {{ $class->course_name }}
-        </p>
-
-        <div class="mt-4 flex flex-wrap gap-x-6 gap-y-2
-                    text-sm text-gray-500">
-
-            <span>
-                Offer Code: {{ $class->offer_code }}
+        <div class="flex items-start justify-between gap-4">
+            <div>
+                <p class="text-xs text-gray-500 font-semibold uppercase tracking-wide mb-1">
+                    {{ $class->course_code }} · Section {{ $class->section }}
+                </p>
+                <h1 class="text-2xl font-bold tracking-tight text-gray-900">
+                    {{ $class->course_name }}
+                </h1>
+                <div class="flex flex-wrap gap-x-5 gap-y-1 mt-3 text-sm text-gray-500">
+                    <span class="flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-[16px] text-gray-400">calendar_today</span>
+                        {{ $class->semester }} {{ $class->academic_year }}
+                    </span>
+                    <span class="flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-[16px] text-gray-400">person</span>
+                        {{ $class->instructor->name ?? 'N/A' }}
+                    </span>
+                </div>
+            </div>
+            <span class="px-3 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-700">
+                Active
             </span>
-
-            <span>
-                Semester: {{ $class->semester }}
-            </span>
-
-            <span>
-                Academic Year: {{ $class->academic_year }}
-            </span>
-
         </div>
 
     </div>
@@ -44,26 +41,18 @@
     {{-- =========================================================
          MY PROJECTS
     ========================================================== --}}
-    <div class="mb-10">
+    <div>
 
         <div class="flex items-center justify-between mb-4">
-
             <div>
-                <h2 class="text-2xl font-bold text-gray-800">
-                    My Projects
-                </h2>
-
-                <p class="text-gray-500 mt-1">
-                    Projects assigned to your group.
-                </p>
+                <h2 class="text-base font-bold text-gray-900">My Projects</h2>
+                <p class="text-sm text-gray-500 mt-0.5">Projects assigned to your group.</p>
             </div>
-
         </div>
-
 
         @if(isset($projects) && $projects->count() > 0)
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
 
                 @foreach($projects as $project)
 
@@ -71,108 +60,47 @@
                         'classId' => $class->id,
                         'projectId' => $project->id
                     ]) }}"
-                       class="block bg-white border border-gray-200
-                              rounded-2xl p-6 shadow-sm
-                              hover:shadow-md hover:border-purple-300
-                              hover:bg-purple-50/30
-                              transition">
+                       class="group block bg-white border border-gray-200/80 rounded-2xl p-6 shadow-xs hover:shadow-md hover:-translate-y-0.5 hover:border-purple-300 transition-all duration-150">
 
-                        {{-- Project Header --}}
-                        <div class="flex items-start
-                                    justify-between gap-4">
-
-                            <div>
-
-                                <h3 class="text-xl font-bold
-                                           text-gray-800">
-
-                                    {{ $project->title }}
-
-                                </h3>
-
-                                <p class="text-sm text-gray-500 mt-1">
-
-                                    {{ $project->description
-                                        ?: 'No project description available.' }}
-
-                                </p>
-
+                        <div class="flex items-start justify-between gap-4 mb-4">
+                            <div class="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center flex-shrink-0">
+                                <span class="material-symbols-outlined text-purple-600 text-[20px]">account_tree</span>
                             </div>
-
-
-                            {{-- Status --}}
-                            <span class="shrink-0 px-3 py-1
-                                         rounded-full text-xs
-                                         font-semibold
-                                         {{ strtolower($project->status) === 'active'
-                                            ? 'bg-green-100 text-green-700'
-                                            : 'bg-gray-100 text-gray-600' }}">
-
+                            <span class="shrink-0 px-3 py-1 rounded-full text-xs font-semibold
+                                {{ strtolower($project->status) === 'active'
+                                    ? 'bg-green-100 text-green-700'
+                                    : 'bg-gray-100 text-gray-600' }}">
                                 {{ $project->status }}
-
                             </span>
-
                         </div>
 
+                        <h3 class="text-base font-bold text-gray-900 group-hover:text-purple-600 transition-colors">
+                            {{ $project->title }}
+                        </h3>
+                        <p class="text-sm text-gray-500 mt-1 line-clamp-2">
+                            {{ $project->description ?: 'No project description available.' }}
+                        </p>
 
-                        {{-- Project Dates --}}
-                        <div class="mt-5 grid grid-cols-2 gap-4">
-
+                        <div class="mt-4 grid grid-cols-2 gap-3">
                             <div>
-
-                                <p class="text-xs text-gray-400">
-                                    Start Date
+                                <p class="text-xs text-gray-400">Start Date</p>
+                                <p class="text-sm font-semibold text-gray-700 mt-0.5">
+                                    {{ $project->start_date ? $project->start_date->format('M d, Y') : 'Not set' }}
                                 </p>
-
-                                <p class="text-sm font-semibold
-                                          text-gray-700 mt-1">
-
-                                    {{ $project->start_date
-                                        ? $project->start_date->format('M d, Y')
-                                        : 'Not set' }}
-
-                                </p>
-
                             </div>
-
-
                             <div>
-
-                                <p class="text-xs text-gray-400">
-                                    End Date
+                                <p class="text-xs text-gray-400">End Date</p>
+                                <p class="text-sm font-semibold text-gray-700 mt-0.5">
+                                    {{ $project->end_date ? $project->end_date->format('M d, Y') : 'Not set' }}
                                 </p>
-
-                                <p class="text-sm font-semibold
-                                          text-gray-700 mt-1">
-
-                                    {{ $project->end_date
-                                        ? $project->end_date->format('M d, Y')
-                                        : 'Not set' }}
-
-                                </p>
-
                             </div>
-
                         </div>
 
-
-                        {{-- Open Project --}}
-                        <div class="mt-5 pt-4
-                                    border-t border-gray-100
-                                    flex items-center
-                                    justify-between">
-
-                            <span class="text-sm text-gray-500">
-                                Your group project
-                            </span>
-
-                            <span class="text-sm font-semibold
-                                         text-purple-600">
-
+                        <div class="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between">
+                            <span class="text-xs text-gray-400">Your group project</span>
+                            <span class="text-xs font-semibold text-purple-600 opacity-0 group-hover:opacity-100 transition-opacity">
                                 Open Project →
-
                             </span>
-
                         </div>
 
                     </a>
@@ -183,23 +111,12 @@
 
         @else
 
-            {{-- No Projects --}}
-            <div class="bg-white border border-gray-200
-                        rounded-2xl p-8 text-center">
-
-                <div class="text-4xl mb-3">
-                    📋
+            <div class="bg-white border border-dashed border-gray-300 rounded-2xl p-10 text-center">
+                <div class="w-14 h-14 rounded-full bg-purple-50 text-purple-600 flex items-center justify-center mx-auto mb-3">
+                    <span class="material-symbols-outlined text-[28px]">account_tree</span>
                 </div>
-
-                <h3 class="text-lg font-bold text-gray-800">
-                    No Projects Yet
-                </h3>
-
-                <p class="text-gray-500 mt-1">
-                    Your instructor has not assigned a project
-                    to your group yet.
-                </p>
-
+                <h3 class="text-base font-bold text-gray-800">No Projects Yet</h3>
+                <p class="text-sm text-gray-500 mt-1">Your instructor has not assigned a project to your group yet.</p>
             </div>
 
         @endif
@@ -210,188 +127,79 @@
     {{-- =========================================================
          CLASS ACTIVITIES
     ========================================================== --}}
-    <h2 class="text-2xl font-bold text-gray-800 mb-4">
-        Class Activities
-    </h2>
+    <div>
 
+        <div class="mb-4">
+            <h2 class="text-base font-bold text-gray-900">Class Activities</h2>
+            <p class="text-sm text-gray-500 mt-0.5">Quick access to all your class features.</p>
+        </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
 
+            {{-- Group Status --}}
+            <a href="{{ route('student.group.status', $class->id) }}"
+               class="group bg-white border border-gray-200/80 rounded-2xl p-6 shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-150">
+                <div class="w-11 h-11 rounded-xl bg-blue-50 flex items-center justify-center mb-4">
+                    <span class="material-symbols-outlined text-blue-600 text-[22px]">groups</span>
+                </div>
+                <h3 class="text-sm font-bold text-gray-900 group-hover:text-blue-600 transition-colors">Group Status</h3>
+                <p class="text-xs text-gray-500 mt-1.5 leading-relaxed">View your group members and current group leader.</p>
+            </a>
 
-        {{-- =====================================================
-             GROUP STATUS
-        ====================================================== --}}
-        <a href="{{ route('student.group.status', $class->id) }}"
-           class="bg-white border border-gray-200
-                  rounded-2xl p-6
-                  hover:shadow-md hover:border-purple-300
-                  transition">
+            {{-- Leader Voting --}}
+            <a href="{{ route('student.vote.index', $class->id) }}"
+               class="group bg-white border border-gray-200/80 rounded-2xl p-6 shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-150">
+                <div class="w-11 h-11 rounded-xl bg-indigo-50 flex items-center justify-center mb-4">
+                    <span class="material-symbols-outlined text-indigo-600 text-[22px]">how_to_vote</span>
+                </div>
+                <h3 class="text-sm font-bold text-gray-900 group-hover:text-indigo-600 transition-colors">Leader Voting</h3>
+                <p class="text-xs text-gray-500 mt-1.5 leading-relaxed">Vote for a member of your group to become leader.</p>
+            </a>
 
-            <div class="text-3xl mb-4">
-                👥
-            </div>
+            {{-- My Contribution --}}
+            <a href="{{ route('student.contribution', $class->id) }}"
+               class="group bg-white border border-gray-200/80 rounded-2xl p-6 shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-150">
+                <div class="w-11 h-11 rounded-xl bg-emerald-50 flex items-center justify-center mb-4">
+                    <span class="material-symbols-outlined text-emerald-600 text-[22px]">monitoring</span>
+                </div>
+                <h3 class="text-sm font-bold text-gray-900 group-hover:text-emerald-600 transition-colors">My Contribution</h3>
+                <p class="text-xs text-gray-500 mt-1.5 leading-relaxed">View your contribution percentage and progress.</p>
+            </a>
 
-            <h3 class="text-xl font-bold text-gray-800">
-                Group Status
-            </h3>
+            {{-- My Tasks --}}
+            <a href="{{ route('student.task.manager', $class->id) }}"
+               class="group bg-white border border-gray-200/80 rounded-2xl p-6 shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-150">
+                <div class="w-11 h-11 rounded-xl bg-amber-50 flex items-center justify-center mb-4">
+                    <span class="material-symbols-outlined text-amber-600 text-[22px]">assignment</span>
+                </div>
+                <h3 class="text-sm font-bold text-gray-900 group-hover:text-amber-600 transition-colors">My Tasks</h3>
+                <p class="text-xs text-gray-500 mt-1.5 leading-relaxed">View and work on your assigned tasks.</p>
+            </a>
 
-            <p class="text-gray-500 mt-2">
-                View your group members and current group leader.
-            </p>
+            {{-- File Repository --}}
+            <a href="{{ route('student.file.repository', $class->id) }}"
+               class="group bg-white border border-gray-200/80 rounded-2xl p-6 shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-150">
+                <div class="w-11 h-11 rounded-xl bg-orange-50 flex items-center justify-center mb-4">
+                    <span class="material-symbols-outlined text-orange-600 text-[22px]">folder_open</span>
+                </div>
+                <h3 class="text-sm font-bold text-gray-900 group-hover:text-orange-600 transition-colors">File Repository</h3>
+                <p class="text-xs text-gray-500 mt-1.5 leading-relaxed">Access your group's shared project files.</p>
+            </a>
 
-        </a>
+            {{-- Check-in Request --}}
+            <a href="{{ route('student.checkin.index', $class->id) }}"
+               class="group bg-white border border-gray-200/80 rounded-2xl p-6 shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-150">
+                <div class="w-11 h-11 rounded-xl bg-violet-50 flex items-center justify-center mb-4">
+                    <span class="material-symbols-outlined text-violet-600 text-[22px]">event_available</span>
+                </div>
+                <h3 class="text-sm font-bold text-gray-900 group-hover:text-violet-600 transition-colors">Check-In Request</h3>
+                <p class="text-xs text-gray-500 mt-1.5 leading-relaxed">Submit or view your class check-in request.</p>
+            </a>
 
-
-        {{-- =====================================================
-             LEADER VOTING
-        ====================================================== --}}
-        <a href="{{ route('student.vote.index', $class->id) }}"
-           class="bg-white border border-gray-200
-                  rounded-2xl p-6
-                  hover:shadow-md hover:border-purple-300
-                  transition">
-
-            <div class="text-3xl mb-4">
-                🗳️
-            </div>
-
-            <h3 class="text-xl font-bold text-gray-800">
-                Leader Voting
-            </h3>
-
-            <p class="text-gray-500 mt-2">
-                Vote for a member of your group to become leader.
-            </p>
-
-        </a>
-
-
-        {{-- =====================================================
-             GROUP CONTRIBUTION & PROGRESS
-        ====================================================== --}}
-        <a href="{{ route('student.contribution', $class->id) }}"
-           class="bg-white border border-gray-200
-                  rounded-2xl p-6
-                  hover:shadow-md hover:border-purple-300
-                  transition">
-
-            <div class="text-3xl mb-4">
-                📊
-            </div>
-
-            <h3 class="text-xl font-bold text-gray-800">
-                Group Contribution & Progress
-            </h3>
-
-            <p class="text-gray-500 mt-2">
-                View your group members' contribution percentages
-                and progress.
-            </p>
-
-        </a>
-
-
-        {{-- =====================================================
-             MY CONTRIBUTION SCORE
-        ====================================================== --}}
-        <a href="{{ route('student.my.contribution.class', $class->id) }}"
-           class="bg-white border border-gray-200
-                  rounded-2xl p-6
-                  hover:shadow-md hover:border-blue-300
-                  hover:bg-blue-50/30
-                  transition">
-
-            <div class="text-3xl mb-4">
-                🎯
-            </div>
-
-            <h3 class="text-xl font-bold text-gray-800">
-                My Contribution Score
-            </h3>
-
-            <p class="text-gray-500 mt-2">
-                View your real-time contribution score
-                for this class.
-            </p>
-
-        </a>
-
-
-        {{-- =====================================================
-             MY TASKS
-        ====================================================== --}}
-        <a href="{{ route('student.task.manager', $class->id) }}"
-           class="bg-white border border-gray-200
-                  rounded-2xl p-6
-                  hover:shadow-md hover:border-purple-300
-                  transition">
-
-            <div class="text-3xl mb-4">
-                ✅
-            </div>
-
-            <h3 class="text-xl font-bold text-gray-800">
-                My Tasks
-            </h3>
-
-            <p class="text-gray-500 mt-2">
-                View and work on your assigned tasks.
-            </p>
-
-        </a>
-
-
-        {{-- =====================================================
-             FILE REPOSITORY
-        ====================================================== --}}
-        <a href="{{ route('student.file.repository', $class->id) }}"
-           class="bg-white border border-gray-200
-                  rounded-2xl p-6
-                  hover:shadow-md hover:border-purple-300
-                  transition">
-
-            <div class="text-3xl mb-4">
-                📁
-            </div>
-
-            <h3 class="text-xl font-bold text-gray-800">
-                File Repository
-            </h3>
-
-            <p class="text-gray-500 mt-2">
-                Access your group's shared project files.
-            </p>
-
-        </a>
-
-
-        {{-- =====================================================
-             CHECK-IN
-        ====================================================== --}}
-        <a href="{{ route('student.checkin.index', $class->id) }}"
-           class="bg-white border border-gray-200
-                  rounded-2xl p-6
-                  hover:shadow-md hover:border-purple-300
-                  transition">
-
-            <div class="text-3xl mb-4">
-                📝
-            </div>
-
-            <h3 class="text-xl font-bold text-gray-800">
-                Check-in Request
-            </h3>
-
-            <p class="text-gray-500 mt-2">
-                Submit or view your class check-in request.
-            </p>
-
-        </a>
-
+        </div>
 
     </div>
 
 </div>
 
 @endsection
-```

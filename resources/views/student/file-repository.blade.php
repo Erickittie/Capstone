@@ -324,27 +324,5 @@
         <span class="font-medium text-sm" id="toast-msg">File uploaded successfully!</span>
     </div>
 
-    <script>
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('-translate-x-full');
-            document.getElementById('sidebar-overlay').classList.toggle('hidden');
-        }
-        document.getElementById('mobile-menu-toggle')?.addEventListener('click', toggleSidebar);
-
-        function showUploadModal() { document.getElementById('upload-modal').classList.add('active'); }
-        function closeUploadModal() { document.getElementById('upload-modal').classList.remove('active'); }
-
-        function uploadFile() {
-            closeUploadModal();
-            showToast('File uploaded to repository successfully!');
-        }
-
-        function showToast(msg) {
-            const t = document.getElementById('toast');
-            document.getElementById('toast-msg').textContent = msg;
-            t.classList.remove('translate-y-20', 'opacity-0');
-            setTimeout(() => t.classList.add('translate-y-20', 'opacity-0'), 3000);
-        }
-    </script>
 </body>
 </html>

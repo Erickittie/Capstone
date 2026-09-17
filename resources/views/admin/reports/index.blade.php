@@ -2,207 +2,161 @@
 
 @section('content')
 
-<div class ="max-w-7xl mx-auto">
-    <div class ="flex items-center justify-between mb-8">
-        <div>
-            <p class="text-sm font-medium text-blue-600 uppercase tracking-wide">
-                Analytics & Reporting
-            </p>
-            <h1 class="text-3xl font-bold text-gray-900 mt-1">
-                Reports
-            </h1>
+<div class="space-y-8 max-w-7xl mx-auto">
 
-            <p class="text-gray-500 mt-2">
-                Generate academic reports and review previous exports.
-            </p>
-        </div>
+    <!-- Page Header -->
+    <div>
+        <h1 class="text-2xl font-bold tracking-tight text-gray-900">
+            Analytics & Reports
+        </h1>
+        <p class="text-sm text-gray-500 mt-1">
+            Generate and export class metrics, student contribution fairness, and project completion reports.
+        </p>
     </div>
-    
+
+    <!-- Flash Message -->
     @if(session('success'))
-        <div class="mb-6 rounded-lg bg-green-50 border border-green-200 text-green-700 px-5 py-4">
-            {{ session('success')}}
+        <div class="flex items-center gap-3 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl px-4 py-3 text-sm">
+            <span class="material-symbols-outlined text-emerald-600 text-[20px]">check_circle</span>
+            <span>{{ session('success') }}</span>
         </div>
     @endif
-    
-    <div class="mb-10">
-        <h2 class ="text-xl font-semibold text-gray-900 mb-5">
-            Generate a report
+
+    <!-- Generate Report Cards -->
+    <div>
+        <h2 class="text-base font-bold text-gray-900 mb-4">
+            Generate Report
         </h2>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition">
-                <div class="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mb-5">
-                    <span class="text-2xl">
-                         👥
-                    </span>
+
+            <!-- Card 1: Enrollment -->
+            <div class="bg-white border border-gray-200/80 rounded-2xl p-6 shadow-xs hover:shadow-md transition duration-150 flex flex-col justify-between">
+                <div>
+                    <div class="w-11 h-11 bg-teal-50 text-teal-600 rounded-xl flex items-center justify-center mb-4">
+                        <span class="material-symbols-outlined text-[24px]">
+                            group
+                        </span>
+                    </div>
+                    <h3 class="text-base font-bold text-gray-900">
+                        Enrollment Summary
+                    </h3>
+                    <p class="text-xs text-gray-500 mt-1.5 leading-relaxed">
+                        Overview of student enrollment breakdown by classroom, term, and department.
+                    </p>
                 </div>
-                
-                <h3 class="text-lg font-semibold text-gray-900">
-                    Enrollment Summary
-                </h3>
-                <p class="text-sm text-gray-500 mt-2 min-h-[48px]">
-                    Student and enrollment by class, term, and department.
-                </p>
-                <a href="{{ route('reports.enrollment') }}"
-                class="inline-flex items-center justify-center mt-5 px-5 py-2.5 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700 transition">
-                Generate
-                </a>
+                <div class="mt-6 pt-4 border-t border-gray-100">
+                    <a href="{{ route('reports.enrollment') }}"
+                       class="inline-flex items-center justify-center w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 hover:border-gray-300 text-xs font-semibold text-gray-700 shadow-2xs transition">
+                        Generate Report
+                    </a>
+                </div>
             </div>
 
-            <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition">
-                <div class="w-12 h-12 bg-green-50 rounded-lg flex items-center justify-center mb-5">
-                    <span class="text-2xl">
-                        ⚖️
-                    </span>
+            <!-- Card 2: Contribution Fairness -->
+            <div class="bg-white border border-gray-200/80 rounded-2xl p-6 shadow-xs hover:shadow-md transition duration-150 flex flex-col justify-between">
+                <div>
+                    <div class="w-11 h-11 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center mb-4">
+                        <span class="material-symbols-outlined text-[24px]">
+                            balance
+                        </span>
+                    </div>
+                    <h3 class="text-base font-bold text-gray-900">
+                        Contribution Fairness
+                    </h3>
+                    <p class="text-xs text-gray-500 mt-1.5 leading-relaxed">
+                        Distribution of peer evaluation and commit contribution scores across student groups.
+                    </p>
                 </div>
-                
-                <h3 class="text-lg font-semibold text-gray-900">
-                    Contribution Fairness
-                </h3>
-                
-                <p class="text-sm text-gray-500 mt-2 min-h-[48px]">
-                    Distribution of contribution scores across all groups.
-                </p>
-                
-                <a href="{{ route('reports.contribution') }}"
-                class="inline-flex items-center justify-center mt-5 px-5 py-2.5 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700 transition">
-                Generate
-                </a>
+                <div class="mt-6 pt-4 border-t border-gray-100">
+                    <a href="{{ route('reports.contribution') }}"
+                       class="inline-flex items-center justify-center w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 hover:border-gray-300 text-xs font-semibold text-gray-700 shadow-2xs transition">
+                        Generate Report
+                    </a>
+                </div>
             </div>
 
-            <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition">
-                <div class="w-12 h-12 bg-purple-50 roundel-lg flex items-center justify-center mb-5">
-                    <span class="text-2xl">
-                          📈
-                    </span>
+            <!-- Card 3: Completion Trends -->
+            <div class="bg-white border border-gray-200/80 rounded-2xl p-6 shadow-xs hover:shadow-md transition duration-150 flex flex-col justify-between">
+                <div>
+                    <div class="w-11 h-11 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center mb-4">
+                        <span class="material-symbols-outlined text-[24px]">
+                            trending_up
+                        </span>
+                    </div>
+                    <h3 class="text-base font-bold text-gray-900">
+                        Completion Trends
+                    </h3>
+                    <p class="text-xs text-gray-500 mt-1.5 leading-relaxed">
+                        Milestone and task completion rates over time organized by semester and class.
+                    </p>
                 </div>
-                
-                <h3 class="text-lg font-semibold text-gray-900">
-                    Completion Trends
-                </h3>
-                
-                <p class="text-sm text-gray-500 mt-2 min-h-[48px]">
-                    Task completion rates over time, organized by class.
-                </p>
-                
-                <a href="{{ route('reports.completion') }}"
-                class="inline-flex items-center justify-center mt-5 px-5 py-2.5 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700 transition">
-                Generate
-                </a>
+                <div class="mt-6 pt-4 border-t border-gray-100">
+                    <a href="{{ route('reports.completion') }}"
+                       class="inline-flex items-center justify-center w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 hover:border-gray-300 text-xs font-semibold text-gray-700 shadow-2xs transition">
+                        Generate Report
+                    </a>
+                </div>
             </div>
+
         </div>
     </div>
 
-    <div>
-        <div class="flex items-center justify-between mb-5">
+    <!-- Recent Exports Section -->
+    <div class="space-y-4">
+        <div class="flex items-center justify-between">
             <div>
-                <h2 class="text-xl font-semibold text-gray-900">
-                    Recent exports
+                <h2 class="text-base font-bold text-gray-900">
+                    Recent Exports
                 </h2>
-
-                 <p class="text-sm text-gray-500 mt-1">
-                    Previously generated reports.
+                <p class="text-xs text-gray-500 mt-0.5">
+                    Previously generated downloadable spreadsheets and PDFs.
                 </p>
             </div>
-
-            <span class="text-sm text-gray-500">
-                {{ $reports->count() }} reports
+            <span class="text-xs font-semibold text-gray-500 bg-gray-100 px-2.5 py-1 rounded-full">
+                {{ $reports->count() }} records
             </span>
-
-            </div>
-
-            <div class="bg-white border border-gray-200
-                    rounded-xl shadow-sm overflow-hidden">
-
-            <div class="px-6 py-5 border-b border-gray-200">
-
-                <h3 class="text-lg font-semibold text-gray-900">
-                    Generated reports
-                </h3>
-            </div>
-
-             @forelse($reports as $report)
-
-                <div class="flex items-center justify-between
-                            px-6 py-5
-                            border-b border-gray-100
-                            last:border-b-0
-                            hover:bg-gray-50 transition">
-
-                <div class="flex items-center gap-4">
-
-                        <div class="w-10 h-10 bg-gray-100
-                                    rounded-lg
-                                    flex items-center justify-center">
-
-                            <span>
-                                📄
-                            </span>
-
-                        </div>
-
-
-                        <div>
-
-                        <p class="font-medium text-gray-900">
-                                {{ $report['filename'] }}
-                            </p>
-
-                            <p class="text-sm text-gray-500 mt-1">
-
-                                Generated
-                                {{ $report['date'] }}
-
-                                ·
-
-                                {{ $report['size'] }}
-
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                    <a
-                        href="{{ route('reports.download', $report['filename']) }}"
-                        class="px-5 py-2.5
-                               border border-gray-300
-                               rounded-lg
-                               text-sm font-medium
-                               text-gray-700
-                               hover:bg-blue-50
-                               hover:text-blue-700
-                               hover:border-blue-300
-                               transition">
-
-                        Download
-
-                    </a>
-
-                </div>
-
-             @empty
-
-                <div class="px-6 py-12 text-center">
-
-                    <div class="text-4xl mb-3">
-                        📊
-                    </div>
-
-                    <h3 class="font-semibold text-gray-900">
-                        No reports yet
-                    </h3>
-
-                    <p class="text-sm text-gray-500 mt-1">
-                        Generate your first report above.
-                    </p>
-
-                </div>
-
-            @endforelse
-
         </div>
 
+        <div class="bg-white border border-gray-200/80 rounded-2xl shadow-xs overflow-hidden">
+            @forelse($reports as $report)
+                <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100 last:border-b-0 hover:bg-gray-50/70 transition">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 bg-slate-100 text-slate-600 rounded-xl flex items-center justify-center">
+                            <span class="material-symbols-outlined text-[20px]">
+                                description
+                            </span>
+                        </div>
+                        <div>
+                            <p class="text-sm font-semibold text-gray-900 leading-tight">
+                                {{ $report['filename'] }}
+                            </p>
+                            <p class="text-xs text-gray-400 mt-0.5">
+                                Generated {{ $report['date'] }} &bull; {{ $report['size'] }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <a href="{{ route('reports.download', $report['filename']) }}"
+                       class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl border border-gray-200 text-xs font-semibold text-gray-700 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-200 transition">
+                        <span class="material-symbols-outlined text-[16px]">download</span>
+                        <span>Download</span>
+                    </a>
+                </div>
+            @empty
+                <div class="py-12 text-center text-gray-400">
+                    <span class="material-symbols-outlined text-[36px] text-gray-300 block mb-2">
+                        analytics
+                    </span>
+                    <h3 class="text-sm font-semibold text-gray-700">
+                        No reports generated yet
+                    </h3>
+                    <p class="text-xs text-gray-400 mt-1">
+                        Use the generator options above to produce academic exports.
+                    </p>
+                </div>
+            @endforelse
+        </div>
     </div>
 
 </div>

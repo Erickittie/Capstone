@@ -1,4 +1,4 @@
-```blade
+
 @extends('layouts.instructor')
 
 @section('content')
@@ -52,8 +52,8 @@
 
             <div class="flex items-center gap-3">
 
-                <span class="text-xl">
-                    ✅
+                <span class="material-symbols-outlined text-emerald-500 text-[22px]">
+                    check_circle
                 </span>
 
                 <p class="font-semibold text-green-800">
@@ -232,8 +232,9 @@
                        transition"
             >
 
-                <div class="text-3xl mb-3">
-                    ✋
+                <div class="w-10 h-10 rounded-xl bg-purple-100 text-purple-600
+                            flex items-center justify-center mb-3">
+                    <span class="material-symbols-outlined text-[22px]">pan_tool</span>
                 </div>
 
                 <h3 class="font-bold text-lg text-gray-900">
@@ -260,8 +261,9 @@
                        transition"
             >
 
-                <div class="text-3xl mb-3">
-                    ⚡
+                <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-600
+                            flex items-center justify-center mb-3">
+                    <span class="material-symbols-outlined text-[22px]">bolt</span>
                 </div>
 
                 <h3 class="font-bold text-lg text-gray-900">
@@ -382,8 +384,9 @@
 
                             <div class="text-center py-10">
 
-                                <div class="text-3xl mb-2">
-                                    👨‍🎓
+                                <div class="w-12 h-12 rounded-full bg-gray-100 text-gray-400
+                                            flex items-center justify-center mx-auto mb-2">
+                                    <span class="material-symbols-outlined text-[24px]">school</span>
                                 </div>
 
                                 <p class="text-sm text-gray-500">
@@ -563,8 +566,9 @@
                                    text-center"
                         >
 
-                            <div class="text-4xl mb-3">
-                                👥
+                            <div class="w-14 h-14 rounded-2xl bg-purple-50 text-purple-400
+                                         flex items-center justify-center mx-auto mb-3">
+                                <span class="material-symbols-outlined text-[32px]">group</span>
                             </div>
 
                             <h3 class="font-bold text-gray-800">
@@ -1184,4 +1188,3 @@ updateCounts();
 </script>
 
 @endsection
-```

@@ -20,9 +20,13 @@ class InstructorProjectController extends Controller
             ->latest()
             ->get();
 
+        $groups = $class->groups()
+            ->with('students')
+            ->get();
+
         return view(
             'instructor.projects.index',
-            compact('class', 'projects')
+            compact('class', 'projects', 'groups')
         );
     }
 

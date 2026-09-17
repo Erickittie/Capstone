@@ -329,20 +329,5 @@
         </footer>
     </main>
 
-    <script>
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('-translate-x-full');
-            document.getElementById('sidebar-overlay').classList.toggle('hidden');
-        }
-        document.getElementById('mobile-menu-toggle')?.addEventListener('click', toggleSidebar);
-
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('.progress-bar-fill').forEach(bar => {
-                const w = bar.style.width;
-                bar.style.width = '0%';
-                setTimeout(() => { bar.style.width = w; }, 300);
-            });
-        });
-    </script>
 </body>
 </html>

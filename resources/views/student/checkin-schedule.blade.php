@@ -346,25 +346,5 @@
         <span class="text-sm font-medium">Check-in request submitted!</span>
     </div>
 
-    <script>
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('sidebar-overlay');
-            sidebar.classList.toggle('-translate-x-full');
-            overlay.classList.toggle('hidden');
-        }
-        document.getElementById('mobile-menu-toggle')?.addEventListener('click', toggleSidebar);
-
-        function submitRequest() {
-            const toast = document.getElementById('toast');
-            toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-4');
-            toast.classList.add('opacity-100', 'translate-y-0');
-            setTimeout(() => {
-                toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-4');
-                toast.classList.remove('opacity-100', 'translate-y-0');
-            }, 3000);
-            document.getElementById('checkin-form').reset();
-        }
-    </script>
 </body>
 </html>
