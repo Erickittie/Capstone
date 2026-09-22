@@ -21,8 +21,8 @@
         </div>
 
         <div>
-            <strong>Section:</strong>
-            {{ $class->section }}
+            <strong>Offer Code:</strong>
+            {{ $class->offer_code }}
         </div>
 
         <div>
