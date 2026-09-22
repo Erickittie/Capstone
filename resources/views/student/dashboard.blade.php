@@ -99,7 +99,7 @@
                     <div class="p-5 flex flex-col justify-between min-h-[120px]">
                         <div>
                             <p class="text-xs text-gray-500 font-semibold uppercase tracking-wide">
-                                {{ $class->course_code }} · Sec {{ $class->section }}
+                                {{ $class->course_code }} · Offer Code {{ $class->offer_code }}
                             </p>
                             <h3 class="text-sm font-bold text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-2 mt-1">
                                 {{ $class->course_name }}
