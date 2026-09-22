@@ -200,6 +200,9 @@ Route::middleware(['auth', 'role:Student'])->group(function () {
     '/student/class/{classId}/my-contribution',
     [MyContributionController::class, 'classContribution']
     )->name('student.my.contribution.class');
+    Route::get('/student/my-contributions',
+    [MyContributionController::class, 'index']
+    )->name('student.my.contributions');
 });
 
 Route::middleware('auth')->group(function () {
