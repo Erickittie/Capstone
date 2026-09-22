@@ -156,14 +156,24 @@
                 <p class="text-xs text-gray-500 mt-1.5 leading-relaxed">Vote for a member of your group to become leader.</p>
             </a>
 
-            {{-- My Contribution --}}
+            {{-- Group Contribution --}}
             <a href="{{ route('student.contribution', $class->id) }}"
                class="group bg-white border border-gray-200/80 rounded-2xl p-6 shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-150">
                 <div class="w-11 h-11 rounded-xl bg-emerald-50 flex items-center justify-center mb-4">
                     <span class="material-symbols-outlined text-emerald-600 text-[22px]">monitoring</span>
                 </div>
+                <h3 class="text-sm font-bold text-gray-900 group-hover:text-emerald-600 transition-colors">Group Contribution</h3>
+                <p class="text-xs text-gray-500 mt-1.5 leading-relaxed">View your group contribution percentage and progress.</p>
+            </a>
+
+            {{-- My Contribution --}}
+            <a href="{{ route('student.my.contribution.class', $class->id) }}"
+               class="group bg-white border border-gray-200/80 rounded-2xl p-6 shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-150">
+                <div class="w-11 h-11 rounded-xl bg-emerald-50 flex items-center justify-center mb-4">
+                    <span class="material-symbols-outlined text-emerald-600 text-[22px]">monitoring</span>
+                </div>
                 <h3 class="text-sm font-bold text-gray-900 group-hover:text-emerald-600 transition-colors">My Contribution</h3>
-                <p class="text-xs text-gray-500 mt-1.5 leading-relaxed">View your contribution percentage and progress.</p>
+                <p class="text-xs text-gray-500 mt-1.5 leading-relaxed">View your personal contribution score, points, and task progress.</p>
             </a>
 
             {{-- My Tasks --}}
