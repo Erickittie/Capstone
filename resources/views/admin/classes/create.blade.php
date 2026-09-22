@@ -71,13 +71,13 @@
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>
                     <label for="section" class="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">
-                        Section
+                        Offer Code
                     </label>
                     <input
-                        id="section"
+                        id="offer_code"
                         type="text"
-                        name="section"
-                        value="{{ old('section') }}"
+                        name="offer_code"
+                        value="{{ old('offer_code') }}"
                         placeholder="e.g. 1A"
                         class="w-full h-11 px-4 text-sm rounded-xl border border-gray-200 bg-gray-50/50 text-gray-900 placeholder-gray-400 focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-100 outline-none transition"
                         required>
