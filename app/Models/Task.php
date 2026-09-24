@@ -15,6 +15,7 @@ class Task extends Model
         'description',
         'points',
         'due_date',
+        'file_path',
         'status',
     ];
 
