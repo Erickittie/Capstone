@@ -136,9 +136,9 @@ Route::middleware(['auth', 'role:Student'])->group(function () {
         '/student/class/{classId}/group-status',
         'student.group-status'
     )->name('student.group.status');
-    Route::view(
-        '/student/class/{classId}/task-manager',
-        'student.task-manager'
+    Route::get(
+    '/student/class/{classId}/task-manager',
+    [TaskController::class, 'manager']
     )->name('student.task.manager');
     Route::view(
         '/student/class/{classId}/file-repository',
@@ -164,6 +164,10 @@ Route::middleware(['auth', 'role:Student'])->group(function () {
     '/student/class/{classId}/projects/{projectId}/tasks/{taskId}',
     [TaskController::class, 'show']
     )->name('student.tasks.show');
+    Route::get(
+    '/student/class/{classId}/projects/{projectId}/tasks/{taskId}/download',
+    [TaskController::class, 'download']
+    )->name('student.tasks.download');
     Route::post(
     '/student/class/{classId}/projects/{projectId}/tasks/{taskId}/start',
     [TaskController::class, 'start']
