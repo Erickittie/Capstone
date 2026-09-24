@@ -31,20 +31,21 @@
 
 
     {{-- Form --}}
-
     <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
 
-        <form method="POST"
-              action="{{ route('student.tasks.store', [
-                  'classId' => $class->id,
-                  'projectId' => $project->id
-              ]) }}">
+        <form
+            method="POST"
+            action="{{ route('student.tasks.store', [
+                'classId' => $class->id,
+                'projectId' => $project->id
+            ]) }}"
+            enctype="multipart/form-data"
+        >
 
             @csrf
 
 
             {{-- Task Title --}}
-
             <div class="mb-6">
 
                 <label class="block text-sm font-semibold text-gray-700 mb-2">
@@ -71,7 +72,6 @@
 
 
             {{-- Description --}}
-
             <div class="mb-6">
 
                 <label class="block text-sm font-semibold text-gray-700 mb-2">
@@ -96,9 +96,9 @@
 
 
             {{-- Points + Due Date --}}
-
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
 
+                {{-- Points --}}
                 <div>
 
                     <label class="block text-sm font-semibold text-gray-700 mb-2">
@@ -124,6 +124,7 @@
                 </div>
 
 
+                {{-- Due Date --}}
                 <div>
 
                     <label class="block text-sm font-semibold text-gray-700 mb-2">
@@ -149,8 +150,38 @@
             </div>
 
 
-            {{-- Assign To --}}
+            {{-- Task Attachment --}}
+            <div class="mb-8">
 
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    Task Attachment
+                </label>
+
+                <input
+                    type="file"
+                    name="file"
+                    accept=".pdf,.doc,.docx,.txt,.zip,.jpg,.jpeg,.png"
+                    class="w-full border border-gray-300 rounded-xl px-4 py-3
+                           bg-white
+                           focus:ring-2 focus:ring-purple-500
+                           focus:border-purple-500"
+                >
+
+                @error('file')
+                    <p class="text-red-500 text-sm mt-1">
+                        {{ $message }}
+                    </p>
+                @enderror
+
+                <p class="text-xs text-gray-500 mt-2">
+                    Optional. Accepted files: PDF, DOC, DOCX, TXT, ZIP,
+                    JPG, JPEG, PNG. Maximum size: 10 MB.
+                </p>
+
+            </div>
+
+
+            {{-- Assign To --}}
             <div class="mb-8">
 
                 <label class="block text-sm font-semibold text-gray-700 mb-3">
@@ -161,7 +192,10 @@
 
                     @foreach($group->students as $member)
 
-                        <label class="flex items-center gap-3 p-4 hover:bg-gray-50 cursor-pointer">
+                        <label
+                            class="flex items-center gap-3 p-4
+                                   hover:bg-gray-50 cursor-pointer"
+                        >
 
                             <input
                                 type="checkbox"
@@ -181,13 +215,17 @@
                                 </p>
 
                                 <p class="text-sm text-gray-500">
+
                                     {{ $member->student_id }}
 
                                     @if($member->pivot->is_leader)
+
                                         <span class="text-purple-600 font-medium">
                                             • Group Leader / PM
                                         </span>
+
                                     @endif
+
                                 </p>
 
                             </div>
@@ -204,32 +242,42 @@
                     </p>
                 @enderror
 
+                @error('assignees.*')
+                    <p class="text-red-500 text-sm mt-2">
+                        {{ $message }}
+                    </p>
+                @enderror
+
                 <p class="text-xs text-gray-500 mt-2">
-                    You can assign one task to one or multiple members of your group.
+                    You can assign one task to one or multiple members
+                    of your group.
                 </p>
 
             </div>
 
 
             {{-- Buttons --}}
-
             <div class="flex justify-end gap-3">
 
-                <a href="{{ route('student.project.show', [
-                    'classId' => $class->id,
-                    'projectId' => $project->id
-                ]) }}"
-                   class="px-6 py-3 rounded-xl border border-gray-300
-                          text-gray-700 hover:bg-gray-50">
+                <a
+                    href="{{ route('student.project.show', [
+                        'classId' => $class->id,
+                        'projectId' => $project->id
+                    ]) }}"
+                    class="px-6 py-3 rounded-xl border border-gray-300
+                           text-gray-700 hover:bg-gray-50"
+                >
 
                     Cancel
 
                 </a>
 
+
                 <button
                     type="submit"
                     class="px-6 py-3 rounded-xl bg-purple-600 text-white
-                           font-semibold hover:bg-purple-700 transition">
+                           font-semibold hover:bg-purple-700 transition"
+                >
 
                     Create & Assign Task
 
