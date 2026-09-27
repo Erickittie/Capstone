@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\File;
+use App\Models\FileFolder;
 use App\Models\Student\GroupLeaderVote;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -53,4 +55,20 @@ class Group extends Model
             'project_id'
         )->withTimestamps();
     }
+
+    public function fileFolders(): HasMany
+    {
+    return $this->hasMany(
+        FileFolder::class,
+        'group_id'
+    );
+    }
+
+    public function files(): HasMany
+    {
+    return $this->hasMany(
+        File::class,
+        'group_id'
+    );
+}
 }
