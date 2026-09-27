@@ -1,328 +1,1149 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full bg-[#FAF9FB]">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>File Repository - CS402 - CarryOn</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
-    <script src="{{ asset('js/tailwind-config.js') }}"></script>
-    <link href="{{ asset('css/student-pages.css') }}" rel="stylesheet">
-</head>
-<body class="h-full text-gray-900 antialiased font-sans bg-[#F9FAFB] flex flex-col md:flex-row overflow-hidden">
+@extends('layouts.student')
 
-    <!-- Mobile Menu Bar -->
-    <div class="md:hidden flex items-center justify-between bg-[#FAF9FB] px-4 py-3 border-b border-gray-200 sticky top-0 z-40">
-        <div class="flex items-center gap-2.5">
-            <img src="{{ asset('images/carryon_logo_mark_v2.png') }}" class="w-8 h-8 object-contain" alt="CarryOn Logo">
-            <span class="font-bold text-base tracking-tight text-gray-900">CarryOn</span>
+@section('title', 'File Repository')
+
+@section('content')
+
+<div class="max-w-7xl mx-auto">
+
+    {{-- ============================================================
+         HEADER
+    ============================================================ --}}
+
+    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8">
+
+        <div>
+            <div class="flex items-center gap-2 text-sm text-gray-500 mb-2">
+                <a
+                    href="{{ route('student.dashboard') }}"
+                    class="hover:text-blue-600 transition"
+                >
+                    Dashboard
+                </a>
+
+                <span class="material-symbols-outlined text-[16px]">
+                    chevron_right
+                </span>
+
+                <span>
+                    {{ $class->course_code }}
+                </span>
+
+                <span class="material-symbols-outlined text-[16px]">
+                    chevron_right
+                </span>
+
+                <span class="text-gray-700">
+                    File Repository
+                </span>
+            </div>
+
+            <h1 class="text-2xl font-extrabold text-gray-900">
+                Shared File Repository
+            </h1>
+
+            <p class="text-sm text-gray-500 mt-1">
+                Upload, organize, and share files with your group.
+            </p>
         </div>
-        <button id="mobile-menu-toggle" class="p-2 text-gray-600 hover:bg-gray-100 rounded-lg"><span class="material-symbols-outlined">menu</span></button>
-    </div>
 
-    <!-- Sidebar -->
-    <aside id="sidebar" class="fixed inset-y-0 left-0 z-30 w-64 bg-[#FAF9FB] border-r border-gray-200 flex flex-col transform -translate-x-full md:translate-x-0 md:static transition-transform duration-300 ease-in-out">
-        <div class="px-6 py-5 flex items-center gap-3 border-b border-gray-100">
-            <a href="/StudentDashboard" class="flex items-center gap-3">
-                <img src="{{ asset('images/carryon_logo_mark_v2.png') }}" class="w-9 h-9 object-contain" alt="CarryOn Logo">
-                <div>
-                    <span class="font-bold text-lg tracking-tight text-gray-900 block">CarryOn</span>
-                    <span class="text-[10px] uppercase tracking-widest text-gray-400 font-semibold block -mt-1">Student Portal</span>
-                </div>
-            </a>
-        </div>
-        <nav class="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto">
-            <a href="/StudentDashboard" class="flex items-center gap-3 px-3.5 py-2.5 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg text-[14px] font-medium transition-all duration-200">
-                <span class="material-symbols-outlined text-[20px] text-gray-500">grid_view</span><span>Dashboard</span>
-            </a>
-            <div class="pt-3 pb-1.5"><p class="px-3.5 text-[10px] uppercase tracking-widest text-gray-400 font-semibold">CS402</p></div>
-            <a href="/student/class/cs402" class="flex items-center gap-3 px-3.5 py-2.5 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg text-[14px] font-medium transition-all duration-200">
-                <span class="material-symbols-outlined text-[20px] text-gray-500">class</span><span>Class Overview</span>
-            </a>
-            <a href="/student/class/cs402/contribution" class="flex items-center gap-3 px-3.5 py-2.5 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg text-[14px] font-medium transition-all duration-200 pl-9">
-                <span class="material-symbols-outlined text-[20px] text-gray-500">monitoring</span><span>Contribution</span>
-            </a>
-            <a href="/student/class/cs402/group-status" class="flex items-center gap-3 px-3.5 py-2.5 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg text-[14px] font-medium transition-all duration-200 pl-9">
-                <span class="material-symbols-outlined text-[20px] text-gray-500">groups</span><span>Group Status</span>
-            </a>
-            <a href="/student/class/cs402/leader-vote" class="flex items-center gap-3 px-3.5 py-2.5 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg text-[14px] font-medium transition-all duration-200 pl-9">
-                <span class="material-symbols-outlined text-[20px] text-gray-500">how_to_vote</span><span>Leader Vote</span>
-            </a>
-            <a href="/student/class/cs402/task-manager" class="flex items-center gap-3 px-3.5 py-2.5 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg text-[14px] font-medium transition-all duration-200 pl-9">
-                <span class="material-symbols-outlined text-[20px] text-gray-500">assignment</span><span>Task Manager</span>
-            </a>
-            <a href="/student/class/cs402/file-repository" class="flex items-center gap-3 px-3.5 py-2.5 bg-gray-900 text-white rounded-lg text-[14px] font-medium pl-9">
-                <span class="material-symbols-outlined text-[20px]">folder_open</span><span>File Repository</span>
-            </a>
-            <a href="/student/class/cs402/checkin" class="flex items-center gap-3 px-3.5 py-2.5 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg text-[14px] font-medium transition-all duration-200 pl-9">
-                <span class="material-symbols-outlined text-[20px] text-gray-500">event_available</span><span>Check-In Request</span>
-            </a>
-        </nav>
-        <div class="p-4 border-t border-gray-150">
-            <a href="/login" class="flex items-center gap-3 px-3.5 py-2.5 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg text-[14px] font-medium transition-all duration-200">
-                <span class="material-symbols-outlined text-[20px] text-gray-500">logout</span><span>Log Out</span>
-            </a>
-        </div>
-    </aside>
+        @if($group && $project)
 
-    <div id="sidebar-overlay" class="fixed inset-0 bg-black/40 z-20 hidden md:hidden" onclick="toggleSidebar()"></div>
+            <div class="flex items-center gap-3">
 
-    <!-- Main Content -->
-    <main class="flex-1 overflow-y-auto main-scroll">
-        <header class="sticky top-0 z-10 bg-white/80 backdrop-blur-md border-b border-gray-100 px-6 lg:px-10 py-4">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                    <a href="/student/class/cs402" class="text-gray-400 hover:text-gray-900 transition-colors"><span class="material-symbols-outlined text-[20px]">arrow_back</span></a>
-                    <div>
-                        <h1 class="text-xl font-bold text-gray-900 tracking-tight">File Repository</h1>
-                        <p class="text-sm text-gray-500 mt-0.5">CS402: Distributed Systems · Group Alpha Shared Workspace</p>
-                    </div>
-                </div>
-                <button onclick="showUploadModal()" class="bg-gray-900 text-white px-4 py-2 rounded-lg font-semibold text-sm hover:bg-gray-800 transition-colors flex items-center gap-2">
-                    <span class="material-symbols-outlined text-[18px]">upload</span>
+                {{-- New Folder --}}
+
+                <button
+                    type="button"
+                    onclick="openFolderModal()"
+                    class="inline-flex items-center gap-2 px-4 py-2.5
+                           bg-white border border-gray-200
+                           text-gray-700 text-sm font-semibold
+                           rounded-xl hover:bg-gray-50
+                           transition shadow-sm"
+                >
+                    <span class="material-symbols-outlined text-[20px]">
+                        create_new_folder
+                    </span>
+
+                    New Folder
+                </button>
+
+                {{-- Upload --}}
+
+                <button
+                    type="button"
+                    onclick="openUploadModal()"
+                    class="inline-flex items-center gap-2 px-4 py-2.5
+                           bg-blue-600 text-white text-sm font-semibold
+                           rounded-xl hover:bg-blue-700
+                           transition shadow-sm"
+                >
+                    <span class="material-symbols-outlined text-[20px]">
+                        upload_file
+                    </span>
+
                     Upload File
                 </button>
-            </div>
-        </header>
 
-        <div class="px-6 lg:px-10 py-8 max-w-7xl mx-auto">
-            <!-- Stats overview -->
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6 animate-in">
-                <div class="bg-white rounded-xl border border-gray-200 p-4 flex items-center gap-4">
-                    <div class="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600">
-                        <span class="material-symbols-outlined text-[22px]">folder</span>
-                    </div>
-                    <div>
-                        <p class="text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Total Storage Used</p>
-                        <p class="text-xl font-bold text-gray-900">48.3 MB <span class="text-xs font-normal text-gray-400">/ 500 MB</span></p>
-                    </div>
-                </div>
-                <div class="bg-white rounded-xl border border-gray-200 p-4 flex items-center gap-4">
-                    <div class="w-10 h-10 rounded-lg bg-green-50 flex items-center justify-center text-green-600">
-                        <span class="material-symbols-outlined text-[22px]">description</span>
-                    </div>
-                    <div>
-                        <p class="text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Files Shared</p>
-                        <p class="text-xl font-bold text-gray-900">12 Files</p>
-                    </div>
-                </div>
-                <div class="bg-white rounded-xl border border-gray-200 p-4 flex items-center gap-4">
-                    <div class="w-10 h-10 rounded-lg bg-purple-50 flex items-center justify-center text-purple-600">
-                        <span class="material-symbols-outlined text-[22px]">history</span>
-                    </div>
-                    <div>
-                        <p class="text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Last Updated</p>
-                        <p class="text-xl font-bold text-gray-900">2 hours ago</p>
-                    </div>
-                </div>
             </div>
 
-            <!-- Categories / Folders -->
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8 animate-in animate-in-delay-1">
-                <div class="bg-white rounded-xl border border-gray-200 p-4 hover:border-gray-900 transition-colors cursor-pointer group">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="material-symbols-outlined text-amber-500 text-[28px]">folder</span>
-                        <span class="text-xs text-gray-400">5 files</span>
-                    </div>
-                    <p class="font-bold text-gray-900 text-sm group-hover:text-blue-600 transition-colors">Documentation</p>
-                    <p class="text-xs text-gray-400">18.4 MB</p>
-                </div>
-                <div class="bg-white rounded-xl border border-gray-200 p-4 hover:border-gray-900 transition-colors cursor-pointer group">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="material-symbols-outlined text-blue-500 text-[28px]">folder</span>
-                        <span class="text-xs text-gray-400">4 files</span>
-                    </div>
-                    <p class="font-bold text-gray-900 text-sm group-hover:text-blue-600 transition-colors">Source Code</p>
-                    <p class="text-xs text-gray-400">12.1 MB</p>
-                </div>
-                <div class="bg-white rounded-xl border border-gray-200 p-4 hover:border-gray-900 transition-colors cursor-pointer group">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="material-symbols-outlined text-emerald-500 text-[28px]">folder</span>
-                        <span class="text-xs text-gray-400">2 files</span>
-                    </div>
-                    <p class="font-bold text-gray-900 text-sm group-hover:text-blue-600 transition-colors">Designs & Diagrams</p>
-                    <p class="text-xs text-gray-400">14.8 MB</p>
-                </div>
-                <div class="bg-white rounded-xl border border-gray-200 p-4 hover:border-gray-900 transition-colors cursor-pointer group">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="material-symbols-outlined text-purple-500 text-[28px]">folder</span>
-                        <span class="text-xs text-gray-400">1 file</span>
-                    </div>
-                    <p class="font-bold text-gray-900 text-sm group-hover:text-blue-600 transition-colors">Submissions</p>
-                    <p class="text-xs text-gray-400">3.0 MB</p>
-                </div>
+        @endif
+
+    </div>
+
+
+    {{-- ============================================================
+         NO GROUP
+    ============================================================ --}}
+
+    @if(!$group)
+
+        <div class="bg-white border border-gray-200 rounded-2xl p-12 text-center">
+
+            <div class="w-16 h-16 mx-auto mb-5 rounded-2xl bg-gray-100
+                        flex items-center justify-center">
+
+                <span class="material-symbols-outlined text-[32px] text-gray-400">
+                    group
+                </span>
+
             </div>
 
-            <!-- Recent Files Table -->
-            <div class="bg-white rounded-xl border border-gray-200 overflow-hidden animate-in animate-in-delay-2">
-                <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
-                    <div>
-                        <h3 class="font-bold text-gray-900">Shared Files</h3>
-                        <p class="text-xs text-gray-500">All uploaded resources accessible to Group Alpha</p>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <input type="text" placeholder="Search files..." class="border border-gray-200 rounded-lg px-3 py-1.5 text-xs outline-none focus:ring-1 focus:ring-gray-900 w-48">
-                    </div>
-                </div>
+            <h2 class="text-lg font-bold text-gray-900">
+                No Group Assigned
+            </h2>
 
-                <div class="divide-y divide-gray-100 overflow-x-auto">
-                    <!-- Table Header -->
-                    <div class="bg-gray-50/70 px-6 py-2.5 flex items-center text-[10px] uppercase tracking-wider text-gray-400 font-semibold min-w-[600px]">
-                        <div class="flex-1">Name</div>
-                        <div class="w-32">Uploaded By</div>
-                        <div class="w-28">Date</div>
-                        <div class="w-24">Size</div>
-                        <div class="w-20 text-right">Actions</div>
-                    </div>
+            <p class="text-sm text-gray-500 mt-2 max-w-md mx-auto">
+                You are not currently assigned to a group for this class.
+                Your shared file repository will appear once you join a group.
+            </p>
 
-                    <!-- Row 1 -->
-                    <div class="file-row px-6 py-3.5 flex items-center min-w-[600px]">
-                        <div class="flex-1 flex items-center gap-3 min-w-0">
-                            <span class="material-symbols-outlined text-red-500 text-[22px]">picture_as_pdf</span>
-                            <div class="truncate">
-                                <p class="text-sm font-semibold text-gray-900 truncate">System_Architecture_v3.pdf</p>
-                                <p class="text-[11px] text-gray-400">Documentation</p>
-                            </div>
-                        </div>
-                        <div class="w-32 text-xs text-gray-600 font-medium">Alex Rivera</div>
-                        <div class="w-28 text-xs text-gray-400">2 hours ago</div>
-                        <div class="w-24 text-xs text-gray-400">4.2 MB</div>
-                        <div class="w-20 flex items-center justify-end gap-1">
-                            <button onclick="showToast('Downloading System_Architecture_v3.pdf...')" class="p-1.5 text-gray-400 hover:text-gray-900 rounded-lg hover:bg-gray-100"><span class="material-symbols-outlined text-[18px]">download</span></button>
-                        </div>
-                    </div>
-
-                    <!-- Row 2 -->
-                    <div class="file-row px-6 py-3.5 flex items-center min-w-[600px]">
-                        <div class="flex-1 flex items-center gap-3 min-w-0">
-                            <span class="material-symbols-outlined text-blue-500 text-[22px]">folder_zip</span>
-                            <div class="truncate">
-                                <p class="text-sm font-semibold text-gray-900 truncate">api-gateway-src.zip</p>
-                                <p class="text-[11px] text-gray-400">Source Code</p>
-                            </div>
-                        </div>
-                        <div class="w-32 text-xs text-gray-600 font-medium">Alex Rivera</div>
-                        <div class="w-28 text-xs text-gray-400">Yesterday</div>
-                        <div class="w-24 text-xs text-gray-400">8.1 MB</div>
-                        <div class="w-20 flex items-center justify-end gap-1">
-                            <button onclick="showToast('Downloading api-gateway-src.zip...')" class="p-1.5 text-gray-400 hover:text-gray-900 rounded-lg hover:bg-gray-100"><span class="material-symbols-outlined text-[18px]">download</span></button>
-                        </div>
-                    </div>
-
-                    <!-- Row 3 -->
-                    <div class="file-row px-6 py-3.5 flex items-center min-w-[600px]">
-                        <div class="flex-1 flex items-center gap-3 min-w-0">
-                            <span class="material-symbols-outlined text-emerald-500 text-[22px]">image</span>
-                            <div class="truncate">
-                                <p class="text-sm font-semibold text-gray-900 truncate">database-schema-diagram.png</p>
-                                <p class="text-[11px] text-gray-400">Designs & Diagrams</p>
-                            </div>
-                        </div>
-                        <div class="w-32 text-xs text-gray-600 font-medium">James Tan</div>
-                        <div class="w-28 text-xs text-gray-400">Oct 20, 2024</div>
-                        <div class="w-24 text-xs text-gray-400">2.4 MB</div>
-                        <div class="w-20 flex items-center justify-end gap-1">
-                            <button onclick="showToast('Downloading database-schema-diagram.png...')" class="p-1.5 text-gray-400 hover:text-gray-900 rounded-lg hover:bg-gray-100"><span class="material-symbols-outlined text-[18px]">download</span></button>
-                        </div>
-                    </div>
-
-                    <!-- Row 4 -->
-                    <div class="file-row px-6 py-3.5 flex items-center min-w-[600px]">
-                        <div class="flex-1 flex items-center gap-3 min-w-0">
-                            <span class="material-symbols-outlined text-purple-500 text-[22px]">description</span>
-                            <div class="truncate">
-                                <p class="text-sm font-semibold text-gray-900 truncate">Requirements_Specification.docx</p>
-                                <p class="text-[11px] text-gray-400">Documentation</p>
-                            </div>
-                        </div>
-                        <div class="w-32 text-xs text-gray-600 font-medium">Sofia Lim</div>
-                        <div class="w-28 text-xs text-gray-400">Oct 18, 2024</div>
-                        <div class="w-24 text-xs text-gray-400">1.8 MB</div>
-                        <div class="w-20 flex items-center justify-end gap-1">
-                            <button onclick="showToast('Downloading Requirements_Specification.docx...')" class="p-1.5 text-gray-400 hover:text-gray-900 rounded-lg hover:bg-gray-100"><span class="material-symbols-outlined text-[18px]">download</span></button>
-                        </div>
-                    </div>
-
-                    <!-- Row 5 -->
-                    <div class="file-row px-6 py-3.5 flex items-center min-w-[600px]">
-                        <div class="flex-1 flex items-center gap-3 min-w-0">
-                            <span class="material-symbols-outlined text-amber-500 text-[22px]">movie</span>
-                            <div class="truncate">
-                                <p class="text-sm font-semibold text-gray-900 truncate">Phase1_Demo_Walkthrough.mp4</p>
-                                <p class="text-[11px] text-gray-400">Submissions</p>
-                            </div>
-                        </div>
-                        <div class="w-32 text-xs text-gray-600 font-medium">Maria Cruz</div>
-                        <div class="w-28 text-xs text-gray-400">Oct 15, 2024</div>
-                        <div class="w-24 text-xs text-gray-400">22.5 MB</div>
-                        <div class="w-20 flex items-center justify-end gap-1">
-                            <button onclick="showToast('Downloading Phase1_Demo_Walkthrough.mp4...')" class="p-1.5 text-gray-400 hover:text-gray-900 rounded-lg hover:bg-gray-100"><span class="material-symbols-outlined text-[18px]">download</span></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
 
-        <footer class="px-6 lg:px-10 py-6 border-t border-gray-100 mt-8">
-            <div class="flex flex-col sm:flex-row justify-between items-center gap-3 max-w-7xl mx-auto">
-                <span class="text-[10px] uppercase tracking-widest text-gray-400 font-semibold">CarryOn Academic Systems</span>
-                <span class="text-xs text-gray-400">© 2024 CarryOn Academic Systems.</span>
-            </div>
-        </footer>
-    </main>
+    @elseif(!$project)
 
-    <!-- Upload File Modal -->
-    <div id="upload-modal" class="modal-overlay fixed inset-0 z-50 flex items-center justify-center">
-        <div class="modal-panel bg-white rounded-2xl shadow-2xl border border-gray-200 w-full max-w-lg mx-4 p-6">
-            <div class="flex items-center justify-between mb-5">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
-                        <span class="material-symbols-outlined text-blue-600 text-[22px]">cloud_upload</span>
+        {{-- ========================================================
+             NO PROJECT
+        ========================================================= --}}
+
+        <div class="bg-white border border-gray-200 rounded-2xl p-12 text-center">
+
+            <div class="w-16 h-16 mx-auto mb-5 rounded-2xl bg-blue-50
+                        flex items-center justify-center">
+
+                <span class="material-symbols-outlined text-[32px] text-blue-600">
+                    folder_off
+                </span>
+
+            </div>
+
+            <h2 class="text-lg font-bold text-gray-900">
+                No Project Available
+            </h2>
+
+            <p class="text-sm text-gray-500 mt-2 max-w-md mx-auto">
+                Your group does not have a project assigned yet.
+                The shared repository will become available once a project is assigned.
+            </p>
+
+        </div>
+
+    @else
+
+        {{-- ========================================================
+             PROJECT INFORMATION
+        ========================================================= --}}
+
+        <div class="bg-white border border-gray-200 rounded-2xl p-5 mb-6">
+
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+
+                <div class="flex items-center gap-4">
+
+                    <div class="w-12 h-12 rounded-xl bg-blue-50
+                                flex items-center justify-center">
+
+                        <span class="material-symbols-outlined text-[26px] text-blue-600">
+                            folder_shared
+                        </span>
+
                     </div>
+
                     <div>
-                        <h3 class="font-bold text-gray-900">Upload to Repository</h3>
-                        <p class="text-sm text-gray-500">Share files with your group members</p>
+                        <p class="text-xs font-semibold uppercase tracking-wide text-gray-400">
+                            Project
+                        </p>
+
+                        <h2 class="text-lg font-bold text-gray-900">
+                            {{ $project->title }}
+                        </h2>
+
+                        <p class="text-sm text-gray-500">
+                            {{ $group->name }}
+                        </p>
                     </div>
+
                 </div>
-                <button onclick="closeUploadModal()" class="text-gray-400 hover:text-gray-600"><span class="material-symbols-outlined">close</span></button>
-            </div>
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Select Category / Folder</label>
-                    <select class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-gray-900 focus:border-transparent outline-none bg-white">
-                        <option>Documentation</option>
-                        <option>Source Code</option>
-                        <option>Designs & Diagrams</option>
-                        <option>Submissions</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1.5">File Upload</label>
-                    <div class="border-2 border-dashed border-gray-200 rounded-xl p-8 text-center hover:border-gray-400 transition-colors cursor-pointer">
-                        <span class="material-symbols-outlined text-gray-300 text-[36px] mb-2">upload_file</span>
-                        <p class="text-sm text-gray-500">Drag & drop files here, or <span class="text-blue-600 font-medium">browse</span></p>
-                        <p class="text-xs text-gray-400 mt-1">PDF, ZIP, DOCX, PNG up to 100MB</p>
+
+                <div class="flex items-center gap-6 text-sm">
+
+                    <div>
+                        <p class="text-xs text-gray-400">
+                            Folders
+                        </p>
+
+                        <p class="font-bold text-gray-900">
+                            {{ $folders->count() }}
+                        </p>
                     </div>
+
+                    <div>
+                        <p class="text-xs text-gray-400">
+                            Files
+                        </p>
+
+                        <p class="font-bold text-gray-900">
+                            {{ $files->count() }}
+                        </p>
+                    </div>
+
                 </div>
+
             </div>
-            <div class="flex items-center gap-3 mt-6">
-                <button onclick="closeUploadModal()" class="flex-1 px-4 py-2.5 rounded-lg border border-gray-200 text-gray-700 font-semibold text-sm hover:bg-gray-50 transition-colors">Cancel</button>
-                <button onclick="uploadFile()" class="flex-1 px-4 py-2.5 rounded-lg bg-gray-900 text-white font-semibold text-sm hover:bg-gray-800 transition-colors flex items-center justify-center gap-2">
-                    <span class="material-symbols-outlined text-[16px]">upload</span>
-                    Upload
+
+        </div>
+
+
+        {{-- ========================================================
+             BREADCRUMB
+        ========================================================= --}}
+
+        <div class="flex items-center gap-2 mb-5 text-sm">
+
+            <a
+                href="{{ route('student.file.repository', ['classId' => $class->id]) }}"
+                class="flex items-center gap-1.5 text-blue-600 hover:text-blue-700 font-medium"
+            >
+                <span class="material-symbols-outlined text-[18px]">
+                    folder
+                </span>
+
+                {{ $project->title }}
+            </a>
+
+            @if($currentFolder)
+
+                <span class="material-symbols-outlined text-[18px] text-gray-400">
+                    chevron_right
+                </span>
+
+                <span class="font-semibold text-gray-700">
+                    {{ $currentFolder->name }}
+                </span>
+
+            @endif
+
+        </div>
+
+
+        {{-- ========================================================
+             SEARCH / SORT BAR
+        ========================================================= --}}
+
+        <div class="bg-white border border-gray-200 rounded-2xl p-4 mb-5">
+
+            <div class="flex flex-col md:flex-row gap-3 md:items-center">
+
+                <div class="relative flex-1">
+
+                    <span class="material-symbols-outlined absolute left-3 top-1/2
+                                 -translate-y-1/2 text-gray-400 text-[20px]">
+                        search
+                    </span>
+
+                    <input
+                        id="repositorySearch"
+                        type="text"
+                        placeholder="Search files and folders..."
+                        class="w-full pl-10 pr-4 py-2.5 rounded-xl
+                               border border-gray-200
+                               text-sm outline-none
+                               focus:ring-2 focus:ring-blue-100
+                               focus:border-blue-400"
+                    >
+
+                </div>
+
+                <button
+                    type="button"
+                    onclick="clearRepositorySearch()"
+                    class="px-4 py-2.5 rounded-xl border border-gray-200
+                           text-sm font-medium text-gray-600
+                           hover:bg-gray-50 transition"
+                >
+                    Clear
                 </button>
+
             </div>
+
         </div>
+
+
+        {{-- ========================================================
+             FOLDERS
+        ========================================================= --}}
+
+        @if($folders->count())
+
+            <div class="mb-8">
+
+                <div class="flex items-center justify-between mb-3">
+
+                    <h3 class="text-sm font-bold text-gray-900">
+                        Folders
+                    </h3>
+
+                    <span class="text-xs text-gray-400">
+                        {{ $folders->count() }}
+                        {{ $folders->count() === 1 ? 'folder' : 'folders' }}
+                    </span>
+
+                </div>
+
+
+                <div
+                    id="folderGrid"
+                    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
+                >
+
+                    @foreach($folders as $folder)
+
+                        <div
+                            class="repository-item folder-card bg-white border
+                                   border-gray-200 rounded-2xl p-4
+                                   hover:border-blue-200 hover:shadow-sm
+                                   transition"
+                            data-name="{{ strtolower($folder->name) }}"
+                        >
+
+                            <div class="flex items-start justify-between gap-3">
+
+                                <a
+                                    href="{{ route('student.file.repository', [
+                                        'classId' => $class->id,
+                                        'folder' => $folder->id
+                                    ]) }}"
+                                    class="flex items-center gap-3 min-w-0 flex-1"
+                                >
+
+                                    <div class="w-11 h-11 rounded-xl bg-blue-50
+                                                flex items-center justify-center
+                                                flex-shrink-0">
+
+                                        <span class="material-symbols-outlined text-[25px] text-blue-600">
+                                            folder
+                                        </span>
+
+                                    </div>
+
+                                    <div class="min-w-0">
+
+                                        <p class="font-semibold text-sm text-gray-900 truncate">
+                                            {{ $folder->name }}
+                                        </p>
+
+                                        <p class="text-xs text-gray-400 mt-1">
+                                            {{ $folder->files_count }}
+                                            {{ $folder->files_count === 1 ? 'file' : 'files' }}
+                                        </p>
+
+                                    </div>
+
+                                </a>
+
+
+                                {{-- Delete folder --}}
+
+                                <form
+                                    action="{{ route('student.file.repository.folder.delete', [
+                                        'classId' => $class->id,
+                                        'folderId' => $folder->id
+                                    ]) }}"
+                                    method="POST"
+                                    onsubmit="return confirm('Delete this folder and its files?')"
+                                >
+
+                                    @csrf
+                                    @method('DELETE')
+
+                                    <button
+                                        type="submit"
+                                        class="w-8 h-8 rounded-lg
+                                               flex items-center justify-center
+                                               text-gray-400 hover:text-red-600
+                                               hover:bg-red-50 transition"
+                                        title="Delete folder"
+                                    >
+
+                                        <span class="material-symbols-outlined text-[19px]">
+                                            delete
+                                        </span>
+
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </div>
+
+                    @endforeach
+
+                </div>
+
+            </div>
+
+        @endif
+
+
+        {{-- ========================================================
+             FILES
+        ========================================================= --}}
+
+        <div>
+
+            <div class="flex items-center justify-between mb-3">
+
+                <h3 class="text-sm font-bold text-gray-900">
+                    Files
+                </h3>
+
+                <span class="text-xs text-gray-400">
+                    {{ $files->count() }}
+                    {{ $files->count() === 1 ? 'file' : 'files' }}
+                </span>
+
+            </div>
+
+
+            @if($files->count())
+
+                <div
+                    id="fileList"
+                    class="bg-white border border-gray-200 rounded-2xl overflow-hidden"
+                >
+
+                    {{-- Table header --}}
+
+                    <div class="hidden md:grid grid-cols-[1fr_150px_150px_100px]
+                                gap-4 px-5 py-3
+                                bg-gray-50 border-b border-gray-200
+                                text-[11px] font-bold uppercase
+                                tracking-wide text-gray-400">
+
+                        <div>
+                            Name
+                        </div>
+
+                        <div>
+                            Uploaded By
+                        </div>
+
+                        <div>
+                            Date
+                        </div>
+
+                        <div class="text-right">
+                            Action
+                        </div>
+
+                    </div>
+
+
+                    @foreach($files as $file)
+
+                        <div
+                            class="repository-item file-row px-5 py-4
+                                   border-b border-gray-100 last:border-b-0
+                                   hover:bg-gray-50/70 transition"
+                            data-name="{{ strtolower($file->original_name) }}"
+                        >
+
+                            <div class="grid grid-cols-1 md:grid-cols-[1fr_150px_150px_100px]
+                                        gap-3 md:gap-4 items-center">
+
+                                {{-- File name --}}
+
+                                <div class="flex items-center gap-3 min-w-0">
+
+                                    @php
+                                        $extension = strtolower(
+                                            pathinfo(
+                                                $file->original_name,
+                                                PATHINFO_EXTENSION
+                                            )
+                                        );
+
+                                        $icon = match($extension) {
+                                            'pdf' => 'picture_as_pdf',
+                                            'doc', 'docx' => 'description',
+                                            'xls', 'xlsx' => 'table_chart',
+                                            'ppt', 'pptx' => 'slideshow',
+                                            'zip', 'rar', '7z' => 'folder_zip',
+                                            'jpg', 'jpeg', 'png', 'gif', 'webp' => 'image',
+                                            'mp4', 'mov', 'avi' => 'movie',
+                                            'mp3', 'wav' => 'audio_file',
+                                            default => 'insert_drive_file',
+                                        };
+                                    @endphp
+
+                                    <div class="w-10 h-10 rounded-xl bg-gray-100
+                                                flex items-center justify-center
+                                                flex-shrink-0">
+
+                                        <span class="material-symbols-outlined text-[22px] text-gray-500">
+                                            {{ $icon }}
+                                        </span>
+
+                                    </div>
+
+                                    <div class="min-w-0">
+
+                                        <p class="font-semibold text-sm text-gray-900 truncate">
+                                            {{ $file->original_name }}
+                                        </p>
+
+                                        <p class="text-xs text-gray-400 mt-0.5">
+                                            {{ strtoupper($extension ?: 'FILE') }}
+                                            ·
+                                            {{ number_format($file->file_size / 1024, 1) }} KB
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+
+                                {{-- Uploader --}}
+
+                                <div class="text-sm text-gray-600">
+
+                                    <span class="md:hidden text-xs text-gray-400">
+                                        Uploaded by:
+                                    </span>
+
+                                    {{ $file->uploader->name ?? 'Unknown' }}
+
+                                </div>
+
+
+                                {{-- Date --}}
+
+                                <div class="text-sm text-gray-500">
+
+                                    <span class="md:hidden text-xs text-gray-400">
+                                        Uploaded:
+                                    </span>
+
+                                    {{ $file->created_at->format('M d, Y') }}
+
+                                </div>
+
+
+                                {{-- Actions --}}
+
+                                <div class="flex md:justify-end items-center gap-2">
+
+                                    <a
+                                        href="{{ route('student.file.repository.download', [
+                                            'classId' => $class->id,
+                                            'fileId' => $file->id
+                                        ]) }}"
+                                        class="w-9 h-9 rounded-lg
+                                               flex items-center justify-center
+                                               text-blue-600 bg-blue-50
+                                               hover:bg-blue-100 transition"
+                                        title="Download"
+                                    >
+
+                                        <span class="material-symbols-outlined text-[20px]">
+                                            download
+                                        </span>
+
+                                    </a>
+
+
+                                    @if($file->uploaded_by === Auth::id())
+
+                                        <form
+                                            action="{{ route('student.file.repository.file.delete', [
+                                                'classId' => $class->id,
+                                                'fileId' => $file->id
+                                            ]) }}"
+                                            method="POST"
+                                            onsubmit="return confirm('Delete this file?')"
+                                        >
+
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button
+                                                type="submit"
+                                                class="w-9 h-9 rounded-lg
+                                                       flex items-center justify-center
+                                                       text-red-500 bg-red-50
+                                                       hover:bg-red-100 transition"
+                                                title="Delete"
+                                            >
+
+                                                <span class="material-symbols-outlined text-[20px]">
+                                                    delete
+                                                </span>
+
+                                            </button>
+
+                                        </form>
+
+                                    @endif
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    @endforeach
+
+                </div>
+
+            @else
+
+                {{-- Empty files --}}
+
+                <div class="bg-white border border-gray-200 rounded-2xl p-12 text-center">
+
+                    <div class="w-14 h-14 mx-auto mb-4 rounded-2xl bg-gray-100
+                                flex items-center justify-center">
+
+                        <span class="material-symbols-outlined text-[28px] text-gray-400">
+                            folder_open
+                        </span>
+
+                    </div>
+
+                    <h3 class="font-bold text-gray-900">
+                        No files yet
+                    </h3>
+
+                    <p class="text-sm text-gray-500 mt-1">
+                        Upload a file to start building your shared repository.
+                    </p>
+
+                    <button
+                        type="button"
+                        onclick="openUploadModal()"
+                        class="mt-5 inline-flex items-center gap-2
+                               px-4 py-2.5 bg-blue-600 text-white
+                               text-sm font-semibold rounded-xl
+                               hover:bg-blue-700 transition"
+                    >
+
+                        <span class="material-symbols-outlined text-[20px]">
+                            upload_file
+                        </span>
+
+                        Upload File
+
+                    </button>
+
+                </div>
+
+            @endif
+
+        </div>
+
+    @endif
+
+</div>
+
+
+{{-- ================================================================
+     UPLOAD MODAL
+================================================================ --}}
+
+@if($group && $project)
+
+<div
+    id="uploadModal"
+    class="fixed inset-0 z-50 hidden"
+>
+
+    <div
+        class="absolute inset-0 bg-black/40 backdrop-blur-sm"
+        onclick="closeUploadModal()"
+    ></div>
+
+    <div class="relative min-h-screen flex items-center justify-center p-4">
+
+        <div class="bg-white w-full max-w-lg rounded-2xl shadow-xl">
+
+            <div class="px-6 py-5 border-b border-gray-200 flex items-center justify-between">
+
+                <div>
+
+                    <h2 class="text-lg font-bold text-gray-900">
+                        Upload File
+                    </h2>
+
+                    <p class="text-xs text-gray-500 mt-1">
+                        Add a file to your shared repository.
+                    </p>
+
+                </div>
+
+                <button
+                    type="button"
+                    onclick="closeUploadModal()"
+                    class="w-9 h-9 rounded-lg hover:bg-gray-100
+                           flex items-center justify-center text-gray-500"
+                >
+
+                    <span class="material-symbols-outlined">
+                        close
+                    </span>
+
+                </button>
+
+            </div>
+
+
+            <form
+                action="{{ route('student.file.repository.upload', [
+                    'classId' => $class->id
+                ]) }}"
+                method="POST"
+                enctype="multipart/form-data"
+            >
+
+                @csrf
+
+                <input
+                    type="hidden"
+                    name="project_id"
+                    value="{{ $project->id }}"
+                >
+
+                @if($currentFolder)
+
+                    <input
+                        type="hidden"
+                        name="folder_id"
+                        value="{{ $currentFolder->id }}"
+                    >
+
+                @endif
+
+
+                <div class="p-6">
+
+                    <label
+                        for="repositoryFile"
+                        class="block border-2 border-dashed border-gray-300
+                               rounded-2xl p-8 text-center
+                               hover:border-blue-400 hover:bg-blue-50/30
+                               transition cursor-pointer"
+                    >
+
+                        <span class="material-symbols-outlined text-[40px] text-blue-500">
+                            cloud_upload
+                        </span>
+
+                        <p class="mt-3 font-semibold text-gray-900">
+                            Choose a file
+                        </p>
+
+                        <p class="text-xs text-gray-500 mt-1">
+                            Maximum file size: 50 MB
+                        </p>
+
+                        <p
+                            id="selectedFileName"
+                            class="text-sm text-blue-600 font-medium mt-3 hidden"
+                        ></p>
+
+                        <input
+                            id="repositoryFile"
+                            type="file"
+                            name="file"
+                            class="hidden"
+                            required
+                        >
+
+                    </label>
+
+                    <div class="mt-4 p-3 bg-gray-50 rounded-xl">
+
+                        <div class="flex items-center gap-2 text-xs text-gray-500">
+
+                            <span class="material-symbols-outlined text-[18px]">
+                                folder
+                            </span>
+
+                            <span>
+                                Uploading to:
+                            </span>
+
+                            <strong class="text-gray-700">
+                                {{ $currentFolder ? $currentFolder->name : 'Project Root' }}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="px-6 py-4 bg-gray-50 rounded-b-2xl
+                            flex justify-end gap-3">
+
+                    <button
+                        type="button"
+                        onclick="closeUploadModal()"
+                        class="px-4 py-2.5 rounded-xl border
+                               border-gray-200 text-sm font-semibold
+                               text-gray-600 hover:bg-white transition"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="px-4 py-2.5 rounded-xl
+                               bg-blue-600 text-white text-sm
+                               font-semibold hover:bg-blue-700 transition"
+                    >
+                        Upload File
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
     </div>
 
-    <!-- Toast Notification -->
-    <div id="toast" class="fixed bottom-6 right-6 z-50 bg-green-600 text-white px-5 py-3 rounded-xl shadow-lg flex items-center gap-3 transform translate-y-20 opacity-0 transition-all duration-300">
-        <span class="material-symbols-outlined text-[20px]">check_circle</span>
-        <span class="font-medium text-sm" id="toast-msg">File uploaded successfully!</span>
+</div>
+
+@endif
+
+
+{{-- ================================================================
+     NEW FOLDER MODAL
+================================================================ --}}
+
+@if($group && $project)
+
+<div
+    id="folderModal"
+    class="fixed inset-0 z-50 hidden"
+>
+
+    <div
+        class="absolute inset-0 bg-black/40 backdrop-blur-sm"
+        onclick="closeFolderModal()"
+    ></div>
+
+    <div class="relative min-h-screen flex items-center justify-center p-4">
+
+        <div class="bg-white w-full max-w-md rounded-2xl shadow-xl">
+
+            <div class="px-6 py-5 border-b border-gray-200 flex items-center justify-between">
+
+                <div>
+
+                    <h2 class="text-lg font-bold text-gray-900">
+                        Create Folder
+                    </h2>
+
+                    <p class="text-xs text-gray-500 mt-1">
+                        Organize your shared project files.
+                    </p>
+
+                </div>
+
+                <button
+                    type="button"
+                    onclick="closeFolderModal()"
+                    class="w-9 h-9 rounded-lg hover:bg-gray-100
+                           flex items-center justify-center text-gray-500"
+                >
+
+                    <span class="material-symbols-outlined">
+                        close
+                    </span>
+
+                </button>
+
+            </div>
+
+
+            <form
+                action="{{ route('student.file.repository.folder', [
+                    'classId' => $class->id
+                ]) }}"
+                method="POST"
+            >
+
+                @csrf
+
+                <input
+                    type="hidden"
+                    name="project_id"
+                    value="{{ $project->id }}"
+                >
+
+                @if($currentFolder)
+
+                    <input
+                        type="hidden"
+                        name="parent_id"
+                        value="{{ $currentFolder->id }}"
+                    >
+
+                @endif
+
+
+                <div class="p-6">
+
+                    <label
+                        for="folderName"
+                        class="block text-sm font-semibold text-gray-700 mb-2"
+                    >
+                        Folder Name
+                    </label>
+
+                    <input
+                        id="folderName"
+                        type="text"
+                        name="name"
+                        required
+                        maxlength="100"
+                        placeholder="e.g. Documentation"
+                        class="w-full px-4 py-3 rounded-xl
+                               border border-gray-200
+                               text-sm outline-none
+                               focus:ring-2 focus:ring-blue-100
+                               focus:border-blue-400"
+                    >
+
+                    @if($currentFolder)
+
+                        <p class="text-xs text-gray-400 mt-2">
+                            This folder will be created inside
+                            <strong class="text-gray-600">
+                                {{ $currentFolder->name }}
+                            </strong>.
+                        </p>
+
+                    @endif
+
+                </div>
+
+
+                <div class="px-6 py-4 bg-gray-50 rounded-b-2xl
+                            flex justify-end gap-3">
+
+                    <button
+                        type="button"
+                        onclick="closeFolderModal()"
+                        class="px-4 py-2.5 rounded-xl border
+                               border-gray-200 text-sm font-semibold
+                               text-gray-600 hover:bg-white transition"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="px-4 py-2.5 rounded-xl
+                               bg-blue-600 text-white text-sm
+                               font-semibold hover:bg-blue-700 transition"
+                    >
+                        Create Folder
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
     </div>
 
-</body>
-</html>
+</div>
+
+@endif
+
+
+{{-- ================================================================
+     JAVASCRIPT
+================================================================ --}}
+
+@push('scripts')
+
+<script>
+
+    function openUploadModal() {
+        const modal = document.getElementById('uploadModal');
+
+        if (modal) {
+            modal.classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+        }
+    }
+
+    function closeUploadModal() {
+        const modal = document.getElementById('uploadModal');
+
+        if (modal) {
+            modal.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }
+    }
+
+
+    function openFolderModal() {
+        const modal = document.getElementById('folderModal');
+
+        if (modal) {
+            modal.classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+
+            setTimeout(() => {
+                const input = document.getElementById('folderName');
+
+                if (input) {
+                    input.focus();
+                }
+            }, 100);
+        }
+    }
+
+    function closeFolderModal() {
+        const modal = document.getElementById('folderModal');
+
+        if (modal) {
+            modal.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | File selection
+    |--------------------------------------------------------------------------
+    */
+
+    const repositoryFile = document.getElementById('repositoryFile');
+    const selectedFileName = document.getElementById('selectedFileName');
+
+    if (repositoryFile) {
+
+        repositoryFile.addEventListener('change', function () {
+
+            if (this.files.length > 0) {
+
+                selectedFileName.textContent =
+                    this.files[0].name;
+
+                selectedFileName.classList.remove('hidden');
+
+            } else {
+
+                selectedFileName.textContent = '';
+
+                selectedFileName.classList.add('hidden');
+
+            }
+
+        });
+
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Search
+    |--------------------------------------------------------------------------
+    */
+
+    const repositorySearch =
+        document.getElementById('repositorySearch');
+
+    if (repositorySearch) {
+
+        repositorySearch.addEventListener('input', function () {
+
+            const search =
+                this.value.toLowerCase().trim();
+
+            document.querySelectorAll('.repository-item')
+                .forEach(function (item) {
+
+                    const name =
+                        item.dataset.name || '';
+
+                    item.style.display =
+                        name.includes(search)
+                            ? ''
+                            : 'none';
+
+                });
+
+        });
+
+    }
+
+
+    function clearRepositorySearch() {
+
+        if (!repositorySearch) {
+            return;
+        }
+
+        repositorySearch.value = '';
+
+        document.querySelectorAll('.repository-item')
+            .forEach(function (item) {
+                item.style.display = '';
+            });
+
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | ESC closes modals
+    |--------------------------------------------------------------------------
+    */
+
+    document.addEventListener('keydown', function (event) {
+
+        if (event.key === 'Escape') {
+
+            closeUploadModal();
+            closeFolderModal();
+
+        }
+
+    });
+
+</script>
+
+@endpush
+
+@endsection
