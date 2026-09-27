@@ -19,6 +19,7 @@ use App\Http\Controllers\Student\NotificationController;
 use App\Http\Controllers\Student\ContributionController;
 use App\Http\Controllers\Student\MyContributionController;
 use App\Http\Controllers\Admin\BulkUserRegistrationController;
+use App\Http\Controllers\Student\FileRepositoryController;
 
 
 Route::get('/', function(){
@@ -137,13 +138,33 @@ Route::middleware(['auth', 'role:Student'])->group(function () {
         'student.group-status'
     )->name('student.group.status');
     Route::get(
-    '/student/class/{classId}/task-manager',
-    [TaskController::class, 'manager']
+        '/student/class/{classId}/task-manager',
+        [TaskController::class, 'manager']
     )->name('student.task.manager');
-    Route::view(
+    Route::get(
         '/student/class/{classId}/file-repository',
-        'student.file-repository'
+        [FileRepositoryController::class, 'index']
     )->name('student.file.repository');
+    Route::post(
+        '/student/class/{classId}/file-repository/upload',
+        [FileRepositoryController::class, 'upload']
+    )->name('student.file.repository.upload');
+    Route::post(
+        '/student/class/{classId}/file-repository/folder',
+        [FileRepositoryController::class, 'createFolder']
+    )->name('student.file.repository.folder');
+    Route::get(
+        '/student/class/{classId}/file-repository/files/{fileId}/download',
+        [FileRepositoryController::class, 'download']
+    )->name('student.file.repository.download');
+    Route::delete(
+        '/student/class/{classId}/file-repository/files/{fileId}',
+        [FileRepositoryController::class, 'deleteFile']
+    )->name('student.file.repository.file.delete');
+    Route::delete(
+        '/student/class/{classId}/file-repository/folders/{folderId}',
+        [FileRepositoryController::class, 'deleteFolder']
+    )->name('student.file.repository.folder.delete');
     Route::get(
         '/student/class/{classId}/checkin',
         [CheckinRequestController::class, 'index']
@@ -161,51 +182,51 @@ Route::middleware(['auth', 'role:Student'])->group(function () {
         [VoteController::class, 'store']
     )->name('student.vote.store');
     Route::get(
-    '/student/class/{classId}/projects/{projectId}/tasks/{taskId}',
-    [TaskController::class, 'show']
+        '/student/class/{classId}/projects/{projectId}/tasks/{taskId}',
+        [TaskController::class, 'show']
     )->name('student.tasks.show');
     Route::get(
-    '/student/class/{classId}/projects/{projectId}/tasks/{taskId}/download',
-    [TaskController::class, 'download']
+        '/student/class/{classId}/projects/{projectId}/tasks/{taskId}/download',
+        [TaskController::class, 'download']
     )->name('student.tasks.download');
     Route::post(
-    '/student/class/{classId}/projects/{projectId}/tasks/{taskId}/start',
-    [TaskController::class, 'start']
+        '/student/class/{classId}/projects/{projectId}/tasks/{taskId}/start',
+        [TaskController::class, 'start']
     )->name('student.tasks.start');
     Route::post(
-    '/student/class/{classId}/projects/{projectId}/tasks/{taskId}/submit',
-    [TaskController::class, 'submit']
+        '/student/class/{classId}/projects/{projectId}/tasks/{taskId}/submit',
+        [TaskController::class, 'submit']
     )->name('student.tasks.submit');
     Route::get(
-    '/student/class/{classId}/projects/{projectId}/tasks/{taskId}/review',
-    [TaskController::class, 'review']
+        '/student/class/{classId}/projects/{projectId}/tasks/{taskId}/review',
+        [TaskController::class, 'review']
     )->name('student.tasks.review');
     Route::post(
-    '/student/class/{classId}/projects/{projectId}/tasks/{taskId}/submissions/{submissionId}/approve',
-    [TaskController::class, 'approveSubmission']
+        '/student/class/{classId}/projects/{projectId}/tasks/{taskId}/submissions/{submissionId}/approve',
+        [TaskController::class, 'approveSubmission']
     )->name('student.tasks.approve');
     Route::post(
-    '/student/class/{classId}/projects/{projectId}/tasks/{taskId}/submissions/{submissionId}/reject',
-    [TaskController::class, 'rejectSubmission']
+        '/student/class/{classId}/projects/{projectId}/tasks/{taskId}/submissions/{submissionId}/reject',
+        [TaskController::class, 'rejectSubmission']
     )->name('student.tasks.reject');
     Route::get(
-    '/student/notifications',
-    [NotificationController::class, 'index']
+        '/student/notifications',
+        [NotificationController::class, 'index']
     )->name('student.notifications.index');
     Route::post(
-    '/student/notifications/{notification}/read',
-    [NotificationController::class, 'read']
+        '/student/notifications/{notification}/read',
+        [NotificationController::class, 'read']
     )->name('student.notifications.read');
     Route::post(
-    '/student/notifications/read-all',
-    [NotificationController::class, 'readAll']
+        '/student/notifications/read-all',
+        [NotificationController::class, 'readAll']
     )->name('student.notifications.readAll');
     Route::get(
-    '/student/class/{classId}/my-contribution',
-    [MyContributionController::class, 'classContribution']
+        '/student/class/{classId}/my-contribution',
+        [MyContributionController::class, 'classContribution']
     )->name('student.my.contribution.class');
     Route::get('/student/my-contributions',
-    [MyContributionController::class, 'index']
+        [MyContributionController::class, 'index']
     )->name('student.my.contributions');
 });
 
