@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\File;
+use App\Models\FileFolder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -48,4 +50,20 @@ class Project extends Model
             'project_id'
         );
     }
+
+    public function fileFolders(): HasMany
+    {
+    return $this->hasMany(
+        FileFolder::class,
+        'project_id'
+    );
+    }
+
+    public function files(): HasMany
+    {
+    return $this->hasMany(
+        File::class,
+        'project_id'
+    );
+}
 }
