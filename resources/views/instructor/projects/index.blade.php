@@ -161,55 +161,67 @@
 
 
                     {{-- Actions --}}
-                    <div class="mt-4 flex items-center gap-2">
+                    <div class="mt-4 flex flex-col gap-2">
 
+                        {{-- Workload Report Link --}}
                         <a
-                            href="{{ route(
-                                'instructor.projects.edit',
-                                [
-                                    'classId' => $class->id,
-                                    'projectId' => $project->id
-                                ]
-                            ) }}"
-                            class="flex-1 text-center px-4 py-2 rounded-lg
-                                   border border-gray-200 text-gray-700
-                                   text-sm font-medium
-                                   hover:bg-gray-50 hover:border-gray-300 transition"
+                            href="{{ route('instructor.projects.workload', [
+                                'classId' => $class->id,
+                                'projectId' => $project->id
+                            ]) }}"
+                            class="w-full inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg
+                                   bg-purple-600 text-white text-sm font-semibold
+                                   hover:bg-purple-700 transition"
                         >
-                            Edit
+                            <span class="material-symbols-outlined text-[18px]">monitoring</span>
+                            View Workload Report
                         </a>
 
-
-                        <form
-                            method="POST"
-                            action="{{ route(
-                                'instructor.projects.destroy',
-                                [
-                                    'classId' => $class->id,
-                                    'projectId' => $project->id
-                                ]
-                            ) }}"
-                            class="flex-1"
-                            onsubmit="return confirm(
-                                'Are you sure you want to delete this project?'
-                            );"
-                        >
-
-                            @csrf
-                            @method('DELETE')
-
-                            <button
-                                type="submit"
-                                class="w-full px-4 py-2 rounded-lg
-                                       bg-red-50 text-red-600 border border-red-100
-                                       text-sm font-medium hover:bg-red-100 hover:border-red-200
-                                       transition"
+                        <div class="flex items-center gap-2">
+                            <a
+                                href="{{ route(
+                                    'instructor.projects.edit',
+                                    [
+                                        'classId' => $class->id,
+                                        'projectId' => $project->id
+                                    ]
+                                ) }}"
+                                class="flex-1 text-center px-4 py-2 rounded-lg
+                                       border border-gray-200 text-gray-700
+                                       text-sm font-medium
+                                       hover:bg-gray-50 hover:border-gray-300 transition"
                             >
-                                Delete
-                            </button>
+                                Edit
+                            </a>
 
-                        </form>
+                            <form
+                                method="POST"
+                                action="{{ route(
+                                    'instructor.projects.destroy',
+                                    [
+                                        'classId' => $class->id,
+                                        'projectId' => $project->id
+                                    ]
+                                ) }}"
+                                class="flex-1"
+                                onsubmit="return confirm(
+                                    'Are you sure you want to delete this project?'
+                                );"
+                            >
+                                @csrf
+                                @method('DELETE')
 
+                                <button
+                                    type="submit"
+                                    class="w-full px-4 py-2 rounded-lg
+                                           bg-red-50 text-red-600 border border-red-100
+                                           text-sm font-medium hover:bg-red-100 hover:border-red-200
+                                           transition"
+                                >
+                                    Delete
+                                </button>
+                            </form>
+                        </div>
                     </div>
 
                 </div>
@@ -346,6 +358,35 @@
                                focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none
                                transition resize-none"
                     >{{ old('description') }}</textarea>
+                </div>
+
+                {{-- Contribution Threshold --}}
+                <div class="p-4 rounded-xl bg-purple-50 border border-purple-100">
+                    <label for="modal_contribution_threshold"
+                           class="block text-sm font-semibold text-gray-700 mb-1.5">
+                        Minimum Contribution Threshold (%) <span class="text-red-500">*</span>
+                    </label>
+                    <p class="text-xs text-gray-500 mb-3">
+                        Members below this percentage will be flagged for workload review.
+                    </p>
+                    <div class="relative">
+                        <input
+                            type="number"
+                            id="modal_contribution_threshold"
+                            name="contribution_threshold"
+                            min="0.01"
+                            max="100"
+                            step="0.01"
+                            value="{{ old('contribution_threshold', 20) }}"
+                            required
+                            class="w-full px-4 py-2.5 pr-10 rounded-xl border border-gray-300 text-sm
+                                   focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none"
+                        >
+                        <span class="absolute right-4 top-2.5 text-gray-500 text-sm">%</span>
+                    </div>
+                    @error('contribution_threshold')
+                        <p class="mt-1.5 text-xs text-red-600">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 {{-- Dates --}}
