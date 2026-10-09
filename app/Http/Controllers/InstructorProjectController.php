@@ -52,75 +52,84 @@ class InstructorProjectController extends Controller
             ->where('Instructor_Id', Auth::id())
             ->firstOrFail();
 
-        $request->validate([
-            'title' => ['required', 'string', 'max:255'],
+        $validated = $request->validate([
+            'title' => [
+                'required',
+                'string',
+                'max:255',
+            ],
 
             'description' => [
                 'nullable',
-                'string'
+                'string',
+            ],
+
+            'contribution_threshold' => [
+                'required',
+                'numeric',
+                'gt:0',
+                'lte:100',
             ],
 
             'start_date' => [
                 'nullable',
-                'date'
+                'date',
             ],
 
             'end_date' => [
                 'nullable',
                 'date',
-                'after_or_equal:start_date'
+                'after_or_equal:start_date',
             ],
 
             'status' => [
                 'required',
                 'string',
-                'max:50'
+                'max:50',
             ],
 
             'groups' => [
                 'required',
                 'array',
-                'min:1'
+                'min:1',
             ],
 
             'groups.*' => [
                 'integer',
-                'exists:groups,id'
+                'distinct',
+                'exists:groups,id',
             ],
         ]);
 
         $validGroupIds = $class->groups()
-            ->whereIn('groups.id', $request->groups)
+            ->whereIn('groups.id', $validated['groups'])
             ->pluck('groups.id')
             ->toArray();
 
-
-        if (count($validGroupIds) !== count($request->groups)) {
-
+        if (count($validGroupIds) !== count($validated['groups'])) {
             return back()
                 ->withInput()
                 ->withErrors([
                     'groups' =>
-                        'One or more selected groups do not belong to this class.'
+                        'One or more selected groups do not belong to this class.',
                 ]);
         }
 
         $project = Project::create([
             'class_room_id' => $class->id,
-            'title' => $request->title,
-            'description' => $request->description,
-            'start_date' => $request->start_date,
-            'end_date' => $request->end_date,
-            'status' => $request->status,
+            'title' => $validated['title'],
+            'description' => $validated['description'] ?? null,
+            'contribution_threshold' => $validated['contribution_threshold'],
+            'start_date' => $validated['start_date'] ?? null,
+            'end_date' => $validated['end_date'] ?? null,
+            'status' => $validated['status'],
         ]);
 
+        // Preserve the selected group assignments.
         $project->groups()->sync($validGroupIds);
 
         return redirect()
-            ->route(
-                'instructor.projects.index',
-                $class->id
-            )
+            ->route('instructor.projects.index', $class->id)
             ->with(
                 'success',
                 'Project created and assigned to the selected groups successfully.'
@@ -148,7 +157,6 @@ class InstructorProjectController extends Controller
         );
     }
 
-
     public function update(
         Request $request,
         $classId,
@@ -162,79 +170,88 @@ class InstructorProjectController extends Controller
             ->where('class_room_id', $class->id)
             ->firstOrFail();
 
-        $request->validate([
-            'title' => ['required', 'string', 'max:255'],
+        $validated = $request->validate([
+            'title' => [
+                'required',
+                'string',
+                'max:255',
+            ],
 
             'description' => [
                 'nullable',
-                'string'
+                'string',
+            ],
+
+            'contribution_threshold' => [
+                'required',
+                'numeric',
+                'gt:0',
+                'lte:100',
             ],
 
             'start_date' => [
                 'nullable',
-                'date'
+                'date',
             ],
 
             'end_date' => [
                 'nullable',
                 'date',
-                'after_or_equal:start_date'
+                'after_or_equal:start_date',
             ],
 
             'status' => [
                 'required',
                 'string',
-                'max:50'
+                'max:50',
             ],
 
             'groups' => [
                 'required',
                 'array',
-                'min:1'
+                'min:1',
             ],
 
             'groups.*' => [
                 'integer',
-                'exists:groups,id'
+                'distinct',
+                'exists:groups,id',
             ],
         ]);
 
         $validGroupIds = $class->groups()
-            ->whereIn('groups.id', $request->groups)
+            ->whereIn('groups.id', $validated['groups'])
             ->pluck('groups.id')
             ->toArray();
 
-        if (count($validGroupIds) !== count($request->groups)) {
-
+        if (count($validGroupIds) !== count($validated['groups'])) {
             return back()
                 ->withInput()
                 ->withErrors([
                     'groups' =>
-                        'One or more selected groups do not belong to this class.'
+                        'One or more selected groups do not belong to this class.',
                 ]);
         }
 
         $project->update([
-            'title' => $request->title,
-            'description' => $request->description,
-            'start_date' => $request->start_date,
-            'end_date' => $request->end_date,
-            'status' => $request->status,
+            'title' => $validated['title'],
+            'description' => $validated['description'] ?? null,
+            'contribution_threshold' => $validated['contribution_threshold'],
+            'start_date' => $validated['start_date'] ?? null,
+            'end_date' => $validated['end_date'] ?? null,
+            'status' => $validated['status'],
         ]);
 
+        // Preserve the selected group assignments.
         $project->groups()->sync($validGroupIds);
 
         return redirect()
-            ->route(
-                'instructor.projects.index',
-                $class->id
-            )
+            ->route('instructor.projects.index', $class->id)
             ->with(
                 'success',
                 'Project updated successfully.'
             );
     }
-
 
     public function destroy($classId, $projectId)
     {
@@ -249,10 +266,7 @@ class InstructorProjectController extends Controller
         $project->delete();
 
         return redirect()
-            ->route(
-                'instructor.projects.index',
-                $class->id
-            )
+            ->route('instructor.projects.index', $class->id)
             ->with(
                 'success',
                 'Project deleted successfully.'
