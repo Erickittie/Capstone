@@ -20,6 +20,7 @@ use App\Http\Controllers\Student\ContributionController;
 use App\Http\Controllers\Student\MyContributionController;
 use App\Http\Controllers\Admin\BulkUserRegistrationController;
 use App\Http\Controllers\Student\FileRepositoryController;
+use App\Http\Controllers\InstructorWorkloadController;
 
 
 Route::get('/', function(){
@@ -106,6 +107,10 @@ Route::middleware(['auth', 'role:Instructor'])->group(function () {
         '/instructor/class/{classId}/task-ledger/data',
         [InstructorTaskLedgerController::class, 'data']
     )->name('instructor.tasks.ledger.data');
+    Route::get(
+    '/instructor/classes/{classId}/projects/{projectId}/workload',
+    [InstructorWorkloadController::class, 'show']
+    )->name('instructor.projects.workload');
 });
 
 Route::middleware(['auth', 'role:Student'])->group(function () {
