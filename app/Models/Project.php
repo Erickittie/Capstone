@@ -18,11 +18,13 @@ class Project extends Model
         'start_date',
         'end_date',
         'status',
+        'contribution_threshold',
     ];
 
     protected $casts = [
         'start_date' => 'date',
         'end_date' => 'date',
+        'contribution_threshold' => 'decimal:2',
     ];
 
     public function classRoom(): BelongsTo
