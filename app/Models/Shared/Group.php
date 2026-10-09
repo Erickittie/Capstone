@@ -1,9 +1,7 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Shared;
 
-use App\Models\File;
-use App\Models\FileFolder;
 use App\Models\Student\GroupLeaderVote;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

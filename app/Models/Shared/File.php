@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Shared;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class FileFolder extends Model
+class File extends Model
 {
     use HasFactory;
 
@@ -15,9 +14,13 @@ class FileFolder extends Model
         'class_room_id',
         'group_id',
         'project_id',
-        'parent_id',
+        'folder_id',
+        'uploaded_by',
         'name',
-        'created_by',
+        'original_name',
+        'file_path',
+        'file_type',
+        'file_size',
     ];
 
     /*
@@ -64,57 +67,29 @@ class FileFolder extends Model
 
     /*
     |--------------------------------------------------------------------------
-    | Creator
+    | Folder
     |--------------------------------------------------------------------------
     */
 
-    public function creator(): BelongsTo
+    public function folder(): BelongsTo
+    {
+        return $this->belongsTo(
+            FileFolder::class,
+            'folder_id'
+        );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Uploader
+    |--------------------------------------------------------------------------
+    */
+
+    public function uploader(): BelongsTo
     {
         return $this->belongsTo(
             User::class,
-            'created_by'
-        );
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Parent Folder
-    |--------------------------------------------------------------------------
-    */
-
-    public function parent(): BelongsTo
-    {
-        return $this->belongsTo(
-            FileFolder::class,
-            'parent_id'
-        );
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Child Folders
-    |--------------------------------------------------------------------------
-    */
-
-    public function children(): HasMany
-    {
-        return $this->hasMany(
-            FileFolder::class,
-            'parent_id'
-        );
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Files
-    |--------------------------------------------------------------------------
-    */
-
-    public function files(): HasMany
-    {
-        return $this->hasMany(
-            File::class,
-            'folder_id'
+            'uploaded_by'
         );
     }
 }

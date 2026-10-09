@@ -1,9 +1,6 @@
 <?php
 
-namespace App\Models;
-
-use App\Models\File;
-use App\Models\FileFolder;
+namespace App\Models\Shared;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;

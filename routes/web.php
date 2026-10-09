@@ -1,26 +1,27 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\ClassController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\ReportController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\InstructorDashboardController;
-use App\Http\Controllers\InstructorClassController;
-use App\Http\Controllers\InstructorGroupController;
-use App\Http\Controllers\Student\TaskController;
-use App\Http\Controllers\InstructorProjectController;
-use App\Http\Controllers\InstructorTaskLedgerController;
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\ClassController;
+use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\Admin\BulkUserRegistrationController;
+use App\Http\Controllers\Instructor\InstructorDashboardController;
+use App\Http\Controllers\Instructor\InstructorClassController;
+use App\Http\Controllers\Instructor\InstructorGroupController;
+use App\Http\Controllers\Instructor\InstructorProjectController;
+use App\Http\Controllers\Instructor\InstructorTaskLedgerController;
+use App\Http\Controllers\Instructor\InstructorWorkloadController;
 use App\Http\Controllers\Student\StudentDashboardController;
 use App\Http\Controllers\Student\StudentClassController;
-use App\Http\Controllers\Student\VoteController;
-use App\Http\Controllers\Student\NotificationController;
+use App\Http\Controllers\Student\TaskController;
 use App\Http\Controllers\Student\ContributionController;
 use App\Http\Controllers\Student\MyContributionController;
-use App\Http\Controllers\Admin\BulkUserRegistrationController;
 use App\Http\Controllers\Student\FileRepositoryController;
-use App\Http\Controllers\InstructorWorkloadController;
+use App\Http\Controllers\Student\CheckinRequestController;
+use App\Http\Controllers\Student\VoteController;
+use App\Http\Controllers\Student\NotificationController;
 
 
 Route::get('/', function(){
