@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Shared;
 
 use Illuminate\Foundation\Auth\User as Authenticable;
 use App\Models\Student\Notification;
