@@ -3,7 +3,7 @@
 @section('content')
 
 @php
-    $instructorList = \App\Models\User::where('role', 'Instructor')->get();
+    $instructorList = \App\Models\Shared\User::where('role', 'Instructor')->get();
 @endphp
 
 <div class="space-y-6">
