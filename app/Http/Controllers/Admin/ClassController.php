@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 
-use App\Models\ClassRoom;
-use App\Models\User;
+use App\Models\Shared\ClassRoom;
+use App\Models\Shared\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
