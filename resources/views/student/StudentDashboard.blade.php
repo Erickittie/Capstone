@@ -63,7 +63,7 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             <!-- Class Card 1 -->
-            <a href="/student/class/cs402" class="group block bg-white rounded-2xl border border-gray-200/80 shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 overflow-hidden">
+            <a href="{{ route('student.class.detail', $class->id) }}" class="group block bg-white rounded-2xl...">
                 <div class="h-2 bg-gradient-to-r from-blue-600 to-indigo-600"></div>
                 <div class="p-5">
                     <div class="flex items-start justify-between mb-3">
@@ -91,7 +91,7 @@
             </a>
 
             <!-- Class Card 2 -->
-            <a href="/student/class/psy310" class="group block bg-white rounded-2xl border border-gray-200/80 shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 overflow-hidden">
+            <a href="{{ route('student.class.detail', $class->id) }}" class="group block bg-white rounded-2xl border border-gray-200/80 shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 overflow-hidden">
                 <div class="h-2 bg-gradient-to-r from-emerald-500 to-teal-500"></div>
                 <div class="p-5">
                     <div class="flex items-start justify-between mb-3">

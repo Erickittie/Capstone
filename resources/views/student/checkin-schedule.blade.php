@@ -40,41 +40,34 @@
             </a>
         </div>
         <nav class="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto">
-            <a href="/StudentDashboard" class="flex items-center gap-3 px-3.5 py-2.5 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg text-[14px] font-medium transition-all duration-200">
-                <span class="material-symbols-outlined text-[20px] text-gray-500">grid_view</span>
-                <span>Dashboard</span>
-            </a>
-            <div class="pt-3 pb-1.5">
-                <p class="px-3.5 text-[10px] uppercase tracking-widest text-gray-400 font-semibold">Current Class</p>
-            </div>
-            <a href="/student/class/cs402" class="flex items-center gap-3 px-3.5 py-2.5 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg text-[14px] font-medium transition-all duration-200">
+            <a href="{{ route('student.class.detail', $class->id) }}" class="flex items-center gap-3 px-3.5 py-2.5 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg text-[14px] font-medium transition-all duration-200">
                 <span class="material-symbols-outlined text-[20px] text-gray-500">class</span>
-                <span>CS402</span>
+                <span>{{ $class->name ?? 'Class' }}</span>
             </a>
-            <a href="/student/class/cs402/contribution" class="flex items-center gap-3 px-3.5 py-2.5 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg text-[14px] font-medium transition-all duration-200 pl-9">
+            <a href="{{ route('student.contribution', $class->id) }}" class="flex items-center gap-3 px-3.5 py-2.5 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg text-[14px] font-medium transition-all duration-200 pl-9">
                 <span class="material-symbols-outlined text-[20px] text-gray-500">monitoring</span>
                 <span>Contribution</span>
             </a>
-            <a href="/student/class/cs402/group-status" class="flex items-center gap-3 px-3.5 py-2.5 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg text-[14px] font-medium transition-all duration-200 pl-9">
+            <a href="{{ route('student.group.status', $class->id) }}" class="flex items-center gap-3 px-3.5 py-2.5 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg text-[14px] font-medium transition-all duration-200 pl-9">
                 <span class="material-symbols-outlined text-[20px] text-gray-500">groups</span>
                 <span>Group Status</span>
             </a>
-            <a href="/student/class/cs402/leader-vote" class="flex items-center gap-3 px-3.5 py-2.5 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg text-[14px] font-medium transition-all duration-200 pl-9">
+            <a href="{{ route('student.vote.index', $class->id) }}" class="flex items-center gap-3 px-3.5 py-2.5 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg text-[14px] font-medium transition-all duration-200 pl-9">
                 <span class="material-symbols-outlined text-[20px] text-gray-500">how_to_vote</span>
                 <span>Leader Vote</span>
             </a>
-            <a href="/student/class/cs402/task-manager" class="flex items-center gap-3 px-3.5 py-2.5 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg text-[14px] font-medium transition-all duration-200 pl-9">
+            <a href="{{ route('student.task.manager', $class->id) }}" class="flex items-center gap-3 px-3.5 py-2.5 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg text-[14px] font-medium transition-all duration-200 pl-9">
                 <span class="material-symbols-outlined text-[20px] text-gray-500">assignment</span>
                 <span>Task Manager</span>
             </a>
-            <a href="/student/class/cs402/file-repository" class="flex items-center gap-3 px-3.5 py-2.5 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg text-[14px] font-medium transition-all duration-200 pl-9">
+            <a href="{{ route('student.file.repository', $class->id) }}" class="flex items-center gap-3 px-3.5 py-2.5 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg text-[14px] font-medium transition-all duration-200 pl-9">
                 <span class="material-symbols-outlined text-[20px] text-gray-500">folder_open</span>
                 <span>File Repository</span>
             </a>
-            <a href="/student/class/cs402/checkin" class="flex items-center gap-3 px-3.5 py-2.5 bg-gray-900 text-white rounded-lg text-[14px] font-medium pl-9">
+            <a href="{{ route('student.checkin.index', $class->id) }}" class="flex items-center gap-3 px-3.5 py-2.5 bg-gray-900 text-white rounded-lg text-[14px] font-medium pl-9">
                 <span class="material-symbols-outlined text-[20px]">event_available</span>
                 <span>Check-In Request</span>
-            </a>
+</a>
         </nav>
         <div class="p-4 border-t border-gray-150">
             <a href="/login" class="flex items-center gap-3 px-3.5 py-2.5 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg text-[14px] font-medium transition-all duration-200">
@@ -93,7 +86,7 @@
         <header class="sticky top-0 z-10 bg-white/80 backdrop-blur-md border-b border-gray-100 px-6 lg:px-10 py-4">
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-3">
-                    <a href="/student/class/cs402" class="text-gray-400 hover:text-gray-900 transition-colors">
+                    <<a href="{{ route('student.class.detail', $class->id) }}" class="text-gray-400 hover:text-gray-900 transition-colors">
                         <span class="material-symbols-outlined text-[20px]">arrow_back</span>
                     </a>
                     <div>
