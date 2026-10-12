@@ -171,19 +171,17 @@
             {{-- Contribution --}}
 
             <a
-                href="{{ route('student.contribution', $class->id) }}"
+                href="{{ route('student.contribution', ['classId' => $class->id]) }}"
                 class="flex items-center gap-3 px-3.5 py-2.5
-                       bg-gray-900 text-white rounded-lg
-                       text-[14px] font-medium pl-9">
-
+                    bg-gray-900 text-white rounded-lg
+                    text-[14px] font-medium pl-9">
                 <span class="material-symbols-outlined text-[20px]">
                     monitoring
                 </span>
-
                 <span>
                     Contribution
                 </span>
-
+                
             </a>
 
 

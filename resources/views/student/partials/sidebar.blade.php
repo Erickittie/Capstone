@@ -46,14 +46,14 @@
                 <span class="text-sm">Class Overview</span>
             </a>
 
-            <!-- My Contribution -->
-            <a href="{{ route('student.contribution', $class->id) }}"
-               class="flex items-center gap-3.5 px-4 py-3 rounded-xl transition duration-150 {{ request()->routeIs('student.contribution') ? 'bg-gray-100 text-gray-950 font-semibold shadow-xs' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium' }}">
-                <span class="material-symbols-outlined text-[22px] {{ request()->routeIs('student.contribution') ? 'text-gray-900' : 'text-gray-400' }}">
-                    monitoring
-                </span>
-                <span class="text-sm">My Contribution</span>
-            </a>
+            <!-- Group Contribution -->
+<a href="{{ route('student.contribution', ['classId' => $class->id]) }}"
+   class="flex items-center gap-3.5 px-4 py-3 rounded-xl transition duration-150 {{ request()->routeIs('student.contribution') ? 'bg-gray-100 text-gray-950 font-semibold shadow-xs' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium' }}">
+    <span class="material-symbols-outlined text-[22px] {{ request()->routeIs('student.contribution') ? 'text-gray-900' : 'text-gray-400' }}">
+        groups
+    </span>
+    <span class="text-sm">Group Contribution</span>
+</a>
 
             <!-- Group Status -->
             <a href="{{ route('student.group.status', $class->id) }}"

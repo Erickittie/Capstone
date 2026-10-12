@@ -115,24 +115,14 @@
             </a>
 
             {{-- Group Contribution --}}
-            <a
-                href="{{ route('student.contribution', $class->id) }}"
-                class="flex items-center gap-3 px-3.5 py-2.5 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg text-[14px] font-medium transition-all">
-                <span class="material-symbols-outlined text-[20px] text-gray-500">
-                    groups
-                </span>
-                <span>Group Contribution</span>
-            </a>
-
-            {{-- Notifications --}}
-            <a
-                href="{{ route('student.notifications.index') }}"
-                class="flex items-center gap-3 px-3.5 py-2.5 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg text-[14px] font-medium transition-all">
-                <span class="material-symbols-outlined text-[20px] text-gray-500">
-                    notifications
-                </span>
-                <span>Notifications</span>
-            </a>
+<a
+    href="{{ route('student.contribution', ['classId' => $class->id]) }}"
+    class="flex items-center gap-3 px-3.5 py-2.5 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg text-[14px] font-medium transition-all">
+    <span class="material-symbols-outlined text-[20px] text-gray-500">
+        groups
+    </span>
+    <span>Group Contribution</span>
+</a>
 
         </nav>
 
