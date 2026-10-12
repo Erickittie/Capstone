@@ -5,20 +5,27 @@
 <div class="max-w-4xl mx-auto">
 
     {{-- Header --}}
-    <div class="mb-8">
+    <div class="flex items-center gap-4 mb-8">
         <a href="{{ route('instructor.projects.index', $class->id) }}"
-           class="text-sm text-purple-600 hover:text-purple-700">
-            ← Back to Projects
+           class="w-10 h-10 flex items-center justify-center rounded-xl
+                  border border-gray-200 bg-white text-gray-500
+                  hover:text-gray-900 hover:border-gray-300 hover:bg-gray-50
+                  shadow-xs transition duration-150"
+           title="Back to Projects"
+           aria-label="Back to Projects">
+            <span class="material-symbols-outlined text-[20px]" aria-hidden="true">arrow_back</span>
         </a>
 
-        <h1 class="text-3xl font-bold text-gray-900 mt-4">
-            Edit Project
-        </h1>
+        <div>
+            <h1 class="text-3xl font-bold text-gray-900">
+                Edit Project
+            </h1>
 
-        <p class="text-gray-500 mt-1">
-            Update the project for
-            {{ $class->course_code }} - {{ $class->offer_code }}
-        </p>
+            <p class="text-gray-500 mt-1">
+                Update the project for
+                {{ $class->course_code }} - {{ $class->offer_code }}
+            </p>
+        </div>
     </div>
 
     {{-- Validation Errors --}}
