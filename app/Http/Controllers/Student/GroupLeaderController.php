@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
-use App\Models\Group;
-use App\Models\GroupLeaderVote;
+use App\Models\shared\Group;
+use App\Models\shared\GroupLeaderVote;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 

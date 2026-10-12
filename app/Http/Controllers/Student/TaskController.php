@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
-use App\Models\ClassRoom;
-use App\Models\Group;
-use App\Models\Project;
-use App\Models\Task;
-use App\Models\TaskAssignment;
-use App\Models\TaskSubmission;
+use App\Models\shared\ClassRoom;
+use App\Models\shared\Group;
+use App\Models\shared\Project;
+use App\Models\shared\Task;
+use App\Models\shared\TaskAssignment;
+use App\Models\shared\TaskSubmission;
 use App\Models\Student\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
