@@ -139,10 +139,6 @@ Route::middleware(['auth', 'role:Student'])->group(function () {
     '/student/class/{classId}/contribution',
     [ContributionController::class, 'index']
     )->name('student.contribution');
-    Route::view(
-        '/student/class/{classId}/group-status',
-        'student.group-status'
-    )->name('student.group.status');
     Route::get(
         '/student/class/{classId}/task-manager',
         [TaskController::class, 'manager']
@@ -239,3 +235,97 @@ Route::middleware(['auth', 'role:Student'])->group(function () {
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']) ->name('logout');
 });
+
+Route::get('/student/class/{classId}/group-status', function ($classId) {
+        $studentId = auth()->id();
+        
+        $class = \App\Models\shared\ClassRoom::where('id', $classId)
+            ->whereHas('students', function ($query) use ($studentId) {
+                $query->where('users.id', $studentId);
+            })
+            ->firstOrFail();
+
+        $group = \App\Models\shared\Group::where('class_room_id', $class->id)
+            ->whereHas('students', function ($query) use ($studentId) {
+                $query->where('users.id', $studentId);
+            })
+            ->with(['students', 'projects.tasks.assignments.student'])
+            ->first();
+
+        $members = collect();
+        $tasks = collect();
+        $groupProgress = 0;
+        $isLeader = false;
+
+        if ($group) {
+            // Check if current user is the group leader
+            $currentMemberRecord = $group->students->firstWhere('id', $studentId);
+            if ($currentMemberRecord && optional($currentMemberRecord->pivot)->is_leader) {
+                $isLeader = true;
+            }
+
+            $tasks = \App\Models\shared\Task::where('group_id', $group->id)
+                ->with(['assignments.student', 'assignments.submissions'])
+                ->get();
+
+            $userFileCounts = \App\Models\Shared\File::where('group_id', $group->id)
+                ->selectRaw('uploaded_by, count(*) as count')
+                ->groupBy('uploaded_by')
+                ->pluck('count', 'uploaded_by');
+
+            $members = $group->students->map(function ($member) use ($tasks, $userFileCounts) {
+                $memberAssignments = $tasks->flatMap(function ($task) {
+                    return $task->assignments;
+                })->where('student_id', $member->id);
+
+                $assignedTasks = $memberAssignments->count();
+                $completedTasks = $memberAssignments->where('status', 'Approved')->count();
+                
+                $progress = $assignedTasks > 0 ? ($completedTasks / $assignedTasks) * 100 : 0;
+
+                $submittedAssignments = $memberAssignments->whereIn('status', ['Submitted', 'Approved']);
+                $onTimeCount = 0;
+                $totalSubmitted = $submittedAssignments->count();
+
+                foreach ($submittedAssignments as $assignment) {
+                    $latestSubmission = $assignment->submissions->last();
+                    if ($latestSubmission && $assignment->due_date) {
+                        if ($latestSubmission->created_at <= $assignment->due_date) {
+                            $onTimeCount++;
+                        }
+                    } else {
+                        $onTimeCount++;
+                    }
+                }
+
+                $onTimeRate = $totalSubmitted > 0 ? round(($onTimeCount / $totalSubmitted) * 100) : 0;
+                $filesCount = $userFileCounts->get($member->id, 0);
+
+                return (object) [
+                    'id' => $member->id,
+                    'name' => $member->name,
+                    'email' => $member->email,
+                    'is_leader' => (bool) $member->pivot->is_leader,
+                    'assigned_tasks' => $assignedTasks,
+                    'completed_tasks' => $completedTasks,
+                    'progress' => round($progress, 1),
+                    'on_time_rate' => $onTimeRate,
+                    'files_count' => $filesCount,
+                ];
+            });
+
+            $totalAssigned = $tasks->flatMap(function ($task) {
+                return $task->assignments;
+            })->count();
+
+            $totalCompleted = $tasks->flatMap(function ($task) {
+                return $task->assignments;
+            })->where('status', 'Approved')->count();
+
+            $groupProgress = $totalAssigned > 0 
+                ? round(($totalCompleted / $totalAssigned) * 100, 1) 
+                : 0;
+        }
+
+        return view('student.group-status', compact('class', 'group', 'members', 'groupProgress', 'isLeader'));
+    })->name('student.group.status');
