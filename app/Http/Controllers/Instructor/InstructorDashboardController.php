@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Instructor;
 
 use App\Http\Controllers\Controller;
 
-use App\Models\ClassRoom;
+use App\Models\Shared\ClassRoom;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
