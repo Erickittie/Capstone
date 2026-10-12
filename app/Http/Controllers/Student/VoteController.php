@@ -12,33 +12,29 @@ use Illuminate\Support\Facades\DB;
 class VoteController extends Controller
 {
 
-    public function index($classId)
-    {
-        $student = Auth::user();
+   public function index($classId)
+{
+    $student = auth()->user();
 
-        $group = Group::where('class_room_id', $classId)
-            ->whereHas('students', function ($query) use ($student) {
-                $query->where('users.id', $student->id);
-            })
-            ->with('students')
-            ->firstOrFail();
+    // 1. Fetch the class so the sidebar recognizes the class context
+    $class = \App\Models\shared\ClassRoom::findOrFail($classId);
 
-        $existingVote = GroupLeaderVote::where('group_id', $group->id)
-            ->where('voter_id', $student->id)
-            ->first();
+    $group = \App\Models\shared\Group::where('class_room_id', $classId)
+        ->whereHas('students', function ($query) use ($student) {
+            $query->where('users.id', $student->id);
+        })
+        ->with('students')
+        ->first();
 
-        $leader = $group->students
-            ->first(function ($member) {
-                return $member->pivot->is_leader;
-            });
+    $existingVote = \App\Models\shared\Vote::where('class_room_id', $classId)
+        ->where('voter_id', $student->id)
+        ->first();
 
-        return view('student.leader-vote', compact(
-            'student',
-            'group',
-            'existingVote',
-            'leader'
-        ));
-    }
+    $leader = $group ? $group->students->firstWhere('pivot.is_leader', true) : null;
+
+    // 2. Make sure $class is passed into the view
+    return view('student.leader-vote', compact('class', 'group', 'existingVote', 'leader'));
+}
 
     public function store(Request $request, $classId)
     {
