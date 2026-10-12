@@ -119,7 +119,7 @@
             </a>
 
             <!-- Class Card 3 -->
-            <a href="/student/class/art205" class="group block bg-white rounded-2xl border border-gray-200/80 shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 overflow-hidden">
+            <a href="{{ route('student.class.detail', $class->id) }}" class="group block bg-white rounded-2xl border border-gray-200/80 shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 overflow-hidden">
                 <div class="h-2 bg-gradient-to-r from-violet-500 to-purple-500"></div>
                 <div class="p-5">
                     <div class="flex items-start justify-between mb-3">
