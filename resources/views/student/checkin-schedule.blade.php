@@ -47,7 +47,9 @@
                         <h1 class="text-xl font-bold text-gray-900 tracking-tight">Check-In Request</h1>
                         <p class="text-sm text-gray-500 mt-0.5">
                             {{ $class->course_code }}: {{ $class->course_name }} 
-                            @if($class->teacher)
+                            @if(isset($class->instructor))
+                                · Prof. {{ $class->instructor->name }}
+                            @elseif(isset($class->teacher))
                                 · Prof. {{ $class->teacher->name }}
                             @endif
                         </p>
@@ -217,8 +219,9 @@
                             </div>
                             <div>
                                 <p class="text-sm font-bold text-gray-900">
-                                    {{ $class->teacher->name ?? 'Instructor' }}
+                                    {{ $class->instructor->name ?? $class->teacher->name ?? 'Instructor' }}
                                 </p>
+                                <p class="text-xs text-gray-500">{{ $class->course_code }}: {{ $class->course_name }}</p>
                                 <p class="text-xs text-gray-500">{{ $class->course_code }}: {{ $class->course_name }}</p>
                             </div>
                         </div>
