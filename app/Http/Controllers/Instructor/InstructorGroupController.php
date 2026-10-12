@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Instructor;
 
 use App\Http\Controllers\Controller;
 
-use App\Models\ClassRoom;
-use App\Models\Group;
+use App\Models\Shared\ClassRoom;
+use App\Models\Shared\Group;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -37,7 +37,7 @@ class InstructorGroupController extends Controller
             'groups' => 'required|array|min:1',
             'groups.*.name' => 'required|string|max:255',
             'groups.*.students' => 'nullable|array',
-            'groups.*.students' => 'integer|exists:users,id',
+            'groups.*.students.*' => 'integer|exists:users,id',
         ]);
 
         DB::transaction(function () use ($request, $class) {
@@ -51,26 +51,13 @@ class InstructorGroupController extends Controller
                 ]);
 
             if (!empty($groupData['students'])) {
-                $students = [];
+                $studentAssignments = collect($groupData['students'])
+                    ->mapWithKeys(fn ($studentId) => [
+                        (int) $studentId => ['is_leader' => false],
+                    ])
+                    ->all();
 
-                foreach ($groupData['students'] as $studentId) {
-                    $students[] = [
-                        'students_id' => $studentId,
-                        'is_leader' => false,
-                    ];
-                }
-
-                $group -> students() ->attach(
-                    collect($students)
-                    -> mapWithKeys(function ($student) {
-                        return [
-                            $student['student_id'] => [
-                                'is_leader' => $student['is_leader']
-                            ]
-                        ];
-                    })
-                    -> toArray()
-                );
+                $group->students()->attach($studentAssignments);
             }    
             }
         });
