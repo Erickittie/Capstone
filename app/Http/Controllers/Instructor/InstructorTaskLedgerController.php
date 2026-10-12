@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Instructor;
 
 use App\Http\Controllers\Controller;
 
-use App\Models\ClassRoom;
-use App\Models\Task;
+use App\Models\Shared\ClassRoom;
+use App\Models\Shared\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
