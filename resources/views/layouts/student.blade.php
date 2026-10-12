@@ -85,7 +85,7 @@
          FIXED STUDENT SIDEBAR
     ====================================================== -->
 
-    @include('layouts.student-sidebar')
+    @include('student.partials.sidebar')
 
 
     <!-- =====================================================
@@ -162,11 +162,11 @@
              PAGE CONTENT
         ================================================== -->
 
-        <main class="flex-1 px-8 pt-28 pb-8">
+        <main class="flex-1 px-8 pt-24 pb-8">
 
             @yield('content')
 
-        </main>
+    </main>
 
 
     </div>
