@@ -9,14 +9,25 @@ use Illuminate\Http\Request;
 class CheckinRequestController extends Controller
 {
     // Show the check-in request page with the student's past requests
-    public function index()
+    // Show the check-in request page with the student's past requests
+    public function index($classId)
     {
-        // Get all requests made by the logged-in student, newest first
-        $requests = CheckinRequest::where('student_id', auth()->id())
+        $studentId = auth()->id();
+
+        // 1. Fetch the class record
+        $class = \App\Models\shared\ClassRoom::where('id', $classId)
+            ->whereHas('students', function ($query) use ($studentId) {
+                $query->where('users.id', $studentId);
+            })
+            ->firstOrFail();
+
+        // Get all requests made by the logged-in student for this class, newest first
+        $requests = CheckinRequest::where('student_id', $studentId)
+            ->where('class_room_id', $classId)
             ->latest()
             ->get();
 
-        return view('student.checkin-schedule', compact('requests'));
+        return view('student.checkin-schedule', compact('class', 'requests'));
     }
 
     // Save a new check-in request to the database

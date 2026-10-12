@@ -34,13 +34,13 @@
     <div id="sidebar-overlay" class="fixed inset-0 bg-black/40 z-20 hidden md:hidden" onclick="toggleSidebar()"></div>
 
     <!-- Main Content -->
-    <main class="flex-1 overflow-y-auto main-scroll">
+    <main class="flex-1 md:ml-[260px] overflow-y-auto main-scroll">
 
         <!-- Top Bar -->
         <header class="sticky top-0 z-10 bg-white/80 backdrop-blur-md border-b border-gray-100 px-6 lg:px-10 py-4">
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-3">
-                    <<a href="{{ route('student.class.detail', $class->id) }}" class="text-gray-400 hover:text-gray-900 transition-colors">
+                    <a href="{{ route('student.class.detail', $class->id) }}" class="text-gray-400 hover:text-gray-900 transition-colors">
                         <span class="material-symbols-outlined text-[20px]">arrow_back</span>
                     </a>
                     <div>
