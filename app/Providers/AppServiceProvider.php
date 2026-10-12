@@ -20,6 +20,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $this->loadMigrationsFrom(database_path('migrations/admin'));
         $this->loadMigrationsFrom(database_path('migrations/student'));
+        $this->loadMigrationsFrom(database_path('migrations/Shared'));
     }
 }
