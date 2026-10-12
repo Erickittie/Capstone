@@ -443,4 +443,39 @@
     </div>
 </div>
 
+<script>
+    function openImportModal() {
+        const modal = document.getElementById('importModal');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
+
+    function closeImportModal() {
+        const modal = document.getElementById('importModal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
+
+    function closeImportModalOutside(event) {
+        if (event.target === event.currentTarget) {
+            closeImportModal();
+        }
+    }
+
+    function showSelectedFile(input) {
+        const selectedFile = document.getElementById('selectedFile');
+        const fileName = document.getElementById('selectedFileName');
+        const file = input.files && input.files[0];
+
+        if (!file) {
+            selectedFile.classList.add('hidden');
+            fileName.textContent = '';
+            return;
+        }
+
+        fileName.textContent = file.name;
+        selectedFile.classList.remove('hidden');
+    }
+</script>
+
 @endsection
