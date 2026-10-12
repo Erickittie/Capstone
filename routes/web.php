@@ -265,8 +265,8 @@ Route::get('/student/class/{classId}/group-status', function ($classId) {
             }
 
             $tasks = \App\Models\shared\Task::where('group_id', $group->id)
-                ->with(['assignments.student', 'assignments.submissions'])
-                ->get();
+            ->with(['assignments.student'])
+            ->get();
 
             $userFileCounts = \App\Models\Shared\File::where('group_id', $group->id)
                 ->selectRaw('uploaded_by, count(*) as count')
@@ -288,16 +288,8 @@ Route::get('/student/class/{classId}/group-status', function ($classId) {
                 $totalSubmitted = $submittedAssignments->count();
 
                 foreach ($submittedAssignments as $assignment) {
-                    $latestSubmission = $assignment->submissions->last();
-                    if ($latestSubmission && $assignment->due_date) {
-                        if ($latestSubmission->created_at <= $assignment->due_date) {
-                            $onTimeCount++;
-                        }
-                    } else {
-                        $onTimeCount++;
-                    }
+                $onTimeCount++;
                 }
-
                 $onTimeRate = $totalSubmitted > 0 ? round(($onTimeCount / $totalSubmitted) * 100) : 0;
                 $filesCount = $userFileCounts->get($member->id, 0);
 
