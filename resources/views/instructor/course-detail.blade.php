@@ -275,69 +275,6 @@
                 </div>
             </a>
 
-            <!-- 4. Check-in Requests -->
-            <a href="#"
-               class="group bg-white rounded-2xl border border-gray-200/80 p-6 shadow-xs hover:border-amber-400 hover:shadow-md transition duration-200 flex flex-col justify-between">
-                <div>
-                    <div class="w-11 h-11 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center mb-4">
-                        <span class="material-symbols-outlined text-[24px]">schedule</span>
-                    </div>
-                    <h3 class="text-base font-bold text-gray-900 group-hover:text-amber-600 transition-colors">
-                        Check-in Requests
-                    </h3>
-                    <p class="text-xs text-gray-500 mt-1.5 leading-relaxed">
-                        Review attendance checkpoints and verify group meeting logs.
-                    </p>
-                </div>
-                <div class="mt-5 pt-3 border-t border-gray-100">
-                    <span class="inline-flex items-center gap-1 text-xs font-semibold text-amber-600 group-hover:underline">
-                        View Requests &rarr;
-                    </span>
-                </div>
-            </a>
-
-            <!-- 5. Contribution -->
-            <a href="#"
-               class="group bg-white rounded-2xl border border-gray-200/80 p-6 shadow-xs hover:border-teal-400 hover:shadow-md transition duration-200 flex flex-col justify-between">
-                <div>
-                    <div class="w-11 h-11 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center mb-4">
-                        <span class="material-symbols-outlined text-[24px]">monitoring</span>
-                    </div>
-                    <h3 class="text-base font-bold text-gray-900 group-hover:text-teal-600 transition-colors">
-                        Contribution
-                    </h3>
-                    <p class="text-xs text-gray-500 mt-1.5 leading-relaxed">
-                        Track commit activity distributions and peer evaluation fairness scores.
-                    </p>
-                </div>
-                <div class="mt-5 pt-3 border-t border-gray-100">
-                    <span class="inline-flex items-center gap-1 text-xs font-semibold text-teal-600 group-hover:underline">
-                        View Contribution &rarr;
-                    </span>
-                </div>
-            </a>
-
-            <!-- 6. File Repository -->
-            <a href="#"
-               class="group bg-white rounded-2xl border border-gray-200/80 p-6 shadow-xs hover:border-indigo-400 hover:shadow-md transition duration-200 flex flex-col justify-between">
-                <div>
-                    <div class="w-11 h-11 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center mb-4">
-                        <span class="material-symbols-outlined text-[24px]">folder_open</span>
-                    </div>
-                    <h3 class="text-base font-bold text-gray-900 group-hover:text-indigo-600 transition-colors">
-                        File Repository
-                    </h3>
-                    <p class="text-xs text-gray-500 mt-1.5 leading-relaxed">
-                        Access shared syllabus, templates, and project source artifacts.
-                    </p>
-                </div>
-                <div class="mt-5 pt-3 border-t border-gray-100">
-                    <span class="inline-flex items-center gap-1 text-xs font-semibold text-indigo-600 group-hover:underline">
-                        Open Repository &rarr;
-                    </span>
-                </div>
-            </a>
-
         </div>
     </div>
 
