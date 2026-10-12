@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Request Check-In - CS402 - CarryOn</title>
+    <title>Request Check-In - {{ $class->course_code }} - CarryOn</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -45,18 +45,24 @@
                     </a>
                     <div>
                         <h1 class="text-xl font-bold text-gray-900 tracking-tight">Check-In Request</h1>
-                        <p class="text-sm text-gray-500 mt-0.5">CS402: Distributed Systems · Prof. Dr. Santos</p>
-                    </div>
-                </div>
-                <div class="flex items-center gap-3">
-                    <div class="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center border border-gray-200">
-                        <span class="material-symbols-outlined text-[20px] text-gray-600">person</span>
+                        <p class="text-sm text-gray-500 mt-0.5">
+                            {{ $class->course_code }}: {{ $class->course_name }} 
+                            @if($class->teacher)
+                                · Prof. {{ $class->teacher->name }}
+                            @endif
+                        </p>
                     </div>
                 </div>
             </div>
         </header>
 
         <div class="px-6 lg:px-10 py-8 max-w-7xl mx-auto">
+
+            @if(session('success'))
+                <div class="mb-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded-xl text-sm font-medium">
+                    {{ session('success') }}
+                </div>
+            @endif
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
@@ -75,30 +81,33 @@
                             </div>
                         </div>
 
-                        <form id="checkin-form" class="px-6 py-6 space-y-5">
+                        <form action="{{ route('student.checkin.store', $class->id) }}" method="POST" id="checkin-form" class="px-6 py-6 space-y-5">
+                            @csrf
+                            <input type="hidden" name="class_room_id" value="{{ $class->id }}">
+
                             <!-- Reason -->
                             <div>
                                 <label class="block text-[12px] font-semibold uppercase tracking-wider text-gray-500 mb-2">Reason for Check-In</label>
-                                <select class="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent bg-white">
+                                <select name="reason" required class="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent bg-white">
                                     <option value="" disabled selected>Select a reason...</option>
-                                    <option>Low contribution score</option>
-                                    <option>Task clarification needed</option>
-                                    <option>Group conflict</option>
-                                    <option>Workload concern</option>
-                                    <option>Personal issue affecting participation</option>
-                                    <option>Other</option>
+                                    <option value="Low contribution score">Low contribution score</option>
+                                    <option value="Task clarification needed">Task clarification needed</option>
+                                    <option value="Group conflict">Group conflict</option>
+                                    <option value="Workload concern">Workload concern</option>
+                                    <option value="Personal issue affecting participation">Personal issue affecting participation</option>
+                                    <option value="Other">Other</option>
                                 </select>
                             </div>
 
-                            <!-- Preferred Date -->
+                            <!-- Preferred Date & Time -->
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label class="block text-[12px] font-semibold uppercase tracking-wider text-gray-500 mb-2">Preferred Date</label>
-                                    <input type="date" class="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent">
+                                    <input type="date" name="preferred_date" required class="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent">
                                 </div>
                                 <div>
                                     <label class="block text-[12px] font-semibold uppercase tracking-wider text-gray-500 mb-2">Preferred Time</label>
-                                    <input type="time" class="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent">
+                                    <input type="time" name="preferred_time" required class="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent">
                                 </div>
                             </div>
 
@@ -107,17 +116,17 @@
                                 <label class="block text-[12px] font-semibold uppercase tracking-wider text-gray-500 mb-2">Preferred Mode</label>
                                 <div class="grid grid-cols-3 gap-3">
                                     <label class="mode-option flex flex-col items-center gap-2 border border-gray-200 rounded-lg p-3 cursor-pointer hover:border-gray-900 transition-all has-[:checked]:border-gray-900 has-[:checked]:bg-gray-50">
-                                        <input type="radio" name="mode" value="in-person" class="sr-only">
+                                        <input type="radio" name="mode" value="in-person" required class="sr-only">
                                         <span class="material-symbols-outlined text-gray-500 text-[22px]">location_on</span>
                                         <span class="text-xs font-semibold text-gray-700">In-Person</span>
                                     </label>
                                     <label class="mode-option flex flex-col items-center gap-2 border border-gray-200 rounded-lg p-3 cursor-pointer hover:border-gray-900 transition-all has-[:checked]:border-gray-900 has-[:checked]:bg-gray-50">
-                                        <input type="radio" name="mode" value="online" class="sr-only">
+                                        <input type="radio" name="mode" value="online" required class="sr-only">
                                         <span class="material-symbols-outlined text-gray-500 text-[22px]">videocam</span>
                                         <span class="text-xs font-semibold text-gray-700">Online</span>
                                     </label>
                                     <label class="mode-option flex flex-col items-center gap-2 border border-gray-200 rounded-lg p-3 cursor-pointer hover:border-gray-900 transition-all has-[:checked]:border-gray-900 has-[:checked]:bg-gray-50">
-                                        <input type="radio" name="mode" value="either" class="sr-only">
+                                        <input type="radio" name="mode" value="either" required class="sr-only">
                                         <span class="material-symbols-outlined text-gray-500 text-[22px]">swap_horiz</span>
                                         <span class="text-xs font-semibold text-gray-700">Either</span>
                                     </label>
@@ -127,12 +136,12 @@
                             <!-- Message -->
                             <div>
                                 <label class="block text-[12px] font-semibold uppercase tracking-wider text-gray-500 mb-2">Additional Message <span class="text-gray-400 font-normal normal-case">(optional)</span></label>
-                                <textarea rows="4" placeholder="Briefly describe what you'd like to discuss..." class="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent resize-none placeholder-gray-400"></textarea>
+                                <textarea name="message" rows="4" placeholder="Briefly describe what you'd like to discuss..." class="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent resize-none placeholder-gray-400"></textarea>
                             </div>
 
                             <!-- Submit -->
                             <div class="flex items-center gap-3 pt-1">
-                                <button type="button" onclick="submitRequest()" class="flex items-center gap-2 px-6 py-2.5 bg-gray-900 text-white text-sm font-semibold rounded-lg hover:bg-gray-700 transition-colors">
+                                <button type="submit" class="flex items-center gap-2 px-6 py-2.5 bg-gray-900 text-white text-sm font-semibold rounded-lg hover:bg-gray-700 transition-colors">
                                     <span class="material-symbols-outlined text-[18px]">send</span>
                                     Submit Request
                                 </button>
@@ -143,7 +152,7 @@
                         </form>
                     </div>
 
-                    <!-- Past Requests -->
+                    <!-- Requests History -->
                     <div class="bg-white rounded-xl border border-gray-200 animate-in animate-in-delay-2">
                         <div class="px-6 py-5 border-b border-gray-100">
                             <h2 class="text-base font-bold text-gray-900">My Requests</h2>
@@ -151,55 +160,47 @@
                         </div>
 
                         <div class="divide-y divide-gray-100">
-                            <!-- Request 1 - Approved -->
-                            <div class="flex items-start gap-4 px-6 py-4">
-                                <div class="w-9 h-9 rounded-full bg-green-50 flex items-center justify-center flex-shrink-0 mt-0.5">
-                                    <span class="material-symbols-outlined text-green-600 text-[18px]">check_circle</span>
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <div class="flex items-center justify-between gap-2 flex-wrap">
-                                        <p class="text-sm font-semibold text-gray-900">Workload concern</p>
-                                        <span class="badge badge-approved">Approved</span>
-                                    </div>
-                                    <p class="text-xs text-gray-500 mt-0.5">Requested: July 10, 2024 · In-Person</p>
-                                    <p class="text-xs text-gray-600 mt-1.5 bg-green-50 rounded-lg px-3 py-2">
-                                        <span class="font-semibold text-green-700">Instructor note:</span> Scheduled for July 14, 2:00 PM at Faculty Room 3.
-                                    </p>
-                                </div>
-                            </div>
+                            @forelse($requests as $req)
+                                <div class="flex items-start gap-4 px-6 py-4">
+                                    @if(strtolower($req->status) === 'approved')
+                                        <div class="w-9 h-9 rounded-full bg-green-50 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                            <span class="material-symbols-outlined text-green-600 text-[18px]">check_circle</span>
+                                        </div>
+                                    @elseif(strtolower($req->status) === 'pending')
+                                        <div class="w-9 h-9 rounded-full bg-amber-50 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                            <span class="material-symbols-outlined text-amber-600 text-[18px]">schedule</span>
+                                        </div>
+                                    @else
+                                        <div class="w-9 h-9 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                            <span class="material-symbols-outlined text-red-600 text-[18px]">cancel</span>
+                                        </div>
+                                    @endif
 
-                            <!-- Request 2 - Pending -->
-                            <div class="flex items-start gap-4 px-6 py-4">
-                                <div class="w-9 h-9 rounded-full bg-amber-50 flex items-center justify-center flex-shrink-0 mt-0.5">
-                                    <span class="material-symbols-outlined text-amber-600 text-[18px]">schedule</span>
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <div class="flex items-center justify-between gap-2 flex-wrap">
-                                        <p class="text-sm font-semibold text-gray-900">Task clarification needed</p>
-                                        <span class="badge badge-pending">Pending</span>
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex items-center justify-between gap-2 flex-wrap">
+                                            <p class="text-sm font-semibold text-gray-900">{{ $req->reason }}</p>
+                                            <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold uppercase
+                                                @if(strtolower($req->status) === 'approved') bg-green-100 text-green-800
+                                                @elseif(strtolower($req->status) === 'pending') bg-amber-100 text-amber-800
+                                                @else bg-red-100 text-red-800 @endif">
+                                                {{ ucfirst($req->status) }}
+                                            </span>
+                                        </div>
+                                        <p class="text-xs text-gray-500 mt-0.5">
+                                            Requested: {{ \Carbon\Carbon::parse($req->preferred_date)->format('M d, Y') }} · {{ ucfirst($req->mode) }}
+                                        </p>
+                                        @if($req->instructor_note)
+                                            <p class="text-xs text-gray-600 mt-1.5 bg-gray-50 rounded-lg px-3 py-2">
+                                                <span class="font-semibold text-gray-900">Instructor note:</span> {{ $req->instructor_note }}
+                                            </p>
+                                        @endif
                                     </div>
-                                    <p class="text-xs text-gray-500 mt-0.5">Requested: July 20, 2024 · Online</p>
-                                    <p class="text-xs text-gray-600 mt-1.5 bg-amber-50 rounded-lg px-3 py-2">
-                                        <span class="font-semibold text-amber-700"></span> Waiting for instructor to respond...
                                 </div>
-                            </div>
-
-                            <!-- Request 3 - Declined -->
-                            <div class="flex items-start gap-4 px-6 py-4">
-                                <div class="w-9 h-9 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0 mt-0.5">
-                                    <span class="material-symbols-outlined text-red-600 text-[18px]">cancel</span>
+                            @empty
+                                <div class="px-6 py-10 text-center text-gray-500 text-sm">
+                                    No check-in requests submitted yet.
                                 </div>
-                                <div class="flex-1 min-w-0">
-                                    <div class="flex items-center justify-between gap-2 flex-wrap">
-                                        <p class="text-sm font-semibold text-gray-900">Group conflict</p>
-                                        <span class="badge badge-rejected">Declined</span>
-                                    </div>
-                                    <p class="text-xs text-gray-500 mt-0.5">Requested: July 5, 2024 · Either</p>
-                                    <p class="text-xs text-gray-600 mt-1.5 bg-red-50 rounded-lg px-3 py-2">
-                                        <span class="font-semibold text-red-700">Instructor note:</span> Please resolve within the group first. Reach out again if unresolved.
-                                    </p>
-                                </div>
-                            </div>
+                            @endforelse
                         </div>
                     </div>
                 </div>
@@ -215,41 +216,45 @@
                                 <span class="material-symbols-outlined text-[24px] text-gray-500">person</span>
                             </div>
                             <div>
-                                <p class="text-sm font-bold text-gray-900">Prof. Dr. Santos</p>
-                                <p class="text-xs text-gray-500">CS402: Distributed Systems</p>
+                                <p class="text-sm font-bold text-gray-900">
+                                    {{ $class->teacher->name ?? 'Instructor' }}
+                                </p>
+                                <p class="text-xs text-gray-500">{{ $class->course_code }}: {{ $class->course_name }}</p>
                             </div>
                         </div>
                         <div class="space-y-2 text-xs text-gray-500">
                             <div class="flex items-center gap-2">
-                                <span class="material-symbols-outlined text-[16px] text-gray-400">schedule</span>
-                                <span>Office hours: MWF 11:00 AM – 12:00 PM</span>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <span class="material-symbols-outlined text-[16px] text-gray-400">location_on</span>
-                                <span>Faculty Room 3, CS Building</span>
+                                <span class="material-symbols-outlined text-[16px] text-gray-400">email</span>
+                                <span>{{ $class->teacher->email ?? 'No email provided' }}</span>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Status Summary -->
+                    <!-- Dynamic Summary -->
                     <div class="bg-white rounded-xl border border-gray-200 p-5 animate-in animate-in-delay-2">
                         <p class="text-[11px] uppercase tracking-wider text-gray-400 font-semibold mb-4">Request Summary</p>
                         <div class="space-y-3">
                             <div class="flex items-center justify-between">
                                 <span class="text-sm text-gray-600">Total Requests</span>
-                                <span class="text-sm font-bold text-gray-900">3</span>
+                                <span class="text-sm font-bold text-gray-900">{{ $requests->count() }}</span>
                             </div>
                             <div class="flex items-center justify-between">
                                 <span class="text-sm text-gray-600">Approved</span>
-                                <span class="text-sm font-bold text-green-600">1</span>
+                                <span class="text-sm font-bold text-green-600">
+                                    {{ $requests->where('status', 'approved')->count() }}
+                                </span>
                             </div>
                             <div class="flex items-center justify-between">
                                 <span class="text-sm text-gray-600">Pending</span>
-                                <span class="text-sm font-bold text-amber-600">1</span>
+                                <span class="text-sm font-bold text-amber-600">
+                                    {{ $requests->where('status', 'pending')->count() }}
+                                </span>
                             </div>
                             <div class="flex items-center justify-between">
                                 <span class="text-sm text-gray-600">Declined</span>
-                                <span class="text-sm font-bold text-red-600">1</span>
+                                <span class="text-sm font-bold text-red-600">
+                                    {{ $requests->where('status', 'declined')->count() }}
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -269,12 +274,9 @@
                                 <span class="material-symbols-outlined text-[14px] mt-0.5 flex-shrink-0">check</span>
                                 Request at least 2 days in advance when possible.
                             </li>
-                            <li class="flex items-start gap-1.5">
-                                <span class="material-symbols-outlined text-[14px] mt-0.5 flex-shrink-0">check</span>
-                                Check your instructor's office hours first.
-                            </li>
                         </ul>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -282,16 +284,10 @@
         <footer class="px-6 lg:px-10 py-6 border-t border-gray-100 mt-8">
             <div class="flex flex-col sm:flex-row justify-between items-center gap-3 max-w-7xl mx-auto">
                 <span class="text-[10px] uppercase tracking-widest text-gray-400 font-semibold">CarryOn Academic Systems</span>
-                <span class="text-xs text-gray-400">© 2024 CarryOn Academic Systems.</span>
+                <span class="text-xs text-gray-400">© {{ date('Y') }} CarryOn Academic Systems.</span>
             </div>
         </footer>
     </main>
-
-    <!-- Success Toast -->
-    <div id="toast" class="fixed bottom-6 right-6 z-50 flex items-center gap-3 bg-gray-900 text-white px-5 py-3.5 rounded-xl shadow-xl opacity-0 pointer-events-none transition-all duration-300 translate-y-4">
-        <span class="material-symbols-outlined text-green-400 text-[20px]">check_circle</span>
-        <span class="text-sm font-medium">Check-in request submitted!</span>
-    </div>
 
 </body>
 </html>
