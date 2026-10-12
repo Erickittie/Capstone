@@ -114,20 +114,10 @@
                                 type="password"
                                 name="password"
                                 placeholder="Enter your password"
-                                class="w-full h-11 pl-11 pr-11 text-sm rounded-xl border border-gray-200 bg-gray-50/50 text-gray-900 placeholder-gray-400 focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-100 outline-none transition duration-150"
+                                class="w-full h-11 pl-11 pr-4 text-sm rounded-xl border border-gray-200 bg-gray-50/50 text-gray-900 placeholder-gray-400 focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-100 outline-none transition duration-150"
                                 required
                                 autocomplete="current-password"
                             >
-                            <button
-                                type="button"
-                                onclick="togglePasswordVisibility()"
-                                class="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 focus:outline-none"
-                                title="Toggle password visibility"
-                            >
-                                <span id="toggle-icon" class="material-symbols-outlined text-[20px]">
-                                    visibility
-                                </span>
-                            </button>
                         </div>
                     </div>
 
