@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
 use App\Models\Shared\ClassRoom;
-use App\Models\Group;
+use App\Models\shared\Group;
 use Illuminate\Support\Facades\Auth;
 
 class StudentClassController extends Controller
