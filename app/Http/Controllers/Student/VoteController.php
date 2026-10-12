@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
 use App\Models\shared\Group;
+use App\Models\shared\ClassRoom;
 use App\Models\Student\GroupLeaderVote;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,23 +17,22 @@ class VoteController extends Controller
 {
     $student = auth()->user();
 
-    // 1. Fetch the class so the sidebar recognizes the class context
-    $class = \App\Models\shared\ClassRoom::findOrFail($classId);
+    // Fetch the class so the layout/sidebar recognizes the class context
+    $class = ClassRoom::findOrFail($classId);
 
-    $group = \App\Models\shared\Group::where('class_room_id', $classId)
+    $group = Group::where('class_room_id', $classId)
         ->whereHas('students', function ($query) use ($student) {
             $query->where('users.id', $student->id);
         })
         ->with('students')
         ->first();
 
-    $existingVote = \App\Models\shared\Vote::where('class_room_id', $classId)
+    $existingVote = GroupLeaderVote::where('group_id', optional($group)->id)
         ->where('voter_id', $student->id)
         ->first();
 
     $leader = $group ? $group->students->firstWhere('pivot.is_leader', true) : null;
 
-    // 2. Make sure $class is passed into the view
     return view('student.leader-vote', compact('class', 'group', 'existingVote', 'leader'));
 }
 
