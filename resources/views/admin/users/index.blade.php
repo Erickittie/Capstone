@@ -15,13 +15,26 @@
             </p>
         </div>
 
-        <button
-            type="button"
-            onclick="openAddUserModal()"
-            class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold shadow-xs hover:shadow transition duration-150 self-start sm:self-auto cursor-pointer">
-            <span class="material-symbols-outlined text-[18px]">person_add</span>
-            <span>Add User</span>
-        </button>
+
+    <div class="flex items-center gap-2">
+
+    <button
+        type="button"
+        onclick="openAddUserModal()"
+        class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold shadow-xs hover:shadow transition duration-150 cursor-pointer">
+        <span class="material-symbols-outlined text-[18px]">person_add</span>
+        <span>Add User</span>
+    </button>
+
+    <a
+        href="{{ route('admin.users.bulk-register') }}"
+        class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold shadow-xs hover:shadow transition duration-150">
+        <span class="material-symbols-outlined text-[18px]">upload_file</span>
+        <span>Bulk Registration</span>
+    </a>
+
+    </div>
+
     </div>
 
     <!-- Toolbar: Search -->
@@ -242,7 +255,7 @@
                         id="modal_user_role"
                         class="w-full h-10 px-3.5 text-sm rounded-xl border border-gray-200 bg-gray-50/50 text-gray-900 focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-100 outline-none transition"
                         required
-                        onchange="toggleModalStudentId(this.value)">
+                        onchange="toggleModalIdFields(this.value)">
                         <option value="">Choose Role</option>
                         <option value="Admin">Admin</option>
                         <option value="Instructor">Instructor</option>
@@ -275,6 +288,19 @@
                     id="modal_user_student_id"
                     placeholder="e.g. 2026-0001"
                     class="w-full h-10 px-3.5 text-sm rounded-xl border border-gray-200 bg-gray-50/50 text-gray-900 placeholder-gray-400 focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-100 outline-none transition">
+            </div>
+
+            
+            <div id="modal_instructor_id_container" class="hidden">
+                <label for="modal_user_instructor_id" class="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-1.5">
+                    Instructor ID Number <span class="text-rose-500">*</span>
+            </label>
+            <input
+                type="text"
+                name="instructor_id"
+                id="modal_user_instructor_id"
+                placeholder="Enter instructor ID number"
+                class="w-full h-10 px-3.5 text-sm rounded-xl border border-gray-200 bg-gray-50/50 text-gray-900 placeholder-gray-400 focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-100 outline-none transition">
             </div>
 
             <div>
@@ -317,6 +343,10 @@
             modal.classList.remove('hidden');
             modal.classList.add('flex');
             document.body.style.overflow = 'hidden';
+
+            toggleModalIdFields(
+                document.getElementById('modal_user_role').value
+            );
         }
     }
 
@@ -335,22 +365,39 @@
         }
     }
 
-    function toggleModalStudentId(role) {
-        const container = document.getElementById('modal_student_id_container');
-        const input = document.getElementById('modal_user_student_id');
-        if (container) {
-            if (role === 'Student') {
-                container.classList.remove('hidden');
-                if (input) input.required = true;
-            } else {
-                container.classList.add('hidden');
-                if (input) {
-                    input.required = false;
-                    input.value = '';
-                }
-            }
+    
+    function toggleModalIdFields(role) {
+        const studentContainer = document.getElementById('modal_student_id_container');
+        const studentInput = document.getElementById('modal_user_student_id');
+
+        const instructorContainer = document.getElementById('modal_instructor_id_container');
+        const instructorInput = document.getElementById('modal_user_instructor_id');
+
+        if (studentContainer && studentInput) {
+            const isStudent = role === 'Student';
+
+            studentContainer.classList.toggle('hidden', !isStudent);
+            studentInput.required = isStudent;
+            studentInput.disabled = !isStudent;
+
+        if (!isStudent) {
+            studentInput.value = '';
         }
     }
+
+        if (instructorContainer && instructorInput) {
+            const isInstructor = role === 'Instructor';
+
+            instructorContainer.classList.toggle('hidden', !isInstructor);
+            instructorInput.required = isInstructor;
+            instructorInput.disabled = !isInstructor;
+
+        if (!isInstructor) {
+            instructorInput.value = '';
+        }
+    }
+}
+
 
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
