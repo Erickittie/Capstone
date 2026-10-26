@@ -213,14 +213,12 @@
 
         </a>
 
-        <a href="{{ url('/admin/users') }}"
-           class="px-5 py-3 rounded-xl
-                  border border-gray-300
-                  text-gray-700 font-semibold
-                  hover:bg-gray-50">
-
+        <a href="{{ route('users.index') }}"
+          class="px-5 py-3 rounded-xl
+          border border-gray-300
+          text-gray-700 font-semibold
+          hover:bg-gray-50">
             View Users
-
         </a>
 
     </div>
