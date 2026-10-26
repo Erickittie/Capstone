@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-
 use App\Models\Shared\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -16,11 +15,16 @@ class UserController extends Controller
         $search = $request->search;
 
         $users = User::when($search, function ($query) use ($search) {
-                $query->where('name', 'like', "%{$search}%")
-                      ->orWhere('email', 'like', "%{$search}%");
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%")
+                      ->orWhere('email', 'like', "%{$search}%")
+                      ->orWhere('student_id', 'like', "%{$search}%")
+                      ->orWhere('instructor_id', 'like', "%{$search}%");
+                });
             })
             ->latest()
-            ->paginate(10);
+            ->paginate(10)
+            ->withQueryString();
 
         return view('admin.users.index', compact('users'));
     }
@@ -32,33 +36,52 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'name'       => 'required',
-            'email'      => 'required|email|unique:users,email',
-            'password'   => 'required|min:8',
-            'role'       => 'required',
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255', 'unique:users,email'],
+            'password' => ['required', 'string', 'min:8'],
+            'role' => ['required', Rule::in(['Admin', 'Instructor', 'Student'])],
+            'status' => ['required', Rule::in(['Active', 'Inactive'])],
+            'department' => ['nullable', 'string', 'max:255'],
+
             'student_id' => [
                 'nullable',
                 'required_if:role,Student',
+                'prohibited_unless:role,Student',
+                'string',
+                'max:255',
                 'unique:users,student_id',
             ],
-            'department' => 'nullable',
-            'status'     => 'required',
+
+            'instructor_id' => [
+                'nullable',
+                'required_if:role,Instructor',
+                'prohibited_unless:role,Instructor',
+                'string',
+                'max:255',
+                'unique:users,instructor_id',
+            ],
         ]);
 
         User::create([
-            'name'       => $request->name,
-            'email'      => $request->email,
-            'password'   => Hash::make($request->password),
-            'role'       => $request->role,
-            'student_id' => $request->role === 'Student'
-                ? $request->student_id
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+            'role' => $validated['role'],
+            'status' => $validated['status'],
+            'department' => $validated['department'] ?? null,
+
+            'student_id' => $validated['role'] === 'Student'
+                ? $validated['student_id']
                 : null,
-            'department' => $request->department,
-            'status'     => $request->status,
+
+            'instructor_id' => $validated['role'] === 'Instructor'
+                ? $validated['instructor_id']
+                : null,
         ]);
 
-        return redirect()->route('users.index')
+        return redirect()
+            ->route('users.index')
             ->with('success', 'User created successfully.');
     }
 
@@ -74,31 +97,55 @@ class UserController extends Controller
 
     public function update(Request $request, User $user)
     {
-        $request->validate([
-            'name'       => 'required',
-            'email'      => 'required|email|unique:users,email,' . $user->id,
-            'role'       => 'required',
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+                Rule::unique('users', 'email')->ignore($user->id),
+            ],
+            'role' => ['required', Rule::in(['Admin', 'Instructor', 'Student'])],
+            'status' => ['required', Rule::in(['Active', 'Inactive'])],
+            'department' => ['nullable', 'string', 'max:255'],
+
             'student_id' => [
                 'nullable',
                 'required_if:role,Student',
+                'prohibited_unless:role,Student',
+                'string',
+                'max:255',
                 Rule::unique('users', 'student_id')->ignore($user->id),
             ],
-            'department' => 'nullable',
-            'status'     => 'required',
+
+            'instructor_id' => [
+                'nullable',
+                'required_if:role,Instructor',
+                'prohibited_unless:role,Instructor',
+                'string',
+                'max:255',
+                Rule::unique('users', 'instructor_id')->ignore($user->id),
+            ],
         ]);
 
         $user->update([
-            'name'       => $request->name,
-            'email'      => $request->email,
-            'role'       => $request->role,
-            'student_id' => $request->role === 'Student'
-                ? $request->student_id
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'role' => $validated['role'],
+            'status' => $validated['status'],
+            'department' => $validated['department'] ?? null,
+
+            'student_id' => $validated['role'] === 'Student'
+                ? $validated['student_id']
                 : null,
-            'department' => $request->department,
-            'status'     => $request->status,
+
+            'instructor_id' => $validated['role'] === 'Instructor'
+                ? $validated['instructor_id']
+                : null,
         ]);
 
-        return redirect()->route('users.index')
+        return redirect()
+            ->route('users.index')
             ->with('success', 'User updated successfully.');
     }
 
@@ -109,7 +156,7 @@ class UserController extends Controller
 
     public function updatePassword(Request $request, User $user)
     {
-        $request->validate([
+        $validated = $request->validate([
             'password' => [
                 'required',
                 'string',
@@ -119,7 +166,7 @@ class UserController extends Controller
         ]);
 
         $user->update([
-            'password' => Hash::make($request->password),
+            'password' => Hash::make($validated['password']),
         ]);
 
         return redirect()
@@ -131,7 +178,8 @@ class UserController extends Controller
     {
         $user->delete();
 
-        return redirect()->route('users.index')
+        return redirect()
+            ->route('users.index')
             ->with('success', 'User deleted successfully.');
     }
 }
