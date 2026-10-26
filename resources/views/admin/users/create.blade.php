@@ -1,170 +1,191 @@
+
 @extends('layouts.admin')
 
+@section('title', 'Create User - CarryOn')
+
 @section('content')
-
 <div class="max-w-2xl mx-auto space-y-6">
+    <h1 style="background: red; color: white; padding: 20px;">
+    TEST - CORRECT CREATE USER PAGE
+</h1>
 
-    <!-- Header -->
-    <div class="flex items-center justify-between">
-        <div>
-            <a href="{{ route('users.index') }}" class="inline-flex items-center gap-1 text-xs font-semibold text-gray-500 hover:text-gray-900 mb-2 transition">
-                <span class="material-symbols-outlined text-[16px]">arrow_back</span>
-                <span>Back to Users</span>
-            </a>
-            <h1 class="text-2xl font-bold tracking-tight text-gray-900">
-                Create User
-            </h1>
-            <p class="text-sm text-gray-500 mt-1">
-                Add a new administrator, instructor, or student to the system.
-            </p>
-        </div>
+    <div>
+        <a href="{{ route('users.index') }}"
+           class="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-blue-600 mb-3">
+            <span class="material-symbols-outlined text-lg">arrow_back</span>
+            Back to Users
+        </a>
+
+        <h1 class="text-2xl font-bold text-gray-900">Create User</h1>
+        <p class="text-sm text-gray-500 mt-1">
+            Create an administrator, instructor, or student account.
+        </p>
     </div>
 
-    <!-- Form Card -->
-    <div class="bg-white rounded-2xl border border-gray-200/80 p-8 shadow-xs">
+    <div class="bg-white border border-gray-200 rounded-2xl shadow-sm p-8">
 
         @if ($errors->any())
-            <div class="mb-6 flex items-start gap-3 bg-red-50 border border-red-200 text-red-700 rounded-xl px-4 py-3 text-sm">
-                <span class="material-symbols-outlined text-red-500 text-[20px] mt-0.5">error</span>
-                <div>
-                    <p class="font-semibold">Please correct the following errors:</p>
-                    <ul class="list-disc list-inside mt-1 text-xs space-y-0.5">
-                        @foreach($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
+            <div class="mb-6 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+                <p class="font-semibold mb-2">Please fix the following errors:</p>
+                <ul class="list-disc list-inside space-y-1">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
             </div>
         @endif
 
         <form action="{{ route('users.store') }}" method="POST" class="space-y-5">
             @csrf
 
-            {{-- Full Name --}}
             <div>
-                <label for="name" class="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">
-                    Full Name
+                <label for="name" class="block text-sm font-semibold text-gray-700 mb-2">
+                    Full Name *
                 </label>
-                <input
-                    id="name"
-                    type="text"
-                    name="name"
-                    value="{{ old('name') }}"
-                    placeholder="e.g. John Doe"
-                    class="w-full h-11 px-4 text-sm rounded-xl border border-gray-200 bg-gray-50/50 text-gray-900 placeholder-gray-400 focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-100 outline-none transition"
-                    required>
+                <input type="text" name="name" id="name"
+                       value="{{ old('name') }}" placeholder="Enter full name"
+                       class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm"
+                       required>
             </div>
 
-            {{-- Email --}}
             <div>
-                <label for="email" class="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">
-                    Academic Email
+                <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">
+                    Email Address *
                 </label>
-                <input
-                    id="email"
-                    type="email"
-                    name="email"
-                    value="{{ old('email') }}"
-                    placeholder="name@usjr.edu.ph"
-                    class="w-full h-11 px-4 text-sm rounded-xl border border-gray-200 bg-gray-50/50 text-gray-900 placeholder-gray-400 focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-100 outline-none transition"
-                    required>
+                <input type="email" name="email" id="email"
+                       value="{{ old('email') }}" placeholder="Enter email address"
+                       class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm"
+                       required>
             </div>
 
-            {{-- Password --}}
             <div>
-                <label for="password" class="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">
-                    Password
+                <label for="password" class="block text-sm font-semibold text-gray-700 mb-2">
+                    Password *
                 </label>
-                <input
-                    id="password"
-                    type="password"
-                    name="password"
-                    placeholder="Min. 8 characters"
-                    class="w-full h-11 px-4 text-sm rounded-xl border border-gray-200 bg-gray-50/50 text-gray-900 placeholder-gray-400 focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-100 outline-none transition"
-                    required>
+                <input type="password" name="password" id="password" minlength="8"
+                       placeholder="At least 8 characters"
+                       class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm"
+                       required>
             </div>
 
-            {{-- Role --}}
             <div>
-                <label for="role" class="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">
-                    Account Role
+                <label for="role" class="block text-sm font-semibold text-gray-700 mb-2">
+                    Account Role *
                 </label>
-                <select
-                    name="role"
-                    id="role"
-                    class="w-full h-11 px-4 text-sm rounded-xl border border-gray-200 bg-gray-50/50 text-gray-900 focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-100 outline-none transition"
-                    required>
-                    <option value="">Choose Role</option>
-                    <option value="Admin" {{ old('role') == 'Admin' ? 'selected' : '' }}>Admin</option>
-                    <option value="Instructor" {{ old('role') == 'Instructor' ? 'selected' : '' }}>Instructor</option>
-                    <option value="Student" {{ old('role') == 'Student' ? 'selected' : '' }}>Student</option>
+                <select name="role" id="role"
+                        class="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm"
+                        required>
+                    <option value="Student" {{ old('role', 'Student') === 'Student' ? 'selected' : '' }}>
+                        Student
+                    </option>
+                    <option value="Instructor" {{ old('role') === 'Instructor' ? 'selected' : '' }}>
+                        Instructor
+                    </option>
+                    <option value="Admin" {{ old('role') === 'Admin' ? 'selected' : '' }}>
+                        Admin
+                    </option>
                 </select>
             </div>
 
-            {{-- Student ID --}}
-            <div id="student-id-container" class="{{ old('role') == 'Student' ? '' : 'hidden' }}">
-                <label for="student_id" class="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">
-                    Student ID Number
+            <div id="student-id-container">
+                <label for="student_id" class="block text-sm font-semibold text-gray-700 mb-2">
+                    Student ID Number *
                 </label>
-                <input
-                    type="text"
-                    name="student_id"
-                    id="student_id"
-                    value="{{ old('student_id') }}"
-                    placeholder="e.g. 2026-0001"
-                    class="w-full h-11 px-4 text-sm rounded-xl border border-gray-200 bg-gray-50/50 text-gray-900 placeholder-gray-400 focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-100 outline-none transition">
-                <p class="text-xs text-gray-400 mt-1">
-                    Required for Student accounts.
-                </p>
+                <input type="text" name="student_id" id="student_id"
+                       value="{{ old('student_id') }}"
+                       placeholder="Enter student ID number"
+                       class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm">
+                <p class="mt-1 text-xs text-gray-400">Required only for Student accounts.</p>
             </div>
 
-            {{-- Department --}}
+            <div id="instructor-id-container" style="display: block !important;">
+                <label for="instructor_id" class="block text-sm font-semibold text-gray-700 mb-2">
+                    Instructor ID Number *
+                </label>
+                <input type="text" name="instructor_id" id="instructor_id"
+                       value="{{ old('instructor_id') }}"
+                       placeholder="Enter instructor ID number"
+                       class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm">
+                <p class="mt-1 text-xs text-gray-400">Required only for Instructor accounts.</p>
+            </div>
+
             <div>
-                <label for="department" class="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">
+                <label for="department" class="block text-sm font-semibold text-gray-700 mb-2">
                     Department
                 </label>
-                <input
-                    id="department"
-                    type="text"
-                    name="department"
-                    value="{{ old('department') }}"
-                    placeholder="e.g. Computer Science"
-                    class="w-full h-11 px-4 text-sm rounded-xl border border-gray-200 bg-gray-50/50 text-gray-900 placeholder-gray-400 focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-100 outline-none transition">
+                <input type="text" name="department" id="department"
+                       value="{{ old('department') }}" placeholder="Enter department"
+                       class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm">
             </div>
 
-            {{-- Status --}}
             <div>
-                <label for="status" class="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-2">
-                    Status
+                <label for="status" class="block text-sm font-semibold text-gray-700 mb-2">
+                    Account Status *
                 </label>
-                <select
-                    name="status"
-                    id="status"
-                    class="w-full h-11 px-4 text-sm rounded-xl border border-gray-200 bg-gray-50/50 text-gray-900 focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-100 outline-none transition">
-                    <option value="Active" {{ old('status', 'Active') == 'Active' ? 'selected' : '' }}>Active</option>
-                    <option value="Inactive" {{ old('status') == 'Inactive' ? 'selected' : '' }}>Inactive</option>
+                <select name="status" id="status"
+                        class="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm"
+                        required>
+                    <option value="Active" {{ old('status', 'Active') === 'Active' ? 'selected' : '' }}>
+                        Active
+                    </option>
+                    <option value="Inactive" {{ old('status') === 'Inactive' ? 'selected' : '' }}>
+                        Inactive
+                    </option>
                 </select>
             </div>
 
-            {{-- Buttons --}}
-            <div class="flex items-center gap-3 pt-4 border-t border-gray-100">
-                <button
-                    type="submit"
-                    class="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold shadow-xs hover:shadow transition duration-150">
-                    Save User
+            <div class="flex gap-3 border-t border-gray-100 pt-5">
+                <button type="submit"
+                        class="rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white hover:bg-blue-700">
+                    Create User
                 </button>
 
-                <a
-                    href="{{ route('users.index') }}"
-                    class="px-5 py-2.5 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 text-gray-700 text-sm font-semibold transition">
+                <a href="{{ route('users.index') }}"
+                   class="rounded-xl border border-gray-300 px-6 py-3 text-sm font-semibold text-gray-700 hover:bg-gray-50">
                     Cancel
                 </a>
             </div>
-
         </form>
-
     </div>
-
 </div>
 
+<script>
+(function () {
+    function initializeIdFields() {
+        const roleSelect = document.getElementById('role');
+        const studentContainer = document.getElementById('student-id-container');
+        const instructorContainer = document.getElementById('instructor-id-container');
+        const studentInput = document.getElementById('student_id');
+        const instructorInput = document.getElementById('instructor_id');
+
+        if (!roleSelect || !studentContainer || !instructorContainer ||
+            !studentInput || !instructorInput) {
+            console.error('Create User form: one or more ID fields were not found.');
+            return;
+        }
+
+        function toggleIdFields() {
+            const role = roleSelect.value;
+
+            studentContainer.hidden = role !== 'Student';
+            instructorContainer.hidden = role !== 'Instructor';
+
+            studentInput.disabled = role !== 'Student';
+            studentInput.required = role === 'Student';
+
+            instructorInput.disabled = role !== 'Instructor';
+            instructorInput.required = role === 'Instructor';
+        }
+
+        roleSelect.addEventListener('change', toggleIdFields);
+        toggleIdFields();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializeIdFields);
+    } else {
+        initializeIdFields();
+    }
+})();
+</script>
 @endsection
