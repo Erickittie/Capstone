@@ -2,12 +2,12 @@
 
 namespace App\Models\Shared;
 
-use Illuminate\Foundation\Auth\User as Authenticable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\Student\Notification;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class User extends Authenticable
+class User extends Authenticatable
 {
     protected $fillable = [
         'name',
@@ -16,11 +16,13 @@ class User extends Authenticable
         'role',
         'department',
         'status',
-        'student_id'
+        'student_id',
+        'instructor_id',
     ];
 
     protected $hidden = [
-        'password'
+        'password',
+        'remember_token',
     ];
 
     public function instructorClasses(): HasMany
