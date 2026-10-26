@@ -9,14 +9,9 @@
     {{-- Header --}}
     <div class="mb-8">
 
-        {{-- Back to Users --}}
         <a href="{{ route('users.index') }}"
-           class="inline-flex items-center text-sm
-                  text-gray-500 hover:text-purple-600
-                  mb-4 transition">
-
+           class="inline-flex items-center text-sm text-gray-500 hover:text-purple-600 mb-4 transition">
             ← Back to Users
-
         </a>
 
         <h1 class="text-3xl font-bold text-gray-800">
@@ -29,20 +24,15 @@
 
     </div>
 
-
     {{-- Upload Card --}}
-    <div class="bg-white border border-gray-200
-                rounded-2xl shadow-sm p-8">
+    <div class="bg-white border border-gray-200 rounded-2xl shadow-sm p-8">
 
         {{-- Title --}}
         <div class="flex items-start gap-4 mb-6">
 
-            <div class="text-4xl">
-                📥
-            </div>
+            <div class="text-4xl">📥</div>
 
             <div>
-
                 <h2 class="text-xl font-bold text-gray-800">
                     Upload CSV File
                 </h2>
@@ -50,112 +40,76 @@
                 <p class="text-gray-500 mt-1">
                     Use the CarryOn CSV format to register users.
                 </p>
-
             </div>
 
         </div>
 
-
         {{-- Session Error --}}
         @if(session('error'))
-
-            <div class="mb-6 bg-red-50 border border-red-200
-                        text-red-700 rounded-xl p-4">
-
+            <div class="mb-6 bg-red-50 border border-red-200 text-red-700 rounded-xl p-4">
                 {{ session('error') }}
-
             </div>
-
         @endif
-
 
         {{-- Validation Errors --}}
         @if($errors->any())
-
-            <div class="mb-6 bg-red-50 border border-red-200
-                        text-red-700 rounded-xl p-4">
-
+            <div class="mb-6 bg-red-50 border border-red-200 text-red-700 rounded-xl p-4">
                 <ul class="list-disc list-inside space-y-1">
-
                     @foreach($errors->all() as $error)
-
-                        <li>
-                            {{ $error }}
-                        </li>
-
+                        <li>{{ $error }}</li>
                     @endforeach
-
                 </ul>
-
             </div>
-
         @endif
 
-
         {{-- CSV Format --}}
-        <div class="bg-gray-50 border border-gray-200
-                    rounded-xl p-5 mb-6">
+        <div class="bg-gray-50 border border-gray-200 rounded-xl p-5 mb-6">
 
             <h3 class="font-semibold text-gray-800">
                 CSV Columns
             </h3>
+
+            <p class="text-sm text-gray-500 mt-2">
+                Use the exact column names shown below. Leave the ID column blank if it does not apply to the user's role.
+            </p>
 
             <div class="overflow-x-auto mt-4">
 
                 <table class="w-full text-sm">
 
                     <thead>
-
                         <tr class="border-b border-gray-200">
 
-                            <th class="text-left py-3 px-3">
-                                student_id
-                            </th>
-
-                            <th class="text-left py-3 px-3">
-                                name
-                            </th>
-
-                            <th class="text-left py-3 px-3">
-                                email
-                            </th>
-
-                            <th class="text-left py-3 px-3">
-                                role
-                            </th>
-
-                            <th class="text-left py-3 px-3">
-                                department
-                            </th>
+                            <th class="text-left py-3 px-3">student_id</th>
+                            <th class="text-left py-3 px-3">instructor_id</th>
+                            <th class="text-left py-3 px-3">name</th>
+                            <th class="text-left py-3 px-3">email</th>
+                            <th class="text-left py-3 px-3">role</th>
+                            <th class="text-left py-3 px-3">department</th>
 
                         </tr>
-
                     </thead>
 
                     <tbody>
 
+                        {{-- Student Example --}}
+                        <tr class="border-b border-gray-100">
+                            <td class="py-3 px-3 whitespace-nowrap">2022008683</td>
+                            <td class="py-3 px-3">—</td>
+                            <td class="py-3 px-3 whitespace-nowrap">Sample Student</td>
+                            <td class="py-3 px-3">student@example.com</td>
+                            <td class="py-3 px-3">Student</td>
+                            <td class="py-3 px-3">SCS</td>
+                        </tr>
+
+                        {{-- Instructor Example --}}
                         <tr>
-
-                            <td class="py-3 px-3">
-                                2022008683
-                            </td>
-
-                            <td class="py-3 px-3">
-                                Jer Erick Dumalagan
-                            </td>
-
-                            <td class="py-3 px-3">
-                                jererick@example.com
-                            </td>
-
-                            <td class="py-3 px-3">
-                                Student
-                            </td>
-
-                            <td class="py-3 px-3">
-                                SCS
-                            </td>
-
+                            <td class="py-3 px-3">—</td>
+                            <td class="py-3 px-3 whitespace-nowrap">INS-0001</td>
+                            <td class="py-3 px-3 whitespace-nowrap">Sample Instructor</td>
+                            <td class="py-3 px-3">instructor@example.com</td>
+                            <td class="py-3 px-3">Instructor</td>
+                            <td class="py-3 px-3">SCS</td>
                         </tr>
 
                     </tbody>
@@ -164,29 +118,39 @@
 
             </div>
 
+            <div class="mt-4 text-sm text-gray-600 space-y-1">
+                <p>• Student accounts require a <strong>student_id</strong>.</p>
+                <p>• Instructor accounts require an <strong>instructor_id</strong>.</p>
+                <p>• Leave the other ID column blank.</p>
+                <p>• Role must be exactly <strong>Student</strong> or <strong>Instructor</strong>.</p>
+            </div>
+
         </div>
 
-
         {{-- Default Password Information --}}
-        <div class="bg-blue-50 border border-blue-200
-                    rounded-xl p-5 mb-6">
+        <div class="bg-blue-50 border border-blue-200 rounded-xl p-5 mb-6">
 
             <h3 class="font-semibold text-blue-800">
                 Default Password
             </h3>
 
             <p class="text-sm text-blue-700 mt-2">
-                Student accounts will use their
+                Student accounts use their
                 <strong>Student ID</strong> as the initial password.
             </p>
 
             <p class="text-sm text-blue-700 mt-1">
-                Instructor accounts will use
+                Instructor accounts use
                 <strong>CarryOn@123</strong> as the initial password.
             </p>
 
-        </div>
+            <p class="text-sm text-blue-700 mt-2">
+                Fill in <strong>student_id</strong> for students or
+                <strong>instructor_id</strong> for instructors.
+                Leave the other ID column blank.
+            </p>
 
+        </div>
 
         {{-- Upload Form --}}
         <form
@@ -196,64 +160,40 @@
 
             @csrf
 
-            {{-- CSV File --}}
             <div>
 
-                <label
-                    class="block text-sm font-semibold
-                           text-gray-700 mb-2">
-
+                <label for="csv_file"
+                       class="block text-sm font-semibold text-gray-700 mb-2">
                     Select CSV File
-
                 </label>
 
                 <input
                     type="file"
+                    id="csv_file"
                     name="csv_file"
                     accept=".csv,.txt"
                     required
-                    class="w-full border border-gray-300
-                           rounded-xl px-4 py-3
-                           bg-white
-                           focus:outline-none
-                           focus:ring-2
-                           focus:ring-purple-500">
+                    class="w-full border border-gray-300 rounded-xl px-4 py-3 bg-white focus:outline-none focus:ring-2 focus:ring-purple-500">
 
                 <p class="text-sm text-gray-500 mt-2">
-                    Accepted file types: CSV or TXT.
+                    Accepted file types: CSV or TXT. Maximum size: 5 MB.
                 </p>
 
             </div>
 
-
             {{-- Buttons --}}
             <div class="flex flex-wrap gap-3 mt-6">
 
-                {{-- Download Template --}}
                 <a
                     href="{{ route('admin.users.bulk-register.template') }}"
-                    class="px-5 py-3 rounded-xl
-                           border border-gray-300
-                           text-gray-700 font-semibold
-                           hover:bg-gray-50
-                           transition">
-
+                    class="px-5 py-3 rounded-xl border border-gray-300 text-gray-700 font-semibold hover:bg-gray-50 transition">
                     📄 Download CSV Template
-
                 </a>
 
-
-                {{-- Upload --}}
                 <button
                     type="submit"
-                    class="px-5 py-3 rounded-xl
-                           bg-purple-600 text-white
-                           font-semibold
-                           hover:bg-purple-700
-                           transition">
-
+                    class="px-5 py-3 rounded-xl bg-purple-600 text-white font-semibold hover:bg-purple-700 transition">
                     📥 Upload & Register Users
-
                 </button>
 
             </div>
