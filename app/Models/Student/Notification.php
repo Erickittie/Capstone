@@ -29,9 +29,9 @@ class Notification extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function task(): BelongsTo
+    public function task()
     {
-        return $this->belongsTo(Task::class);
+        return $this->belongsTo(\App\Models\shared\Task::class);
     }
 
     public function submission(): BelongsTo

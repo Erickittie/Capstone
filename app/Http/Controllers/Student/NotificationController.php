@@ -52,4 +52,14 @@ class NotificationController extends Controller
             ->route('student.notifications.index')
             ->with('success', 'All notifications have been marked as read.');
     }
+        public function destroy($id)
+    {
+        $notification = \App\Models\Student\Notification::where('id', $id)
+            ->where('user_id', auth()->id())
+            ->firstOrFail();
+
+        $notification->delete();
+
+        return redirect()->back()->with('success', 'Notification removed.');
+    }
 }

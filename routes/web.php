@@ -223,6 +223,11 @@ Route::middleware(['auth', 'role:Student'])->group(function () {
         '/student/notifications/read-all',
         [NotificationController::class, 'readAll']
     )->name('student.notifications.readAll');
+    // Added route for removing/deleting notifications:
+    Route::delete(
+        '/student/notifications/{notification}',
+        [NotificationController::class, 'destroy']
+    )->name('student.notifications.destroy');
     Route::get(
         '/student/class/{classId}/my-contribution',
         [MyContributionController::class, 'classContribution']
