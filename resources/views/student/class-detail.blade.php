@@ -56,25 +56,41 @@
 
                 @foreach($projects as $project)
 
-                    <a href="{{ route('student.project.show', [
-                        'classId' => $class->id,
-                        'projectId' => $project->id
-                    ]) }}"
-                       class="group block bg-white border border-gray-200/80 rounded-2xl p-6 shadow-xs hover:shadow-md hover:-translate-y-0.5 hover:border-purple-300 transition-all duration-150">
+                    @php
+                        $isUpcoming = $project->isUpcoming();
+                    @endphp
+
+                    @if(!$isUpcoming)
+                        <a href="{{ route('student.project.show', [
+                            'classId' => $class->id,
+                            'projectId' => $project->id
+                        ]) }}"
+                           class="group block bg-white border border-gray-200/80 rounded-2xl p-6 shadow-xs hover:shadow-md hover:-translate-y-0.5 hover:border-purple-300 transition-all duration-150">
+                    @else
+                        <div class="relative bg-white/90 border border-gray-200/80 rounded-2xl p-6 shadow-xs select-none">
+                    @endif
 
                         <div class="flex items-start justify-between gap-4 mb-4">
-                            <div class="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center flex-shrink-0">
-                                <span class="material-symbols-outlined text-purple-600 text-[20px]">account_tree</span>
+                            <div class="w-10 h-10 rounded-xl {{ $isUpcoming ? 'bg-amber-50 text-amber-600' : 'bg-purple-50 text-purple-600' }} flex items-center justify-center flex-shrink-0">
+                                <span class="material-symbols-outlined text-[20px]">{{ $isUpcoming ? 'lock' : 'account_tree' }}</span>
                             </div>
-                            <span class="shrink-0 px-3 py-1 rounded-full text-xs font-semibold
-                                {{ strtolower($project->status) === 'active'
-                                    ? 'bg-green-100 text-green-700'
-                                    : 'bg-gray-100 text-gray-600' }}">
-                                {{ $project->status }}
-                            </span>
+
+                            @if($isUpcoming)
+                                <span class="shrink-0 px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200 flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-[13px]">lock</span>
+                                    Upcoming
+                                </span>
+                            @else
+                                <span class="shrink-0 px-3 py-1 rounded-full text-xs font-semibold
+                                    {{ strtolower($project->status) === 'active'
+                                        ? 'bg-green-100 text-green-700'
+                                        : 'bg-gray-100 text-gray-600' }}">
+                                    {{ $project->status }}
+                                </span>
+                            @endif
                         </div>
 
-                        <h3 class="text-base font-bold text-gray-900 group-hover:text-purple-600 transition-colors">
+                        <h3 class="text-base font-bold text-gray-900 {{ !$isUpcoming ? 'group-hover:text-purple-600' : '' }} transition-colors">
                             {{ $project->title }}
                         </h3>
                         <p class="text-sm text-gray-500 mt-1 line-clamp-2">
@@ -84,7 +100,7 @@
                         <div class="mt-4 grid grid-cols-2 gap-3">
                             <div>
                                 <p class="text-xs text-gray-400">Start Date</p>
-                                <p class="text-sm font-semibold text-gray-700 mt-0.5">
+                                <p class="text-sm font-semibold {{ $isUpcoming ? 'text-amber-700' : 'text-gray-700' }} mt-0.5">
                                     {{ $project->start_date ? $project->start_date->format('M d, Y') : 'Not set' }}
                                 </p>
                             </div>
@@ -98,12 +114,23 @@
 
                         <div class="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between">
                             <span class="text-xs text-gray-400">Your group project</span>
-                            <span class="text-xs font-semibold text-purple-600 opacity-0 group-hover:opacity-100 transition-opacity">
-                                Open Project →
-                            </span>
+                            @if(!$isUpcoming)
+                                <span class="text-xs font-semibold text-purple-600 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    Open Project →
+                                </span>
+                            @else
+                                <span class="inline-flex items-center gap-1 text-xs font-semibold text-amber-600">
+                                    <span class="material-symbols-outlined text-[14px]">lock</span>
+                                    Accessible on {{ $project->start_date ? $project->start_date->format('M d, Y') : 'start date' }}
+                                </span>
+                            @endif
                         </div>
 
-                    </a>
+                    @if(!$isUpcoming)
+                        </a>
+                    @else
+                        </div>
+                    @endif
 
                 @endforeach
 
