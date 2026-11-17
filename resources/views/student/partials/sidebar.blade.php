@@ -84,7 +84,7 @@
                 <span class="text-sm">File Repository</span>
             </a>
 
-            <!-- Check-In Request -->
+            <!-- Check-In Request
             <a href="{{ route('student.checkin.index', $class->id) }}"
                class="flex items-center gap-3.5 px-4 py-3 rounded-xl transition duration-150 {{ request()->routeIs('student.checkin.*') ? 'bg-gray-100 text-gray-950 font-semibold shadow-xs' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium' }}">
                 <span class="material-symbols-outlined text-[22px] {{ request()->routeIs('student.checkin.*') ? 'text-gray-900' : 'text-gray-400' }}">
@@ -92,7 +92,7 @@
                 </span>
                 <span class="text-sm">Check-In Request</span>
             </a>
-        @endif
+        @endif -->
 
     </nav>
 
