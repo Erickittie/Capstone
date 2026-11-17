@@ -390,6 +390,11 @@
                 </div>
 
                 {{-- Dates --}}
+                @php
+                    $today = date('Y-m-d');
+                    $modalStartVal = old('start_date');
+                    $modalMinEnd = $modalStartVal ?: $today;
+                @endphp
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label for="modal_start_date" class="block text-sm font-semibold text-gray-700 mb-1.5">
@@ -399,11 +404,15 @@
                             type="date"
                             id="modal_start_date"
                             name="start_date"
-                            value="{{ old('start_date') }}"
+                            min="{{ $today }}"
+                            value="{{ $modalStartVal }}"
                             class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm
                                    focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none
                                    transition"
                         >
+                        @error('start_date')
+                            <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                        @enderror
                     </div>
                     <div>
                         <label for="modal_end_date" class="block text-sm font-semibold text-gray-700 mb-1.5">
@@ -413,11 +422,15 @@
                             type="date"
                             id="modal_end_date"
                             name="end_date"
+                            min="{{ $modalMinEnd }}"
                             value="{{ old('end_date') }}"
                             class="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm
                                    focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none
                                    transition"
                         >
+                        @error('end_date')
+                            <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
 
@@ -509,6 +522,10 @@
                             </div>
                         @endforelse
                     </div>
+
+                    @error('groups')
+                        <p class="mt-2 text-xs text-red-600">{{ $message }}</p>
+                    @enderror
                 </div>
 
             </form>
@@ -571,6 +588,27 @@ function closeCreateProjectModalOutside(event) {
         openCreateProjectModal();
     });
 @endif
+
+document.addEventListener('DOMContentLoaded', function () {
+    const modalStartDate = document.getElementById('modal_start_date');
+    const modalEndDate = document.getElementById('modal_end_date');
+
+    if (modalStartDate && modalEndDate) {
+        const localToday = new Date().toLocaleDateString('en-CA');
+        modalStartDate.min = localToday;
+
+        function updateModalEndDateMin() {
+            const minAllowed = modalStartDate.value || localToday;
+            modalEndDate.min = minAllowed;
+            if (modalEndDate.value && modalEndDate.value < minAllowed) {
+                modalEndDate.value = minAllowed;
+            }
+        }
+
+        modalStartDate.addEventListener('change', updateModalEndDateMin);
+        updateModalEndDateMin();
+    }
+});
 
 </script>
 @endpush
