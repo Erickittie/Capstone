@@ -10,17 +10,9 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    /**
-     * Approved departments.
-     */
     private function departments(): array
     {
-        return [
-            'SCS',
-            'SOE',
-            'SAS',
-            'SBM',
-        ];
+        return ['SCS', 'SOE', 'SAS', 'SBM'];
     }
 
     /**
@@ -34,7 +26,7 @@ class UserController extends Controller
     }
 
     /**
-     * Show the create user form.
+     * Show create user page.
      */
     public function create()
     {
@@ -50,16 +42,31 @@ class UserController extends Controller
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255', 'unique:users,email'],
-            'password' => ['required', 'string', 'min:8'],
-            'role' => ['required', Rule::in(['Admin', 'Instructor', 'Student'])],
+
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+                'unique:users,email',
+            ],
+
+            'password' => [
+                'required',
+                'string',
+                'min:8',
+            ],
+
+            'role' => [
+                'required',
+                Rule::in(['Admin', 'Instructor', 'Student']),
+            ],
 
             'student_id' => [
                 'nullable',
                 'required_if:role,Student',
                 'string',
                 'max:255',
-                'unique:users,student_id',
+                Rule::unique('users', 'student_id'),
             ],
 
             'instructor_id' => [
@@ -67,12 +74,11 @@ class UserController extends Controller
                 'required_if:role,Instructor',
                 'string',
                 'max:255',
-                'unique:users,instructor_id',
+                Rule::unique('users', 'instructor_id'),
             ],
 
             'department' => [
                 'required',
-                'string',
                 Rule::in($this->departments()),
             ],
 
@@ -87,12 +93,15 @@ class UserController extends Controller
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
             'role' => $validated['role'],
+
             'student_id' => $validated['role'] === 'Student'
-                ? ($validated['student_id'] ?? null)
+                ? $validated['student_id']
                 : null,
+
             'instructor_id' => $validated['role'] === 'Instructor'
-                ? ($validated['instructor_id'] ?? null)
+                ? $validated['instructor_id']
                 : null,
+
             'department' => $validated['department'],
             'status' => $validated['status'],
         ]);
@@ -111,7 +120,7 @@ class UserController extends Controller
     }
 
     /**
-     * Show the edit user form.
+     * Show edit user page.
      */
     public function edit(User $user)
     {
@@ -121,7 +130,7 @@ class UserController extends Controller
     }
 
     /**
-     * Update an existing user.
+     * Update existing user.
      */
     public function update(Request $request, User $user)
     {
@@ -158,7 +167,6 @@ class UserController extends Controller
 
             'department' => [
                 'required',
-                'string',
                 Rule::in($this->departments()),
             ],
 
@@ -172,12 +180,15 @@ class UserController extends Controller
             'name' => $validated['name'],
             'email' => $validated['email'],
             'role' => $validated['role'],
+
             'student_id' => $validated['role'] === 'Student'
                 ? ($validated['student_id'] ?? null)
                 : null,
+
             'instructor_id' => $validated['role'] === 'Instructor'
                 ? ($validated['instructor_id'] ?? null)
                 : null,
+
             'department' => $validated['department'],
             'status' => $validated['status'],
         ]);
@@ -188,7 +199,7 @@ class UserController extends Controller
     }
 
     /**
-     * Show the password edit form.
+     * Show password edit page.
      */
     public function editPassword(User $user)
     {
@@ -196,7 +207,7 @@ class UserController extends Controller
     }
 
     /**
-     * Update a user's password.
+     * Update user password.
      */
     public function updatePassword(Request $request, User $user)
     {
@@ -214,7 +225,7 @@ class UserController extends Controller
     }
 
     /**
-     * Delete a user.
+     * Delete user.
      */
     public function destroy(User $user)
     {
