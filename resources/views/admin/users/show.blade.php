@@ -59,24 +59,26 @@
             </div>
 
             {{-- Student ID --}}
-            <div>
-
-                <label class="font-semibold block mb-1">
+            
+        {{-- User ID --}}
+        <div>
+            <label class="font-semibold block mb-1">
+                @if($user->role === 'Student')
                     Student ID Number
-                </label>
-
-                @if($user->student_id)
-
-                    <p>{{ $user->student_id }}</p>
-
+                @elseif($user->role === 'Instructor')
+                    Instructor ID
                 @else
-
-                    <p class="text-gray-400">
-                        Not applicable
-                    </p>
-
+                    User ID
                 @endif
+            </label>
 
+                @if($user->role === 'Student')
+                    <p>{{ $user->student_id ?: 'Not applicable' }}</p>
+                @elseif($user->role === 'Instructor')
+                    <p>{{ $user->instructor_id ?: 'Not applicable' }}</p>
+                @else
+                    <p class="text-gray-400">Not applicable</p>
+                @endif
             </div>
 
             {{-- Department --}}
