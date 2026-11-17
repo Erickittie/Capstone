@@ -42,10 +42,7 @@
                         <div class="text-[10px] tracking-[0.2em] font-semibold text-gray-400 uppercase">ACADEMIC MANAGEMENT</div>
                     </div>
                 </div>
-                <h2 class="mt-4 text-xl font-bold tracking-tight text-gray-900">
-                    Welcome back
-                </h2>
-                <p class="mt-1 text-sm text-gray-500">
+                <p class="mt-4 text-sm text-gray-500">
                     Please enter your institutional credentials to continue
                 </p>
             </div>
@@ -144,16 +141,6 @@
                         </span>
                     </button>
                 </form>
-
-                <!-- Registration / Help Link -->
-                <div class="mt-6 pt-5 border-t border-gray-100 text-center">
-                    <p class="text-xs text-gray-500">
-                        Don't have an account?
-                        <a href="{{ route('registration') }}" class="font-semibold text-blue-600 hover:text-blue-700 hover:underline">
-                            Register now
-                        </a>
-                    </p>
-                </div>
             </div>
 
             <!-- Footer Note -->

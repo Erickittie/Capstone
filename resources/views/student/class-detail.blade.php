@@ -223,7 +223,7 @@
                 <p class="text-xs text-gray-500 mt-1.5 leading-relaxed">Access your group's shared project files.</p>
             </a>
 
-            {{-- Check-in Request --}}
+            {{-- Check-in Request (hidden)
             <a href="{{ route('student.checkin.index', $class->id) }}"
                class="group bg-white border border-gray-200/80 rounded-2xl p-6 shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-150">
                 <div class="w-11 h-11 rounded-xl bg-violet-50 flex items-center justify-center mb-4">
@@ -232,6 +232,7 @@
                 <h3 class="text-sm font-bold text-gray-900 group-hover:text-violet-600 transition-colors">Check-In Request</h3>
                 <p class="text-xs text-gray-500 mt-1.5 leading-relaxed">Submit or view your class check-in request.</p>
             </a>
+            --}}
 
         </div>
 
