@@ -47,14 +47,14 @@
             <span class="text-sm">Classes</span>
         </a>
 
-        <!-- Reports -->
+        <!-- Reports
         <a href="{{ route('reports.index') }}"
            class="flex items-center gap-3.5 px-4 py-3 rounded-xl transition duration-150 {{ request()->routeIs('reports.*') ? 'bg-gray-100 text-gray-950 font-semibold shadow-xs' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium' }}">
             <span class="material-symbols-outlined text-[22px] {{ request()->routeIs('reports.*') ? 'text-gray-900' : 'text-gray-400' }}">
                 analytics
             </span>
             <span class="text-sm">Reports</span>
-        </a>
+        </a> -->
 
     </nav>
 
