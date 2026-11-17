@@ -1,3 +1,4 @@
+
 @extends('layouts.admin')
 
 @section('content')
@@ -15,26 +16,22 @@
             </p>
         </div>
 
+        <div class="flex items-center gap-2">
+            <button
+                type="button"
+                onclick="openAddUserModal()"
+                class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold shadow-xs hover:shadow transition duration-150 cursor-pointer">
+                <span class="material-symbols-outlined text-[18px]">person_add</span>
+                <span>Add User</span>
+            </button>
 
-    <div class="flex items-center gap-2">
-
-    <button
-        type="button"
-        onclick="openAddUserModal()"
-        class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold shadow-xs hover:shadow transition duration-150 cursor-pointer">
-        <span class="material-symbols-outlined text-[18px]">person_add</span>
-        <span>Add User</span>
-    </button>
-
-    <a
-        href="{{ route('admin.users.bulk-register') }}"
-        class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold shadow-xs hover:shadow transition duration-150">
-        <span class="material-symbols-outlined text-[18px]">upload_file</span>
-        <span>Bulk Registration</span>
-    </a>
-
-    </div>
-
+            <a
+                href="{{ route('admin.users.bulk-register') }}"
+                class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold shadow-xs hover:shadow transition duration-150">
+                <span class="material-symbols-outlined text-[18px]">upload_file</span>
+                <span>Bulk Registration</span>
+            </a>
+        </div>
     </div>
 
     <!-- Toolbar: Search -->
@@ -49,8 +46,7 @@
                     name="search"
                     placeholder="Search by name, email, or role..."
                     class="w-full h-10 pl-10 pr-4 text-sm rounded-xl border border-gray-200 bg-white placeholder-gray-400 text-gray-800 focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100/60 shadow-xs transition"
-                    value="{{ request('search') }}"
-                >
+                    value="{{ request('search') }}">
             </div>
         </form>
     </div>
@@ -290,29 +286,35 @@
                     class="w-full h-10 px-3.5 text-sm rounded-xl border border-gray-200 bg-gray-50/50 text-gray-900 placeholder-gray-400 focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-100 outline-none transition">
             </div>
 
-            
             <div id="modal_instructor_id_container" class="hidden">
                 <label for="modal_user_instructor_id" class="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-1.5">
                     Instructor ID Number <span class="text-rose-500">*</span>
-            </label>
-            <input
-                type="text"
-                name="instructor_id"
-                id="modal_user_instructor_id"
-                placeholder="Enter instructor ID number"
-                class="w-full h-10 px-3.5 text-sm rounded-xl border border-gray-200 bg-gray-50/50 text-gray-900 placeholder-gray-400 focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-100 outline-none transition">
+                </label>
+                <input
+                    type="text"
+                    name="instructor_id"
+                    id="modal_user_instructor_id"
+                    placeholder="Enter instructor ID number"
+                    class="w-full h-10 px-3.5 text-sm rounded-xl border border-gray-200 bg-gray-50/50 text-gray-900 placeholder-gray-400 focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-100 outline-none transition">
             </div>
 
+            <!-- Department Dropdown -->
             <div>
                 <label for="modal_user_department" class="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-1.5">
                     Department
                 </label>
-                <input
+
+                <select
                     id="modal_user_department"
-                    type="text"
                     name="department"
-                    placeholder="e.g. Computer Science"
-                    class="w-full h-10 px-3.5 text-sm rounded-xl border border-gray-200 bg-gray-50/50 text-gray-900 placeholder-gray-400 focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-100 outline-none transition">
+                    class="w-full h-10 px-3.5 text-sm rounded-xl border border-gray-200 bg-gray-50/50 text-gray-900 focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-100 outline-none transition">
+
+                    <option value="">Select Department</option>
+                    <option value="BSIT" {{ old('department') == 'SCS' ? 'selected' : '' }}>SCS</option>
+                    <option value="BSCS" {{ old('department') == 'SOE' ? 'selected' : '' }}>SOE</option>
+                    <option value="BSIS" {{ old('department') == 'SAS' ? 'selected' : '' }}>SAS</option>
+                    <option value="ACT" {{ old('department') == 'SBM' ? 'selected' : '' }}>SMB</option>
+                </select>
             </div>
 
             <div class="flex items-center justify-end gap-3 pt-4 border-t border-gray-100">
@@ -365,7 +367,6 @@
         }
     }
 
-    
     function toggleModalIdFields(role) {
         const studentContainer = document.getElementById('modal_student_id_container');
         const studentInput = document.getElementById('modal_user_student_id');
@@ -380,10 +381,10 @@
             studentInput.required = isStudent;
             studentInput.disabled = !isStudent;
 
-        if (!isStudent) {
-            studentInput.value = '';
+            if (!isStudent) {
+                studentInput.value = '';
+            }
         }
-    }
 
         if (instructorContainer && instructorInput) {
             const isInstructor = role === 'Instructor';
@@ -392,12 +393,11 @@
             instructorInput.required = isInstructor;
             instructorInput.disabled = !isInstructor;
 
-        if (!isInstructor) {
-            instructorInput.value = '';
+            if (!isInstructor) {
+                instructorInput.value = '';
+            }
         }
     }
-}
-
 
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
