@@ -16,6 +16,21 @@ use Illuminate\Support\Facades\DB;
 
 class TaskController extends Controller
 {
+    private function checkProjectAccessible(Project $project, $classId)
+    {
+        if ($project->isUpcoming()) {
+            return redirect()
+                ->route('student.class.detail', $classId)
+                ->with(
+                    'error',
+                    'This project is scheduled to start on ' .
+                    ($project->start_date ? $project->start_date->format('M d, Y') : 'a future date') .
+                    ' and is not accessible yet.'
+                );
+        }
+
+        return null;
+    }
     /*
     |--------------------------------------------------------------------------
     | PROJECT TASKS
@@ -52,6 +67,10 @@ class TaskController extends Controller
                 'tasks.assignments.student'
             ])
             ->firstOrFail();
+
+        if ($redirect = $this->checkProjectAccessible($project, $class->id)) {
+            return $redirect;
+        }
 
         // Get student's membership information
         $membership = $group->students()
@@ -118,6 +137,10 @@ class TaskController extends Controller
             })
             ->firstOrFail();
 
+        if ($redirect = $this->checkProjectAccessible($project, $class->id)) {
+            return $redirect;
+        }
+
         $task = Task::where('id', $taskId)
             ->where('project_id', $project->id)
             ->where('group_id', $group->id)
@@ -175,6 +198,10 @@ class TaskController extends Controller
                 $query->where('groups.id', $group->id);
             })
             ->firstOrFail();
+
+        if ($redirect = $this->checkProjectAccessible($project, $class->id)) {
+            return $redirect;
+        }
 
         $task = Task::where('id', $taskId)
             ->where('project_id', $project->id)
@@ -238,6 +265,10 @@ class TaskController extends Controller
                 $query->where('groups.id', $group->id);
             })
             ->firstOrFail();
+
+        if ($redirect = $this->checkProjectAccessible($project, $class->id)) {
+            return $redirect;
+        }
 
         return view(
             'student.tasks.create',
@@ -337,6 +368,10 @@ class TaskController extends Controller
                 $query->where('groups.id', $group->id);
             })
             ->firstOrFail();
+
+        if ($redirect = $this->checkProjectAccessible($project, $class->id)) {
+            return $redirect;
+        }
 
         // Get group member IDs
         $memberIds = $group->students
@@ -472,6 +507,10 @@ class TaskController extends Controller
             })
             ->firstOrFail();
 
+        if ($redirect = $this->checkProjectAccessible($project, $class->id)) {
+            return $redirect;
+        }
+
         $assignment = TaskAssignment::where('task_id', $taskId)
             ->where('student_id', $student->id)
             ->whereHas('task', function ($query) use ($project, $group) {
@@ -553,6 +592,10 @@ class TaskController extends Controller
                 $query->where('groups.id', $group->id);
             })
             ->firstOrFail();
+
+        if ($redirect = $this->checkProjectAccessible($project, $class->id)) {
+            return $redirect;
+        }
 
         // Check assignment
         $assignment = TaskAssignment::where('task_id', $taskId)
@@ -721,6 +764,10 @@ class TaskController extends Controller
             })
             ->firstOrFail();
 
+        if ($redirect = $this->checkProjectAccessible($project, $class->id)) {
+            return $redirect;
+        }
+
         // Only leader can review
         $leader = $group->students()
             ->where('users.id', $student->id)
@@ -817,6 +864,10 @@ class TaskController extends Controller
                 $query->where('groups.id', $group->id);
             })
             ->firstOrFail();
+
+        if ($redirect = $this->checkProjectAccessible($project, $class->id)) {
+            return $redirect;
+        }
 
         // Check task
         $task = Task::where('id', $taskId)
@@ -948,6 +999,10 @@ class TaskController extends Controller
                 $query->where('groups.id', $group->id);
             })
             ->firstOrFail();
+
+        if ($redirect = $this->checkProjectAccessible($project, $class->id)) {
+            return $redirect;
+        }
 
         // Check task
         $task = Task::where('id', $taskId)

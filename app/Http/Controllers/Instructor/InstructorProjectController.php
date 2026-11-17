@@ -76,11 +76,13 @@ class InstructorProjectController extends Controller
             'start_date' => [
                 'nullable',
                 'date',
+                'after_or_equal:today',
             ],
 
             'end_date' => [
                 'nullable',
                 'date',
+                'after_or_equal:today',
                 'after_or_equal:start_date',
             ],
 
@@ -101,6 +103,11 @@ class InstructorProjectController extends Controller
                 'distinct',
                 'exists:groups,id',
             ],
+        ], [
+            'start_date.after_or_equal' => 'The start date cannot be in the past.',
+            'end_date.after_or_equal' => 'The end date must be on or after today and on or after the start date.',
+            'groups.required' => 'Please select at least one group for this project.',
+            'groups.min' => 'Please select at least one group for this project.',
         ]);
 
         $validGroupIds = $class->groups()
@@ -172,6 +179,12 @@ class InstructorProjectController extends Controller
             ->where('class_room_id', $class->id)
             ->firstOrFail();
 
+        $minStartDate = ($project->start_date && $project->start_date->lt(now()->startOfDay()))
+            ? $project->start_date->format('Y-m-d')
+            : 'today';
+
+        $hasGroups = $class->groups()->exists();
+
         $validated = $request->validate([
             'title' => [
                 'required',
@@ -194,11 +207,13 @@ class InstructorProjectController extends Controller
             'start_date' => [
                 'nullable',
                 'date',
+                'after_or_equal:' . $minStartDate,
             ],
 
             'end_date' => [
                 'nullable',
                 'date',
+                'after_or_equal:' . $minStartDate,
                 'after_or_equal:start_date',
             ],
 
@@ -209,9 +224,9 @@ class InstructorProjectController extends Controller
             ],
 
             'groups' => [
-                'required',
+                $hasGroups ? 'required' : 'nullable',
                 'array',
-                'min:1',
+                $hasGroups ? 'min:1' : 'nullable',
             ],
 
             'groups.*' => [
@@ -219,20 +234,28 @@ class InstructorProjectController extends Controller
                 'distinct',
                 'exists:groups,id',
             ],
+        ], [
+            'start_date.after_or_equal' => 'The start date cannot be in the past.',
+            'end_date.after_or_equal' => 'The end date must be on or after the start date and cannot be in the past.',
+            'groups.required' => 'Please select at least one group for this project.',
+            'groups.min' => 'Please select at least one group for this project.',
         ]);
 
-        $validGroupIds = $class->groups()
-            ->whereIn('groups.id', $validated['groups'])
-            ->pluck('groups.id')
-            ->toArray();
+        $validGroupIds = [];
+        if (!empty($validated['groups'])) {
+            $validGroupIds = $class->groups()
+                ->whereIn('groups.id', $validated['groups'])
+                ->pluck('groups.id')
+                ->toArray();
 
-        if (count($validGroupIds) !== count($validated['groups'])) {
-            return back()
-                ->withInput()
-                ->withErrors([
-                    'groups' =>
-                        'One or more selected groups do not belong to this class.',
-                ]);
+            if (count($validGroupIds) !== count($validated['groups'])) {
+                return back()
+                    ->withInput()
+                    ->withErrors([
+                        'groups' =>
+                            'One or more selected groups do not belong to this class.',
+                    ]);
+            }
         }
 
         $project->update([

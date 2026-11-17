@@ -123,6 +123,11 @@
         </div>
 
         {{-- Dates --}}
+        @php
+            $today = date('Y-m-d');
+            $startVal = old('start_date');
+            $minEnd = $startVal ?: $today;
+        @endphp
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
 
             <div>
@@ -134,10 +139,15 @@
                 <input type="date"
                        id="start_date"
                        name="start_date"
-                       value="{{ old('start_date') }}"
+                       min="{{ $today }}"
+                       value="{{ $startVal }}"
                        class="w-full px-4 py-3 rounded-xl border border-gray-300
                               focus:ring-2 focus:ring-purple-500
                               focus:border-purple-500 outline-none">
+
+                @error('start_date')
+                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                @enderror
             </div>
 
             <div>
@@ -149,10 +159,15 @@
                 <input type="date"
                        id="end_date"
                        name="end_date"
+                       min="{{ $minEnd }}"
                        value="{{ old('end_date') }}"
                        class="w-full px-4 py-3 rounded-xl border border-gray-300
                               focus:ring-2 focus:ring-purple-500
                               focus:border-purple-500 outline-none">
+
+                @error('end_date')
+                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                @enderror
             </div>
 
         </div>
@@ -257,6 +272,10 @@
                     </div>
                 @endforelse
             </div>
+
+            @error('groups')
+                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+            @enderror
         </div>
 
         {{-- Buttons --}}
@@ -276,4 +295,29 @@
 
     </form>
 </div>
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const startDateInput = document.getElementById('start_date');
+    const endDateInput = document.getElementById('end_date');
+
+    if (startDateInput && endDateInput) {
+        const localToday = new Date().toLocaleDateString('en-CA');
+        startDateInput.min = localToday;
+
+        function updateEndDateMin() {
+            const minAllowed = startDateInput.value || localToday;
+            endDateInput.min = minAllowed;
+            if (endDateInput.value && endDateInput.value < minAllowed) {
+                endDateInput.value = minAllowed;
+            }
+        }
+
+        startDateInput.addEventListener('change', updateEndDateMin);
+        updateEndDateMin();
+    }
+});
+</script>
+@endpush
 @endsection
