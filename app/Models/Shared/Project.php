@@ -24,6 +24,20 @@ class Project extends Model
         'contribution_threshold' => 'decimal:2',
     ];
 
+    public function isUpcoming(): bool
+    {
+        if (!$this->start_date) {
+            return false;
+        }
+
+        return $this->start_date->format('Y-m-d') > now()->format('Y-m-d');
+    }
+
+    public function isAccessible(): bool
+    {
+        return !$this->isUpcoming();
+    }
+
     public function classRoom(): BelongsTo
     {
         return $this->belongsTo(
