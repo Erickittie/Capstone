@@ -1,11 +1,10 @@
 <?php
-
 namespace App\Models\Shared;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use App\Models\Student\Notification;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\Models\Student\Notification;
 
 class User extends Authenticatable
 {
