@@ -2,9 +2,9 @@
 
 namespace App\Models\Student;
 
-use App\Models\Task;
-use App\Models\TaskSubmission;
-use App\Models\User;
+use App\Models\Shared\Task;
+use App\Models\Shared\TaskSubmission;
+use App\Models\Shared\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -31,7 +31,7 @@ class Notification extends Model
 
     public function task()
     {
-        return $this->belongsTo(\App\Models\shared\Task::class);
+        return $this->belongsTo(\App\Models\Shared\Task::class);
     }
 
     public function submission(): BelongsTo

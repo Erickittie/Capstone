@@ -2,7 +2,7 @@
 
 namespace App\Models\Student;
 
-use App\Models\User;
+use App\Models\Shared\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Vote extends Model

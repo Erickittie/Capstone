@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
-use App\Models\shared\ClassRoom;
-use App\Models\shared\File;
-use App\Models\shared\FileFolder;
-use App\Models\shared\Project;
+use App\Models\Shared\ClassRoom;
+use App\Models\Shared\File;
+use App\Models\Shared\FileFolder;
+use App\Models\Shared\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;

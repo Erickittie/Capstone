@@ -2,8 +2,8 @@
 
 namespace App\Models\Student;
 
-use App\Models\ClassRoom;
-use App\Models\User;
+use App\Models\Shared\ClassRoom;
+use App\Models\Shared\User;
 use Illuminate\Database\Eloquent\Model;
 
 class CheckinRequest extends Model

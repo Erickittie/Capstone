@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -242,15 +243,15 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/student/class/{classId}/group-status', function ($classId) {
-    $studentId = auth()->id();
+    $studentId = Auth::id();
     
-    $class = \App\Models\shared\ClassRoom::where('id', $classId)
+    $class = \App\Models\Shared\ClassRoom::where('id', $classId)
         ->whereHas('students', function ($query) use ($studentId) {
             $query->where('users.id', $studentId);
         })
         ->firstOrFail();
 
-    $group = \App\Models\shared\Group::where('class_room_id', $class->id)
+    $group = \App\Models\Shared\Group::where('class_room_id', $class->id)
         ->whereHas('students', function ($query) use ($studentId) {
             $query->where('users.id', $studentId);
         })
@@ -271,7 +272,7 @@ Route::get('/student/class/{classId}/group-status', function ($classId) {
             $isLeader = true;
         }
 
-        $tasks = \App\Models\shared\Task::where('group_id', $group->id)
+        $tasks = \App\Models\Shared\Task::where('group_id', $group->id)
             ->with(['assignments.student'])
             ->get();
 

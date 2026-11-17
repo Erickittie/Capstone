@@ -2,8 +2,8 @@
 
 namespace App\Models\Student;
 
-use App\Models\Group;
-use App\Models\User;
+use App\Models\Shared\Group;
+use App\Models\Shared\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 

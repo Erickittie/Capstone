@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
-use App\Models\shared\ClassRoom;
-use App\Models\shared\Group;
-use App\Models\shared\Task;
+use App\Models\Shared\ClassRoom;
+use App\Models\Shared\Group;
+use App\Models\Shared\Task;
 use Illuminate\Support\Facades\Auth;
 
 class MyContributionController extends Controller

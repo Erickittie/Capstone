@@ -125,30 +125,28 @@
 
 
                 {{-- Due Date --}}
-                <div>
+            <div>
 
-                    <label class="block text-sm font-semibold text-gray-700 mb-2">
-                        Due Date
-                    </label>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    Due Date
+                </label>
 
-                    <input
-                        type="date"
-                        name="due_date"
-                        value="{{ old('due_date') }}"
-                        class="w-full border border-gray-300 rounded-xl px-4 py-3
-                               focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
-                    >
+                <input
+                    type="date"
+                    name="due_date"
+                    value="{{ old('due_date') }}"
+                    min="{{ date('Y-m-d') }}"
+                    class="w-full border border-gray-300 rounded-xl px-4 py-3
+                        focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                >
 
-                    @error('due_date')
-                        <p class="text-red-500 text-sm mt-1">
-                            {{ $message }}
-                        </p>
-                    @enderror
-
-                </div>
+                @error('due_date')
+                    <p class="text-red-500 text-sm mt-1">
+                        {{ $message }}
+                    </p>
+                @enderror
 
             </div>
-
 
             {{-- Task Attachment --}}
             <div class="mb-8">

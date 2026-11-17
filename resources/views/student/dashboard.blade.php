@@ -28,39 +28,41 @@
     </div>
 
     <!-- Stat Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+<div class="grid grid-cols-1 gap-5">
 
-        <div class="bg-white rounded-2xl border border-gray-200/80 shadow-xs p-5 flex items-center gap-4">
-            <div class="w-11 h-11 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0">
-                <span class="material-symbols-outlined text-blue-600 text-[22px]">menu_book</span>
-            </div>
-            <div>
-                <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Enrolled Classes</p>
-                <p class="text-2xl font-bold text-gray-900 mt-0.5">{{ $classes->count() }}</p>
-            </div>
+    <div class="bg-white rounded-2xl border border-gray-200/80 shadow-xs p-5 flex items-center gap-4">
+        <div class="w-11 h-11 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0">
+            <span class="material-symbols-outlined text-blue-600 text-[22px]">menu_book</span>
         </div>
-
-        <div class="bg-white rounded-2xl border border-gray-200/80 shadow-xs p-5 flex items-center gap-4">
-            <div class="w-11 h-11 rounded-xl bg-purple-50 flex items-center justify-center flex-shrink-0">
-                <span class="material-symbols-outlined text-purple-600 text-[22px]">account_tree</span>
-            </div>
-            <div>
-                <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Active Projects</p>
-                <p class="text-2xl font-bold text-gray-900 mt-0.5">0</p>
-            </div>
+        <div>
+            <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Enrolled Classes</p>
+            <p class="text-2xl font-bold text-gray-900 mt-0.5">{{ $classes->count() }}</p>
         </div>
-
-        <div class="bg-white rounded-2xl border border-gray-200/80 shadow-xs p-5 flex items-center gap-4">
-            <div class="w-11 h-11 rounded-xl bg-amber-50 flex items-center justify-center flex-shrink-0">
-                <span class="material-symbols-outlined text-amber-600 text-[22px]">assignment_late</span>
-            </div>
-            <div>
-                <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Pending Tasks</p>
-                <p class="text-2xl font-bold text-gray-900 mt-0.5">0</p>
-            </div>
-        </div>
-
     </div>
+
+    {{-- Hidden for defense
+    <div class="bg-white rounded-2xl border border-gray-200/80 shadow-xs p-5 flex items-center gap-4">
+        <div class="w-11 h-11 rounded-xl bg-purple-50 flex items-center justify-center flex-shrink-0">
+            <span class="material-symbols-outlined text-purple-600 text-[22px]">account_tree</span>
+        </div>
+        <div>
+            <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Active Projects</p>
+            <p class="text-2xl font-bold text-gray-900 mt-0.5">0</p>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-2xl border border-gray-200/80 shadow-xs p-5 flex items-center gap-4">
+        <div class="w-11 h-11 rounded-xl bg-amber-50 flex items-center justify-center flex-shrink-0">
+            <span class="material-symbols-outlined text-amber-600 text-[22px]">assignment_late</span>
+        </div>
+        <div>
+            <p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Pending Tasks</p>
+            <p class="text-2xl font-bold text-gray-900 mt-0.5">0</p>
+        </div>
+    </div>
+    --}}
+
+</div>
 
     <!-- My Classes -->
     <div>

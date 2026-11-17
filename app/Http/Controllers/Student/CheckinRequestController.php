@@ -15,7 +15,7 @@ class CheckinRequestController extends Controller
     $studentId = auth()->id();
 
     // Fetch the class record
-    $class = \App\Models\shared\ClassRoom::where('id', $classId)
+    $class = \App\Models\Shared\ClassRoom::where('id', $classId)
         ->whereHas('students', function ($query) use ($studentId) {
             $query->where('users.id', $studentId);
         })

@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
-use App\Models\shared\ClassRoom;
-use App\Models\shared\Group;
-use App\Models\shared\Project;
-use App\Models\shared\Task;
-use App\Models\shared\TaskAssignment;
-use App\Models\shared\TaskSubmission;
+use App\Models\Shared\ClassRoom;
+use App\Models\Shared\Group;
+use App\Models\Shared\Project;
+use App\Models\Shared\Task;
+use App\Models\Shared\TaskAssignment;
+use App\Models\Shared\TaskSubmission;
 use App\Models\Student\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -282,6 +282,7 @@ class TaskController extends Controller
             'due_date' => [
                 'nullable',
                 'date'
+                
             ],
 
             'file' => [
@@ -1020,6 +1021,7 @@ class TaskController extends Controller
 
     public function manager($classId)
     {
+    /** @var \App\Models\Shared\User $student */
     $student = Auth::user();
 
     /*
