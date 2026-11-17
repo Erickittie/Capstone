@@ -1,9 +1,23 @@
+
 @extends('layouts.admin')
 
 @section('content')
 
 @php
     $instructorList = \App\Models\Shared\User::where('role', 'Instructor')->get();
+
+    // Generate academic years dynamically
+    $currentYear = now()->year;
+    $academicYears = [];
+
+    for ($year = $currentYear - 2; $year <= $currentYear + 3; $year++) {
+        $academicYears[] = $year . '-' . ($year + 1);
+    }
+
+    $selectedAcademicYear = old(
+        'academic_year',
+        $currentYear . '-' . ($currentYear + 1)
+    );
 @endphp
 
 <div class="space-y-6">
@@ -384,7 +398,7 @@
                 </div>
 
 
-                <!-- Academic Year -->
+                <!-- Academic Year Dropdown -->
                 <div>
 
                     <label
@@ -395,14 +409,29 @@
 
                     </label>
 
-                    <input
+                    <select
                         id="modal_academic_year"
-                        type="text"
                         name="academic_year"
-                        value="{{ old('academic_year') }}"
-                        placeholder="e.g. 2026-2027"
-                        class="w-full h-10 px-3.5 text-sm rounded-xl border border-gray-200 bg-gray-50/50 text-gray-900 placeholder-gray-400 focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-100 outline-none transition"
+                        class="w-full h-10 px-3.5 text-sm rounded-xl border border-gray-200 bg-gray-50/50 text-gray-900 focus:bg-white focus:border-blue-600 focus:ring-4 focus:ring-blue-100 outline-none transition"
                         required>
+
+                        <option value="">
+                            Select Academic Year
+                        </option>
+
+                        @foreach($academicYears as $year)
+
+                            <option
+                                value="{{ $year }}"
+                                {{ $selectedAcademicYear == $year ? 'selected' : '' }}>
+
+                                {{ $year }}
+
+                            </option>
+
+                        @endforeach
+
+                    </select>
 
                 </div>
 
