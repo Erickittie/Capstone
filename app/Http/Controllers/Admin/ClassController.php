@@ -14,7 +14,7 @@ class ClassController extends Controller
 
     public function index()
     {
-        $classes = ClassRoom::with('instructor')->paginate(10);
+        $classes = ClassRoom::with('instructor')->paginate(20);
 
         return view('admin.classes.index', compact('classes'));
     }
